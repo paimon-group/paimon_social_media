@@ -48,6 +48,18 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative(); 
     }
+
+    public function countInvitefriend($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='
+        SELECT u.avatar, COUNT(r.friend_id) as invite_friend_request
+        FROM relationship as r, user as u 
+        WHERE r.friend_id=:user_id and r.status=0 and u.id=r.user_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Relationship[] Returns an array of Relationship objects
 //     */

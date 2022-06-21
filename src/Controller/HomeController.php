@@ -21,6 +21,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/homeIndex.html.twig');
     }
+
     #call get Post function to show post in home page
     public function getPost(PostRepository $PostRepository)
     {
@@ -28,12 +29,20 @@ class HomeController extends AbstractController
 
         return $this->json(['post'=>$post]);
     }
+
     #call get friendlist function to show a friend list of crrent user
     public function getFriendList(RelationshipRepository $RelationshipRepository)
     {
-     $friendList=$RelationshipRepository->showFriendList($_SESSION['user_Id']);
+        $friendList=$RelationshipRepository->showFriendList($_SESSION['user_Id']);
 
-     return $this->json(['friendList'=>$friendList]);
+         return $this->json(['friendList'=>$friendList]);
     }
+
+    public function displayNotifications(RelationshipRepository $RelationshipRepository)
+    {
+        
+    }
+
+
 
 }
