@@ -39,6 +39,15 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    public function showPost()
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='select u.avatar, p.caption,u.fullname,p.image,p.total_like,p.total_comment,p.upload_time from post as p, user as u
+        where p.user_id=u.id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

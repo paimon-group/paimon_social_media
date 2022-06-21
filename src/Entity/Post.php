@@ -40,7 +40,7 @@ class Post
     private $total_comment;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $upload_time;
 

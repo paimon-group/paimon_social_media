@@ -23,7 +23,7 @@ class Comment
     private $comment_content;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $upload_time;
 
