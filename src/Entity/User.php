@@ -97,9 +97,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $user_post;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reaction::class, mappedBy="user")
+     */
+    private $user_reaction;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $user_comment;
+
     public function __construct()
     {
         $this->user_post = new ArrayCollection();
+        $this->user_reaction = new ArrayCollection();
+        $this->user_comment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +354,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($userPost->getUser() === $this) {
                 $userPost->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reaction>
+     */
+    public function getUserReaction(): Collection
+    {
+        return $this->user_reaction;
+    }
+
+    public function addUserReaction(Reaction $userReaction): self
+    {
+        if (!$this->user_reaction->contains($userReaction)) {
+            $this->user_reaction[] = $userReaction;
+            $userReaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserReaction(Reaction $userReaction): self
+    {
+        if ($this->user_reaction->removeElement($userReaction)) {
+            // set the owning side to null (unless already changed)
+            if ($userReaction->getUser() === $this) {
+                $userReaction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getUserComment(): Collection
+    {
+        return $this->user_comment;
+    }
+
+    public function addUserComment(Comment $userComment): self
+    {
+        if (!$this->user_comment->contains($userComment)) {
+            $this->user_comment[] = $userComment;
+            $userComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserComment(Comment $userComment): self
+    {
+        if ($this->user_comment->removeElement($userComment)) {
+            // set the owning side to null (unless already changed)
+            if ($userComment->getUser() === $this) {
+                $userComment->setUser(null);
             }
         }
 

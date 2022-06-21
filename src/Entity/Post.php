@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,22 @@ class Post
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user_post")
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reaction::class, mappedBy="post")
+     */
+    private $Post_Reaction;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
+     */
+    private $Comment_Post;
+
+    public function __construct()
+    {
+        $this->Post_Reaction = new ArrayCollection();
+        $this->Comment_Post = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +138,66 @@ class Post
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reaction>
+     */
+    public function getPostReaction(): Collection
+    {
+        return $this->Post_Reaction;
+    }
+
+    public function addPostReaction(Reaction $postReaction): self
+    {
+        if (!$this->Post_Reaction->contains($postReaction)) {
+            $this->Post_Reaction[] = $postReaction;
+            $postReaction->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostReaction(Reaction $postReaction): self
+    {
+        if ($this->Post_Reaction->removeElement($postReaction)) {
+            // set the owning side to null (unless already changed)
+            if ($postReaction->getPost() === $this) {
+                $postReaction->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getCommentPost(): Collection
+    {
+        return $this->Comment_Post;
+    }
+
+    public function addCommentPost(Comment $commentPost): self
+    {
+        if (!$this->Comment_Post->contains($commentPost)) {
+            $this->Comment_Post[] = $commentPost;
+            $commentPost->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentPost(Comment $commentPost): self
+    {
+        if ($this->Comment_Post->removeElement($commentPost)) {
+            // set the owning side to null (unless already changed)
+            if ($commentPost->getPost() === $this) {
+                $commentPost->setPost(null);
+            }
+        }
 
         return $this;
     }
