@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-    $('#login_form_username').attr('name', 'username');
-    $('#login_form_password').attr('name', 'password');
-
     $('.title-login').click(function (){
         $('.title-login').addClass('active');
         $('.title-sign-up').removeClass('active');
