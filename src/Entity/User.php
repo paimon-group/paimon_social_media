@@ -45,6 +45,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $fullname;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $login_status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthdate;
+
+    /**
+     * @ORM\Column(type="string", length=11, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $connection_id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $new_password;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -149,6 +194,114 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFullname(string $fullname): self
     {
         $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getLoginStatus(): ?string
+    {
+        return $this->login_status;
+    }
+
+    public function setLoginStatus(?string $login_status): self
+    {
+        $this->login_status = $login_status;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getConnectionId(): ?int
+    {
+        return $this->connection_id;
+    }
+
+    public function setConnectionId(?int $connection_id): self
+    {
+        $this->connection_id = $connection_id;
+
+        return $this;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->new_password;
+    }
+
+    public function setNewPassword(?string $new_password): self
+    {
+        $this->new_password = $new_password;
 
         return $this;
     }
