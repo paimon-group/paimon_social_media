@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Relationship;
 use App\Repository\PostRepository;
+use App\Repository\RelationshipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -15,18 +17,23 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $_SESSION=$this->getUser()->getUsername();
+        $_SESSION['user_Id']=$this->getUser()->getId();
+
         return $this->render('home/homeIndex.html.twig');
     }
-    public function getPost(PostRepository $repo)
+    #call get Post function to show post in home page
+    public function getPost(PostRepository $PostRepository)
     {
-        $post=$repo->getPost();
+        $post=$PostRepository->getPost();
+
         return $this->json(['post'=>$post]);
     }
-    public function getUserNameOfUser()
+    #call get friendlist function to show a friend list of crrent user
+    public function getFriendList(RelationshipRepository $RelationshipRepository)
     {
-        $user = $this->getUser();
-        return $this->json(['username' => $user->getUsername()]);
+     $friendList=$RelationshipRepository->showFriendList($_SESSION['user_Id']);
+
+     return $this->json(['friendList'=>$friendList]);
     }
 
 }

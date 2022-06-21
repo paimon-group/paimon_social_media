@@ -38,7 +38,16 @@ class RelationshipRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    #show Friend List of crrent user
+    public function showFriendList($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='select r.id,u.avatar,u.fullname,u.login_status from relationship as r, user as u
+        where r.status=1 AND r.friend_id=u.id AND r.user_id=:user_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+        return $resultSet->fetchAllAssociative(); 
+    }
 //    /**
 //     * @return Relationship[] Returns an array of Relationship objects
 //     */
