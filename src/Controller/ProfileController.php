@@ -15,4 +15,12 @@ class ProfileController extends AbstractController
     {
         return $this->render('profile/profileIndex.html.twig');
     }
+
+    /**
+     * @Route ("/profile/updateInformation", name="app_update_profile")
+     */
+    public function updateInforProfile()
+    {
+        return $this->render('profile/profileUpdateInfor.html.twig');
+    }
 }
