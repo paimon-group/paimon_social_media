@@ -23,14 +23,15 @@ class updateProfileFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('fullname',TextType::class,['attr'=>['class'=>'put your class name here']])
-        ->add('email',EmailType::class,['attr'=>['class'=>'put your class name here']])
-        ->add('birthdate',DateType::class,['attr'=>['class'=>'put your class name here'],
+        ->add('fullname',TextType::class,['attr'=>['class'=>'infor-item']])
+        ->add('email',EmailType::class,['attr'=>['class'=>'infor-item']])
+        ->add('birthdate',DateType::class,['attr'=>['class' => 'form-control input-inline datetimepicker infor-item',
+            'data-provide' => 'datetimepicker',
+            'html5' => false],
         'widget'=>'single_text','format'=>'yyyy-MM-dd',])
-        ->add('numberphone',TextType::class,['attr'=>['class'=>'put your class name here']])
-        ->add('address',TextType::class,['attr'=>['class'=>'put your class name here']])
-        ->add('avatar',FileType::class,['attr'=> ['class'=>'put your class name here']])
-        ->add('save',SubmitType::class,['attr'=>['class'=>'put your class name here']]);
+        ->add('phone',TextType::class,['attr'=>['class'=>'infor-item']])
+        ->add('address',TextType::class,['attr'=>['class'=>'infor-item']])
+        ->add('save',SubmitType::class,['attr'=>['class'=>'infor-item']]);
     }
 }
 ?>

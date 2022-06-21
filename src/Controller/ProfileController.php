@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\Type\updateProfileFormType;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +14,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile", name="app_profile")
      */
-    public function index(): Response
+    public function index()
     {
         return $this->render('profile/profileIndex.html.twig');
     }
@@ -21,6 +24,11 @@ class ProfileController extends AbstractController
      */
     public function updateInforProfile()
     {
-        return $this->render('profile/profileUpdateInfor.html.twig');
+        $user = new User();
+        $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
+        return $this->render('profile/profileUpdateInfor.html.twig',[
+            'updateInforForm' => $formUpdateInfor->createView()
+        ]);
     }
+
 }
