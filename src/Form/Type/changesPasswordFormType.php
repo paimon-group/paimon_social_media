@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class changes_Password_Form_Type extends AbstractType
+class changesPasswordFormType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
