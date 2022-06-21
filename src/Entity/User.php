@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -89,6 +91,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $new_password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
+     */
+    private $user_post;
+
+    public function __construct()
+    {
+        $this->user_post = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -302,6 +314,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNewPassword(?string $new_password): self
     {
         $this->new_password = $new_password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getUserPost(): Collection
+    {
+        return $this->user_post;
+    }
+
+    public function addUserPost(Post $userPost): self
+    {
+        if (!$this->user_post->contains($userPost)) {
+            $this->user_post[] = $userPost;
+            $userPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserPost(Post $userPost): self
+    {
+        if ($this->user_post->removeElement($userPost)) {
+            // set the owning side to null (unless already changed)
+            if ($userPost->getUser() === $this) {
+                $userPost->setUser(null);
+            }
+        }
 
         return $this;
     }
