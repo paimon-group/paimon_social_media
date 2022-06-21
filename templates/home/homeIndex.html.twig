@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Paimon {% endblock %}
+
+{% block body %}
+    {% if app.user == null %}
+        <a href="{{ path('app_login') }}" class="btn btn-info">
+            You need to login to see the list 😜😜 >></a
+        >
+    {% endif %}
+    {% if app.user != null %}
+        <div class="root-body-home">
+            {{ include('home/homeLeft.html.twig') }}
+            {{ include('home/homeRight.html.twig') }}
+            {{ include('home/homeMain.html.twig') }}
+        </div>
+    {% endif %}
+{% endblock %}

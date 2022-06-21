@@ -1,0 +1,60 @@
+.root-admin{
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-admin{
+    width: 20rem;
+    height: 100%;
+    background-color: white;
+    box-shadow: 1px 0rem 7px grey;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.header-dashboard{
+    height: 5rem;
+    width: 100%;
+    background: rgb(0,56,68);
+    background: linear-gradient(0deg, rgba(0,56,68,1) 3%, rgba(102,167,175,1) 50%);
+    color: white;
+    text-align: center;
+}
+
+.header-dashboard h4{
+    transform: translateY(1.5rem);
+}
+
+.body-dashboard{
+    width: 100%;
+    height: 41rem;
+}
+
+.body-dashboard a{
+    text-decoration: none;
+    color: black;
+}
+
+.item-controll-dashboard{
+    height: 4rem;
+    width: 100%;
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.icon-item-dashboard{
+    display: inline-block;
+    padding: 1rem;
+}
+
+.item-controll-dashboard:hover{
+    cursor: pointer;
+    color: white;
+    background-color: rgb(0, 66, 67);
+}
+
+.active{
+    border-right: 0.5rem solid blue;
+    background-color: rgba(197, 224, 231);
+}

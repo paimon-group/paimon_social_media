@@ -1,0 +1,84 @@
+body{
+    background-color: rgb(240, 242, 245);
+}
+
+.admin-statific{
+    width: 73rem;
+    height: 46rem;
+    display: inline-block;
+}
+
+.header-admin-statific{
+    width: 70rem;
+    height: 15rem;
+    border-radius: 1rem;
+    background-color: rgba(197, 224, 231);
+    margin: 2rem;
+    box-shadow: 0 0 .5rem grey;
+}
+
+.infor-box{
+    display: inline-block;
+    padding: 3rem;
+    margin-left: 3rem;
+    transform: translate(8rem, 3.5rem);
+    border-radius: 1rem;
+    background: rgb(0,56,68);
+    background: linear-gradient(351deg, rgba(0,56,68,1) 7%, rgba(20,209,232,1) 87%);
+    color: white;
+}
+
+.infor-box:hover{
+    background: rgb(0,56,68);
+    cursor: pointer;
+}
+
+.body-admin-statific{
+    background-color: white;
+    height: 26rem;
+    width: 70rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 .5rem grey;
+    margin: 0 2rem 0 2rem;
+}
+
+.admin-report{
+    width: 73rem;
+    height: 46rem;
+    display: inline-block;
+}
+
+.admin-report-header{
+    width: 70rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background-color: rgba(197, 224, 231);
+    margin: 2rem;
+    box-shadow: 0 0 .5rem grey;
+}
+
+.admin-report-body{
+    background-color: white;
+    height: 37rem;
+    width: 70rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 .5rem grey;
+    margin: 0 2rem 0 2rem;
+}
+
+.admin-report-header p{
+    transform: translate(2rem, 1rem);
+}
+
+.item-report-from-user{
+    width: 64rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background-color: rgba(246, 38, 0, .8);
+    margin-top: 1rem;
+    margin-left: 2.5rem;
+    box-shadow: 0 0 0.5rem grey;
+    padding: 1rem;
+}
+
+
