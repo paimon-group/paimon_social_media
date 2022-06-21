@@ -107,11 +107,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $user_comment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Relationship::class, mappedBy="user")
+     */
+    private $user_relationship;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Relationship::class, mappedBy="friend")
+     */
+    private $friend_relationship;
+
     public function __construct()
     {
         $this->user_post = new ArrayCollection();
         $this->user_reaction = new ArrayCollection();
         $this->user_comment = new ArrayCollection();
+        $this->user_relationship = new ArrayCollection();
+        $this->friend_relationship = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -414,6 +426,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($userComment->getUser() === $this) {
                 $userComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relationship>
+     */
+    public function getUserRelationship(): Collection
+    {
+        return $this->user_relationship;
+    }
+
+    public function addUserRelationship(Relationship $userRelationship): self
+    {
+        if (!$this->user_relationship->contains($userRelationship)) {
+            $this->user_relationship[] = $userRelationship;
+            $userRelationship->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRelationship(Relationship $userRelationship): self
+    {
+        if ($this->user_relationship->removeElement($userRelationship)) {
+            // set the owning side to null (unless already changed)
+            if ($userRelationship->getUser() === $this) {
+                $userRelationship->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relationship>
+     */
+    public function getFriendRelationship(): Collection
+    {
+        return $this->friend_relationship;
+    }
+
+    public function addFriendRelationship(Relationship $friendRelationship): self
+    {
+        if (!$this->friend_relationship->contains($friendRelationship)) {
+            $this->friend_relationship[] = $friendRelationship;
+            $friendRelationship->setFriend($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendRelationship(Relationship $friendRelationship): self
+    {
+        if ($this->friend_relationship->removeElement($friendRelationship)) {
+            // set the owning side to null (unless already changed)
+            if ($friendRelationship->getFriend() === $this) {
+                $friendRelationship->setFriend(null);
             }
         }
 
