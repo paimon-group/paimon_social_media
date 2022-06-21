@@ -30,8 +30,8 @@
     <h2 class="title-sign-up">sign up</h2>
     <div class="login-form">
         {{ form_start(Login) }}
-        {{ form_row(form.username, {'full_name': 'username'}) }}
-        {{ form_row(form.password, {'full_name': 'password'}) }}
+        {{ form_row(Login.username, {'full_name': 'username'}) }}
+        {{ form_row(Login.password, {'full_name': 'password'}) }}
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
