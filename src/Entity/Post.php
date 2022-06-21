@@ -54,9 +54,15 @@ class Post
      */
     private $Post_Reaction;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
+     */
+    private $Comment_Post;
+
     public function __construct()
     {
         $this->Post_Reaction = new ArrayCollection();
+        $this->Comment_Post = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +166,36 @@ class Post
             // set the owning side to null (unless already changed)
             if ($postReaction->getPost() === $this) {
                 $postReaction->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getCommentPost(): Collection
+    {
+        return $this->Comment_Post;
+    }
+
+    public function addCommentPost(Comment $commentPost): self
+    {
+        if (!$this->Comment_Post->contains($commentPost)) {
+            $this->Comment_Post[] = $commentPost;
+            $commentPost->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentPost(Comment $commentPost): self
+    {
+        if ($this->Comment_Post->removeElement($commentPost)) {
+            // set the owning side to null (unless already changed)
+            if ($commentPost->getPost() === $this) {
+                $commentPost->setPost(null);
             }
         }
 
