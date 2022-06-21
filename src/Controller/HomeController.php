@@ -40,7 +40,12 @@ class HomeController extends AbstractController
 
     public function displayNotifications(RelationshipRepository $RelationshipRepository)
     {
+        $inviteFriend=$RelationshipRepository->countInvitefriend($_SESSION);
+
         
+
+        return $this->json(['inviteFriend'=>$inviteFriend]);
+
     }
 
 

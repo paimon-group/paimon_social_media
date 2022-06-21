@@ -17,10 +17,7 @@ class Reaction
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $status;
+ 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user_reaction")
@@ -38,19 +35,6 @@ class Reaction
     {
         return $this->id;
     }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;

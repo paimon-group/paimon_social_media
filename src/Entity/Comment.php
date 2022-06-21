@@ -27,10 +27,6 @@ class Comment
      */
     private $upload_time;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user_comment")
@@ -69,18 +65,6 @@ class Comment
     public function setUploadTime(\DateTimeInterface $upload_time): self
     {
         $this->upload_time = $upload_time;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
