@@ -75,6 +75,19 @@ class NotificationRepository extends ServiceEntityRepository
 
         return $resultSet->fetchAllAssociative();
     }
+    // get who has like or comment
+    public function getCommentAndLikeDetailFromOtherUser($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='SELECT u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id';
+
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
 
 //    /**
 //     * @return Notification[] Returns an array of Notification objects

@@ -64,10 +64,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $resultSet=$stmt->executeQuery(['user_id'=>$username]);
         return $resultSet->fetchAllAssociative();
     }
-
+    // get profile of current user
     public function getProfile($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
+
         $query ='select u.fullname,
         u.avatar,u.phone,u.gender,
         u.address,u.birthdate,u.email,
@@ -75,8 +76,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         (SELECT COUNT(r.id) FROM relationship as r where r.user_id=:user_id and r.status=1) as total_friend
         from user as u 
         where u.id=:user_id';
+
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
         return $resultSet->fetchAllAssociative();
     }
 //    /**
