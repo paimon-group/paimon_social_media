@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">New Post</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn_close_table_new_post"></button>
                 </div>
                 <form method="post" action="{{ path('new_post') }}" enctype="multipart/form-data" id="new_post_form">
                 <div class="modal-body new-post-table-body">
@@ -22,9 +22,11 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    {% if error %}
-                        <div class="error-message" style="transform: translateX(-20rem); color: red">Only accept image</div>
-                    {% endif %}
+                        <div class="error-message" style="transform: translateX(-20rem); color: red">
+                            {% if error %}
+                            Only accept image
+                            {% endif %}
+                        </div>
                     <button type="submit" class="btn btn-primary" id="btn_up_post">Post</button>
                 </div>
                 </form>
