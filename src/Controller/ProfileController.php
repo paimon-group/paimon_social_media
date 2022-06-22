@@ -61,9 +61,11 @@ class ProfileController extends AbstractController
                     'caption' => $caption
                 ]);
             }
+            else
+            {
+                copy($imgFile['tmp_name'], "image/post/".uniqid().$imgFile['name']);
+            }
         }
-
-        copy($imgFile['tmp_name'], "image/post/".uniqid().$imgFile['name']);
 
         $user = $this->getUser();
         $post = new Post();
