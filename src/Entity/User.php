@@ -137,6 +137,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $to_user_message;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user_send_report")
+     */
+    private $user_send_report;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user_reported")
+     */
+    private $user_reported;
+
     public function __construct()
     {
         $this->user_post = new ArrayCollection();
@@ -148,6 +158,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->user_receiver = new ArrayCollection();
         $this->user_messages = new ArrayCollection();
         $this->to_user_message = new ArrayCollection();
+        $this->user_send_report = new ArrayCollection();
+        $this->user_reported = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -630,6 +642,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($toUserMessage->getToUser() === $this) {
                 $toUserMessage->setToUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getUserSendReport(): Collection
+    {
+        return $this->user_send_report;
+    }
+
+    public function addUserSendReport(Report $userSendReport): self
+    {
+        if (!$this->user_send_report->contains($userSendReport)) {
+            $this->user_send_report[] = $userSendReport;
+            $userSendReport->setUserSendReport($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSendReport(Report $userSendReport): self
+    {
+        if ($this->user_send_report->removeElement($userSendReport)) {
+            // set the owning side to null (unless already changed)
+            if ($userSendReport->getUserSendReport() === $this) {
+                $userSendReport->setUserSendReport(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getUserReported(): Collection
+    {
+        return $this->user_reported;
+    }
+
+    public function addUserReported(Report $userReported): self
+    {
+        if (!$this->user_reported->contains($userReported)) {
+            $this->user_reported[] = $userReported;
+            $userReported->setUserReported($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserReported(Report $userReported): self
+    {
+        if ($this->user_reported->removeElement($userReported)) {
+            // set the owning side to null (unless already changed)
+            if ($userReported->getUserReported() === $this) {
+                $userReported->setUserReported(null);
             }
         }
 
