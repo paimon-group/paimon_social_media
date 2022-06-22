@@ -117,6 +117,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $friend_relationship;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="sender")
+     */
+    private $user_sender;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="receiver")
+     */
+    private $user_receiver;
+
     public function __construct()
     {
         $this->user_post = new ArrayCollection();
@@ -124,6 +134,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->user_comment = new ArrayCollection();
         $this->user_relationship = new ArrayCollection();
         $this->friend_relationship = new ArrayCollection();
+        $this->user_sender = new ArrayCollection();
+        $this->user_receiver = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -486,6 +498,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($friendRelationship->getFriend() === $this) {
                 $friendRelationship->setFriend(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getUserSender(): Collection
+    {
+        return $this->user_sender;
+    }
+
+    public function addUserSender(Notification $userSender): self
+    {
+        if (!$this->user_sender->contains($userSender)) {
+            $this->user_sender[] = $userSender;
+            $userSender->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSender(Notification $userSender): self
+    {
+        if ($this->user_sender->removeElement($userSender)) {
+            // set the owning side to null (unless already changed)
+            if ($userSender->getSender() === $this) {
+                $userSender->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getUserReceiver(): Collection
+    {
+        return $this->user_receiver;
+    }
+
+    public function addUserReceiver(Notification $userReceiver): self
+    {
+        if (!$this->user_receiver->contains($userReceiver)) {
+            $this->user_receiver[] = $userReceiver;
+            $userReceiver->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserReceiver(Notification $userReceiver): self
+    {
+        if ($this->user_receiver->removeElement($userReceiver)) {
+            // set the owning side to null (unless already changed)
+            if ($userReceiver->getReceiver() === $this) {
+                $userReceiver->setReceiver(null);
             }
         }
 
