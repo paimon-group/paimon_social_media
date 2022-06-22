@@ -21,8 +21,7 @@ class HomeController extends AbstractController
                           RelationshipRepository $relationshipRepository,
                           NotificationRepository $notificationRepository)
     {
-        $_SESSION['user_id']=$this->getUser()->getId();
-
+        $_SESSION['user_id']= $this->getUser()->getId();
         $post = $postRepository->getPost();
         $liekNotification = $notificationRepository->getLikeFromOtherUser($_SESSION['user_id']);
         $commentNotification = $notificationRepository->getCommentFromOtherUser($_SESSION['user_id']);

@@ -7,10 +7,12 @@ use App\Entity\User;
 use App\Form\Type\updateProfileFormType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ProfileController extends AbstractController
 {
@@ -37,22 +39,23 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/Post/new", name="new_post", methods="POST")
      */
-    public function newPost(Request $request, PostRepository $postRepository)
+    public function newPost(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         $imgFile = $_FILES['imgPost'];
         $caption = $request->request->get('captionPost');
 
+        $user = $this->getUser();
+
         $post = new Post();
-        $post->setUser($_SESSION['user_id']);
+        $post->setUser($user);
         $post->setCaption($caption);
         $post->setUploadTime(new \DateTime());
-        $post->setTotalComment(0);
-        $post->setTotalLike(0);
-
+        $database = $managerRegistry->getManager();
+        $database->persist($post);
+        $database->flush();
 
         return $this->json(['status'=>'succes',
-           'image' => $imgFile,
-           'caption' => $caption
+           'id' => $post->getId()
         ]);
     }
 
