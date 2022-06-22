@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Relationship;
+use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipRepository;
@@ -16,47 +17,48 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="app_home")
      */
-    public function index(
-        PostRepository $postRepository,
-        RelationshipRepository $relationshipRepository,
-        NotificationRepository $notificationRepository): Response
+    public function index(PostRepository $postRepository,
+                          RelationshipRepository $relationshipRepository,
+                          NotificationRepository $notificationRepository)
     {
-        $_SESSION['user_Id']=$this->getUser()->getId();
-        $post=getPost($postRepository);
-        $friendList=getFriendList($relationshipRepository);
-        $notification=getNotifications($notificationRepository);
-        return $this->render('home/homeIndex.html.twig',[
-            'post'=>$post,
+        $_SESSION['user_id']=$this->getUser()->getId();
+        $post = $this->getPost($postRepository);
+        $friendList = $this->getFriendList($relationshipRepository);
+        $notification = $this->getNotifications($notificationRepository);
+
+//        return $this->render('home/homeIndex.html.twig',[
+//            'post'=>$post,
+//            'friendList'=>$friendList,
+//            'notification'=>$notification
+//        ]);
+        return $this->json(['post'=>$post,
             'friendList'=>$friendList,
-            'notification'=>$notification
-        ]);
+            'notification'=>$notification]);
     }
 
     #call get Post function to show post in home page
-    public function getPost(PostRepository $postRepository)
+    public function getPost($postRepository)
     {
         $post=$postRepository->getPost();
-
-        return $this->json(['post'=>$post]);
+        return $post;
     }
 
     #call get friendlist function to show a friend list of crrent user
-    public function getFriendList(RelationshipRepository $relationshipRepository)
+    public function getFriendList($relationshipRepository)
     {
-        $friendList=$relationshipRepository->getFriendList($_SESSION['user_Id']);
+        $friendList=$relationshipRepository->getFriendList($_SESSION['user_id']);
 
-         return $this->json(['friendList'=>$friendList]);
+         return $friendList;
     }
 
-    public function getNotifications(NotificationRepository $notificationRepository)
+    public function getNotifications($notificationRepository)
     {
         #call function to count notifications
         $inviteFriend=$notificationRepository->countInvitefriend($_SESSION['user_id']);
         $react=$notificationRepository->getLikeCommentFromOtherUser($_SESSION['user_id']);
+
         #return value
-        return $this->json([
-        'inviteFriend'=>$inviteFriend,
-        'react'=>$react]);
+        return [$inviteFriend, $react];
 
     }
 

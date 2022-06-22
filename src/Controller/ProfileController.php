@@ -31,4 +31,12 @@ class ProfileController extends AbstractController
         ]);
     }
 
+//    /**
+//     * @Route ("/Post/new", name="new_post")
+//     */
+//    public function newPost()
+//    {
+//
+//    }
+
 }

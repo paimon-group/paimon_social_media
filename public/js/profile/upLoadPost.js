@@ -7,16 +7,8 @@ $(document).ready(function (){
 
     $('#input_up_img').change(function (){
         var fileExtension = ['jpeg', 'jpg', 'png'];
-        // var imgSelected = this.files;
-        console.log($('input_up_img').val());
-        // if ($.inArray($(this).val().split('.').pop(), fileExtension) == -1) {
-        //     PreviewImage();
-        //     $('#img_preview').show();
-        // }
-        // else
-        // {
-        //     alert("file must be image");
-        // }
+        PreviewImage()
+        $('#img_preview').show();
 
     })
 
