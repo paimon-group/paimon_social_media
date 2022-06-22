@@ -29,6 +29,9 @@ class SecurityController extends AbstractController
      */
     public function RegistrationProcessAction(Request $request, ManagerRegistry $managerRegistry)
     {
+        $notificationRegister = true;
+        $notificationRegisterMessage = 'Register successful';
+
         $user = new User();
         $formRegister = $this->createForm(registerFormType::class, $user);
         $formRegister->handleRequest($request);
@@ -50,7 +53,19 @@ class SecurityController extends AbstractController
             $database->persist($user);
             $database->flush();
 
-            return $this->redirectToRoute("app_login");
+            return $this->redirectToRoute("app_login", [
+                'notificationRegister' => $notificationRegister,
+                'notificationRegisterMessage' => $notificationRegisterMessage
+            ]);
+        }
+        else
+        {
+            $notificationRegister = false;
+            $notificationRegisterMessage = 'Confirm password not match';
+            return $this->redirectToRoute('app_login', [
+                'notificationRegister' => $notificationRegister,
+                'notificationRegisterMessage' => $notificationRegisterMessage
+            ]);
         }
 
     }
@@ -60,17 +75,31 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $notificationLogin = $authenticationUtils->getLastAuthenticationError();
+        $notificationLoginMessage = 'Username or Passowrd is wrong!';
+        $notificationRegister = true;
+        $notificationRegisterMessage = '';
+        if(isset($_GET['notificationRegister']))
+        {
+            $notificationRegister = $_GET['notificationRegister'];
+
+            //show notification register success
+            $notificationLoginMessage  = $_GET['notificationRegisterMessage'];
+        }
+
         // create form
         $user = new User();
         $loginForm = $this->createForm(loginFormType::class, $user);
         $registerForm = $this->createForm(registerFormType::class, $user);
 
+
         return $this->render('security/login.html.twig', [
-                'error' => $error,
-                'last_username' => $lastUsername,
+                'notificationRegister' => $notificationRegister,
+                'notificationRegisterMessage' => $notificationRegisterMessage,
+                'notificationLogin' => $notificationLogin,
+                'notificationLoginMessage' => $notificationLoginMessage,
                 'Login' => $loginForm->createView(),
                 'Register' => $registerForm->createView()
             ]);

@@ -64,6 +64,7 @@ class ProfileController extends AbstractController
         }
 
         copy($imgFile['tmp_name'], "image/post/".uniqid().$imgFile['name']);
+
         $user = $this->getUser();
         $post = new Post();
         $post->setUser($user);
