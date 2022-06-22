@@ -59,7 +59,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         $query ='
         SELECT COUNT(r.friend_id) as invite_friend_request
-        FROM relationship as r 
+        FROM relationship as r ,user as u
         WHERE r.friend_id=:user_id and r.status=0 and u.id=r.user_id';
 
         $stmt=$conn->prepare($query);
