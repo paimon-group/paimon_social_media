@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Relationship;
+use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,13 +39,15 @@ class HomeController extends AbstractController
          return $this->json(['friendList'=>$friendList]);
     }
 
-    public function displayNotifications(RelationshipRepository $RelationshipRepository)
+    public function displayNotifications(RelationshipRepository $RelationshipRepository, NotificationRepository $notificationRepository)
     {
-        $inviteFriend=$RelationshipRepository->countInvitefriend($_SESSION);
-
+        $inviteFriend=$RelationshipRepository->countInvitefriend($_SESSION['user_id']);
+        $react=$notificationRepository->getLikeCommentFromOtherUser($_SESSION['user_id']);
         
 
-        return $this->json(['inviteFriend'=>$inviteFriend]);
+        return $this->json([
+        'inviteFriend'=>$inviteFriend,
+        'react'=>$react]);
 
     }
 

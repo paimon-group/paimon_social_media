@@ -38,7 +38,7 @@ class PostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    #show all Post 
     public function showPost()
     {
         $conn=$this->getEntityManager()->getConnection();

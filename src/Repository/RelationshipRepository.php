@@ -38,7 +38,7 @@ class RelationshipRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    #show Friend List of crrent user
+    #show Friend List of current user
     public function showFriendList($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
@@ -48,7 +48,7 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative(); 
     }
-
+    #count all invite friend request for current user
     public function countInvitefriend($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();

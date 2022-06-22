@@ -38,6 +38,20 @@ class NotificationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    #this function will count all the like and comment of other user who was react the current user's post
+    public function getLikeCommentFromOtherUser($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='SELECT(SELECT COUNT(n.id) FROM notification as n where n.type="like" AND n.seen="no" AND n.receiver_id=:user_id) as total_like 
+        ,(SELECT COUNT(n.id) from notification as n WHERE n.type="comment" AND n.seen="no" AND n.receiver_id=:user_id) as total_comment';
+
+        $stmt=$conn->prepare($query);
+
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
 
 //    /**
 //     * @return Notification[] Returns an array of Notification objects
