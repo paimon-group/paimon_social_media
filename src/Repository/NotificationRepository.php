@@ -60,6 +60,19 @@ class NotificationRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    // get who has like or comment
+    public function getCommentAndLikeDetailFromOtherUser($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='SELECT u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id';
+
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
     #count all invite friend request for current user
     public function getInvitefriend($user_id)
     {
@@ -75,18 +88,19 @@ class NotificationRepository extends ServiceEntityRepository
 
         return $resultSet->fetchAllAssociative();
     }
-    // get who has like or comment
-    public function getCommentAndLikeDetailFromOtherUser($user_id)
+// get name who want to be friend with current user
+    public function getInviteFriendDetail($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id';
+        $query ='SELECT u.fullname from user as u ,relationship as r where u.id=r.user_id AND r.friend_id=:user_id AND r.status=0';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
 
         return $resultSet->fetchAllAssociative();
     }
+
 
 
 //    /**
