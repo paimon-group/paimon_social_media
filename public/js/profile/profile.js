@@ -11,10 +11,10 @@ $(document).ready(function (){
     $('#count-friend').click(function (){
         location.assign('/profile/friend-list')
         console.log('click')
-    })
+    });
 
     $('#count-posts').click(function (){
         location.assign('/profile')
-    })
+    });
 
 });

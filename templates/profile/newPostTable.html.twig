@@ -8,18 +8,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body new-post-table-body">
-                    <div class="new-post-table">
-                        <div class="img-post-in-table">
-                            <div class="btn-add-img-post-in-table">Add image</div>
-                            <img src="" alt="">
+                    <form method="post" action="" enctype="multipart/form-data" id="myform">
+                        <div class="new-post-table">
+                            <div class="img-post-in-table">
+                                <div class="btn-add-img-post-in-table" id="btn_add_img_post_in_table">Add image</div>
+                                <input type="file" id="input_up_img" name="imgPost"hidden>
+                                <img src="" alt="">
+                            </div>
+                            <div class="caption-post-in-table">
+                                <textarea placeholder="say your caption..." name="" id="" cols="30" rows="10" class="text-area-caption-in-table"></textarea>
+                            </div>
                         </div>
-                        <div class="caption-post-in-table">
-                            <textarea placeholder="say your caption..." name="" id="" cols="30" rows="10" class="text-area-caption-in-table"></textarea>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Post</button>
+                    <button type="submit" class="btn btn-primary">Post</button>
                 </div>
             </div>
         </div>
