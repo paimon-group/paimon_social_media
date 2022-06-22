@@ -86,7 +86,7 @@ class SecurityController extends AbstractController
             $notificationRegister = $_GET['notificationRegister'];
 
             //show notification register success
-            $notificationLoginMessage  = $_GET['notificationRegisterMessage'];
+            $notificationRegisterMessage  = $_GET['notificationRegisterMessage'];
         }
 
         // create form

@@ -36,6 +36,9 @@
                value="{{ csrf_token('authenticate') }}"
         >
         {{ form_end(Login) }}
+        <div class="alert alert-danger" style="color: yellow;transform: translate(8rem, 1rem); width: fit-content;">
+            {{ notificationRegisterMessage }}
+        </div>
         {% if notificationLogin %}
             <div class="alert alert-danger" style="color: yellow;transform: translate(8rem, 1rem);     width: fit-content;">
                 {{ notificationLoginMessage }}
