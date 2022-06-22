@@ -62,16 +62,17 @@ class ProfileController extends AbstractController
                 ]);
             }
         }
-        $user = $this->getUser();
 
+        copy($imgFile['tmp_name'], "image/post/".uniqid().$imgFile['name']);
+        $user = $this->getUser();
         $post = new Post();
         $post->setUser($user);
         $post->setCaption($caption);
+        $post->setImage($imgFile['name']);
         $post->setUploadTime(new \DateTime());
         $database = $managerRegistry->getManager();
         $database->persist($post);
         $database->flush();
-
 
         return $this->redirectToRoute('app_profile');
     }
