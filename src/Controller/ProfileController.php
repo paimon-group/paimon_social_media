@@ -31,12 +31,12 @@ class ProfileController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route ("/Post/new", name="new_post")
-//     */
-//    public function newPost()
-//    {
-//
-//    }
+    /**
+     * @Route ("/Post/new", name="new_post")
+     */
+    public function newPost()
+    {
+        return $this->json(['status'=>'succes' ]);
+    }
 
 }

@@ -1,4 +1,6 @@
 $(document).ready(function (){
+
+    //
     $('#btn_add_img_post_in_table').on('click', function() {
         $('#input_up_img').click();
 
