@@ -61,7 +61,7 @@ class NotificationRepository extends ServiceEntityRepository
     }
 
     #count all invite friend request for current user
-    public function countInvitefriend($user_id)
+    public function getInvitefriend($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
 
