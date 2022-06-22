@@ -39,7 +39,7 @@ class RelationshipRepository extends ServiceEntityRepository
         }
     }
     #show Friend List of current user
-    public function showFriendList($user_id)
+    public function getFriendList($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
         $query ='select r.id,u.avatar,u.fullname,u.login_status from relationship as r, user as u
@@ -48,18 +48,7 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative(); 
     }
-    #count all invite friend request for current user
-    public function countInvitefriend($user_id)
-    {
-        $conn=$this->getEntityManager()->getConnection();
-        $query ='
-        SELECT u.avatar, COUNT(r.friend_id) as invite_friend_request
-        FROM relationship as r, user as u 
-        WHERE r.friend_id=:user_id and r.status=0 and u.id=r.user_id';
-        $stmt=$conn->prepare($query);
-        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
-        return $resultSet->fetchAllAssociative();
-    }
+    
 //    /**
 //     * @return Relationship[] Returns an array of Relationship objects
 //     */

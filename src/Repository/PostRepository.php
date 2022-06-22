@@ -38,8 +38,8 @@ class PostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    #show all Post 
-    public function showPost()
+    #get all Post 
+    public function getPost()
     {
         $conn=$this->getEntityManager()->getConnection();
         $query ='select u.avatar, p.caption,u.fullname,p.image,p.total_like,p.total_comment,p.upload_time from post as p, user as u

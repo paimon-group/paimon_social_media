@@ -16,35 +16,44 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="app_home")
      */
-    public function index(): Response
+    public function index(
+        PostRepository $postRepository,
+        RelationshipRepository $relationshipRepository,
+        NotificationRepository $notificationRepository): Response
     {
         $_SESSION['user_Id']=$this->getUser()->getId();
-
-        return $this->render('home/homeIndex.html.twig');
+        $post=getPost($postRepository);
+        $friendList=getFriendList($relationshipRepository);
+        $notification=getNotifications($notificationRepository);
+        return $this->render('home/homeIndex.html.twig',[
+            'post'=>$post,
+            'friendList'=>$friendList,
+            'notification'=>$notification
+        ]);
     }
 
     #call get Post function to show post in home page
-    public function getPost(PostRepository $PostRepository)
+    public function getPost(PostRepository $postRepository)
     {
-        $post=$PostRepository->getPost();
+        $post=$postRepository->getPost();
 
         return $this->json(['post'=>$post]);
     }
 
     #call get friendlist function to show a friend list of crrent user
-    public function getFriendList(RelationshipRepository $RelationshipRepository)
+    public function getFriendList(RelationshipRepository $relationshipRepository)
     {
-        $friendList=$RelationshipRepository->showFriendList($_SESSION['user_Id']);
+        $friendList=$relationshipRepository->getFriendList($_SESSION['user_Id']);
 
          return $this->json(['friendList'=>$friendList]);
     }
 
-    public function displayNotifications(RelationshipRepository $RelationshipRepository, NotificationRepository $notificationRepository)
+    public function getNotifications(NotificationRepository $notificationRepository)
     {
-        $inviteFriend=$RelationshipRepository->countInvitefriend($_SESSION['user_id']);
+        #call function to count notifications
+        $inviteFriend=$notificationRepository->countInvitefriend($_SESSION['user_id']);
         $react=$notificationRepository->getLikeCommentFromOtherUser($_SESSION['user_id']);
-        
-
+        #return value
         return $this->json([
         'inviteFriend'=>$inviteFriend,
         'react'=>$react]);
