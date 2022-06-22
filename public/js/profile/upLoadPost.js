@@ -4,11 +4,20 @@ $(document).ready(function (){
 
 
     });
-    $('#input_up_img').change(function (){
-        var imageSelected = $('#input_up_img').files;
 
-        PreviewImage();
-        $('#img_preview').show();
+    $('#input_up_img').change(function (){
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        // var imgSelected = this.files;
+        console.log($('input_up_img').val());
+        // if ($.inArray($(this).val().split('.').pop(), fileExtension) == -1) {
+        //     PreviewImage();
+        //     $('#img_preview').show();
+        // }
+        // else
+        // {
+        //     alert("file must be image");
+        // }
+
     })
 
     function PreviewImage() {
@@ -28,6 +37,9 @@ $(document).ready(function (){
         }
     })
     $('.img-post-in-table').mouseleave(function (){
-        $('#img_preview').show();
+        if($('#img_preview').attr('src') != '')
+        {
+            $('#img_preview').show();
+        }
     })
 });
