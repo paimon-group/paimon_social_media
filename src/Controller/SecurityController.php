@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Type\loginFormType;
 use App\Form\Type\registerFormType;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

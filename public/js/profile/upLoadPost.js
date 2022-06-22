@@ -4,11 +4,10 @@ $(document).ready(function (){
     $('#btn_add_img_post_in_table').on('click', function() {
         $('#input_up_img').click();
 
-
     });
 
     $('#input_up_img').change(function (){
-        var fileExtension = ['jpeg', 'jpg', 'png'];
+
         PreviewImage()
         $('#img_preview').show();
 
@@ -36,4 +35,9 @@ $(document).ready(function (){
             $('#img_preview').show();
         }
     })
+
+    $('#btn_up_post').click(function (){
+        var img
+    })
+
 });
