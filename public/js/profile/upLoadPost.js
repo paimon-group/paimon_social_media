@@ -36,8 +36,6 @@ $(document).ready(function (){
         }
     })
 
-    $('#btn_up_post').click(function (){
-        var img
-    })
+
 
 });

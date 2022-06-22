@@ -21,7 +21,12 @@ class ProfileController extends AbstractController
      */
     public function index()
     {
-        return $this->render('profile/profileIndex.html.twig');
+        $error = false;
+        $caption = '';
+        return $this->render('profile/profileIndex.html.twig', [
+            'error' => $error,
+            'caption' => $caption
+        ]);
     }
 
     /**
@@ -44,6 +49,19 @@ class ProfileController extends AbstractController
         $imgFile = $_FILES['imgPost'];
         $caption = $request->request->get('captionPost');
 
+        if($imgFile['size'] != 0)
+        {
+            if(!($imgFile["type"] =="image/jpg" || $imgFile['type'] == "image/jpeg" || $imgFile['type'] == "image/png"))
+            {
+                $error = true;
+                $errorMessage = 'Only accept image!';
+                return $this->render('profile/profileIndex.html.twig', [
+                    'error' => $error,
+                    'errorMessage' => $errorMessage,
+                    'caption' => $caption
+                ]);
+            }
+        }
         $user = $this->getUser();
 
         $post = new Post();
@@ -54,9 +72,8 @@ class ProfileController extends AbstractController
         $database->persist($post);
         $database->flush();
 
-        return $this->json(['status'=>'succes',
-           'id' => $post->getId()
-        ]);
+
+        return $this->redirectToRoute('app_profile');
     }
 
 
