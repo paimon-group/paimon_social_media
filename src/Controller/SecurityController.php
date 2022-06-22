@@ -36,15 +36,17 @@ class SecurityController extends AbstractController
         $formRegister = $this->createForm(registerFormType::class, $user);
         $formRegister->handleRequest($request);
 
+        //get data from register form
+        $user->setUsername($formRegister->get('username')->getData());
+        $user->setFullname($formRegister->get('fullname')->getData());
+
         if($formRegister->isSubmitted() && $formRegister->isValid())
         {
-            //get data from register form
-            $user->setUsername($formRegister->get('username')->getData());
+            //continue get data from register form
             $user->setPassword($this->passwordHasher->hashPassword(
                 $user, $formRegister->get('password')->getData())
 
             );
-            $user->setFullname($formRegister->get('fullname')->getData());
             $user->setGender($formRegister->get('gender')->getData());
             $user->setRoles(['ROLE_USER']);
 
