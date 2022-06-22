@@ -32,8 +32,8 @@ class HomeController extends AbstractController
 
         return $this->render('home/homeIndex.html.twig',[
             'post'=>$post,
-            'total_like_and_comment' => $totalLikeAndComment
-            'invite_friend' =
+            'total_like_and_comment' => $totalLikeAndComment,
+            'invite_friend' => $inviteFriend
         ]);
     }
 
