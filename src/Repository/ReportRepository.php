@@ -38,6 +38,15 @@ class ReportRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    // count all report that have been sent
+    public function getTotalReport()
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query='SELECT COUNT(rep.id) as total_report from report as rep';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
 
 //    /**
 //     * @return Report[] Returns an array of Report objects
