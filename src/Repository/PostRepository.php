@@ -50,6 +50,18 @@ class PostRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
     }
+
+    public function getPostProfile($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
+        FROM post as p, user as u WHERE
+         p.user_id=:user_id and p.user_id=u.id
+         ORDER BY p.upload_time DESC ';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
