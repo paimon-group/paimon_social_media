@@ -3,10 +3,10 @@
 
 {#    </div>#}
     {% for post in posts %}
-        <div class="post-home" id="">
+        <div class="post-home">
             <div class="post-header-home">
                 <div class="avatar-post-home">
-                    <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">
+                    <img src="image/post/{{ inforUser[0].avatar }}" alt="avatar">
                 </div>
                 <div class="user-name-and-time-post-home">
                     <a href=""><div><h5>{{ post['fullname'] }}</h5></div></a>
@@ -17,9 +17,17 @@
                         <div><i class="bi-three-dots"></i></div>
                     </button>
                     <ul class="dropdown-menu tab-option-post-home">
-                        <li class="dropdown-item item-option-post-profile" data-post-id="{{ post['id'] }}">Delete<i class="bi-trash3-fill"></i></li>
-                        <li class="dropdown-item item-option-post-profile" data-post-id="{{ post['id'] }}">Hiden<i class="bi-incognito"></i></li>
-                        <li class="dropdown-item item-option-post-profile" data-post-id="{{ post['id'] }}">Report<i class="bi-lightning-fill"></i></li>
+                        {%  if  app.user.id == inforUser[0].id %}
+                            <li class="dropdown-item">
+                                <button type="button" class="item-option-post-home delete-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#comfirm_delete_post_profile" >
+                                    Delete
+                                    <i class="bi-trash3-fill"></i>
+                                </button>
+                            </li>
+                            <li class="dropdown-item delete-option-post-profile" data-post-id="{{ post['id'] }}">Edit<i class="bi-pencil-fill"></i></li>
+                        {% else %}
+                            <li class="dropdown-item report-option-post-profile" data-post-id="{{ post['id'] }}">Report<i class="bi-lightning-fill"></i></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

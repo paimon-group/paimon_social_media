@@ -9,6 +9,7 @@ use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\This;
+use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +56,8 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    //=====================================Routing for API request by AJAX=================================
+
     /**
      * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
      */
@@ -99,7 +102,7 @@ class ProfileController extends AbstractController
 
 
     /**
-     * @Route ("/Post/new", name="new_post", methods="POST")
+     * @Route ("/Post/new", name="app_new_post", methods="POST")
      */
     public function newPostAction(PostRepository $postRepository, ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
@@ -154,5 +157,35 @@ class ProfileController extends AbstractController
         }
 
         return $error;
+    }
+
+    /**
+     * @Route ("/profile/deletePost", name="app_delete_post", methods="POST")
+     */
+    public function deletePostAction(PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    {
+        $idPost = $_POST['idPost'];
+
+        $post = $postRepository->find($idPost);
+
+        if($post)
+        {
+
+            if($post->getImage() != null)
+            {
+                unlink('image/post/'.$post->getImage());
+            }
+
+            $database = $managerRegistry->getManager();
+            $database->remove($post);
+            $database->flush();
+
+            return new JsonResponse(['notification' => 'success', 'id' => $idPost]);
+        }
+        else
+        {
+            return new JsonResponse(['notification' => 'fail', 'id' => $idPost]);
+        }
+
     }
 }

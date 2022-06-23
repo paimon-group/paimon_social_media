@@ -83,7 +83,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getAvatar($user_id)
+    public function getUserInforNavBar($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
 
