@@ -1,0 +1,35 @@
+
+<!-- Modal -->
+<div class="modal fade" id="change_avatar_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-custom-new-post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change avatar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn_close_table_new_post"></button>
+            </div>
+            <form method="post" action="{{ path('app_change_avatar') }}" enctype="multipart/form-data" id="new_post_form">
+                <div class="modal-body new-post-table-body">
+                    <div class="new-post-table">
+                        <div class="img-post-in-table">
+                            <div class="btn-add-img-post-in-table" id="btn_add_img_post_in_table">Add image</div>
+                            <input type="file" id="input_up_img" name="imgPost" hidden>
+                            <img src="" alt="" id="img_preview">
+                        </div>
+
+                        <div class="caption-post-in-table">
+                            <textarea placeholder="write something..." name="captionPost" id="" cols="30" rows="10" class="text-area-caption-in-table">{% if caption != '' %}{{ caption }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="error-message" style="transform: translateX(-20rem); color: red">
+                        {% if error %}
+                            Only accept image
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btn_up_post">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

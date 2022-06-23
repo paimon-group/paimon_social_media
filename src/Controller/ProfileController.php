@@ -35,9 +35,17 @@ class ProfileController extends AbstractController
     }
 
     /**
+     * @Route ("/profile/changeAvatar, name="app_change_avatar")
+     */
+    public function updateInforProfileAction()
+    {
+        return $this->redirectToRoute('app_profile');
+    }
+
+    /**
      * @Route ("/profile/updateInformation", name="app_update_profile")
      */
-    public function updateInforProfile()
+    public function changeAvatarProfileAction()
     {
         $user = new User();
         $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
@@ -49,7 +57,7 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/Post/new", name="new_post", methods="POST")
      */
-    public function newPost(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function newPostAction(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         $imgFile = $_FILES['imgPost'];
         $caption = $request->request->get('captionPost');

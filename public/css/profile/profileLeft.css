@@ -45,9 +45,9 @@
 }
 
 #btn_change_avatar_profile{
-    width: 7rem;
+    width: 8rem;
     border: none;
-    transform: translate(-8rem, 6rem);
+    transform: translate(-8.8rem, 6rem);
     position: absolute;
     background-color: rgb(240, 242, 245);
     border-radius: 1rem;

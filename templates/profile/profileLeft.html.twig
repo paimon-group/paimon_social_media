@@ -3,7 +3,7 @@
     <div class="header-profile">
         <div class="avatar-profile">
             <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="">
-            <input type="button" value="change avatar" id="btn_change_avatar_profile">
+            <div id="btn_change_avatar_profile" data-bs-toggle="modal" data-bs-target="#change_avatar_model">Change avatar</div>
         </div>
         <div class="short-information-profile">
             <div class="user-name-profile">
@@ -17,7 +17,7 @@
         {% endif %}
     </div>
     <div class="detail-information">
-        <div class="btn-new-post" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <div class="btn-new-post" data-bs-toggle="modal" data-bs-target="#new_post_model">
             <p>New Post</p><i class="bi-file-earmark-plus"></i>
         </div>
         <a href="/profile/updateInformation">
