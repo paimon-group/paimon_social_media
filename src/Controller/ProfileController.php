@@ -35,7 +35,7 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route ("/profile/changeAvatar, name="app_change_avatar")
+     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
      */
     public function updateInforProfileAction()
     {
