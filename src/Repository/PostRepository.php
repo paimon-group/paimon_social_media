@@ -38,12 +38,14 @@ class PostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    #get all Post 
+    #get all friend's post and don't over 3 days 
     public function getPost()
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='select u.avatar, p.caption,u.fullname,p.image,p.total_like,p.total_comment,p.upload_time from post as p, user as u
-        where p.user_id=u.id';
+        $query ='SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
+        FROM post as p, user as u, relationship as r WHERE
+        r.user_id=1 AND p.user_id=r.friend_id AND u.id=r.friend_id 
+        AND r.status=1 AND DATE(P.upload_time)+3>DATE(NOW()) ORDER BY RAND()';
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
