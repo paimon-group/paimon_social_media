@@ -18,7 +18,7 @@ $(document).ready(function (){
         $('#img_preview').attr('src', '');
         $('#input_up_img').val('');
     })
-    
+
     function PreviewImage() {
         var imageReader = new FileReader();
         imageReader.readAsDataURL(document.getElementById("input_up_img").files[0]);

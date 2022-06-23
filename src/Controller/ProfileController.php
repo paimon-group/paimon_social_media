@@ -69,9 +69,19 @@ class ProfileController extends AbstractController
         //set data for user
         $user->setAvatar($safeFileImg);
 
+        //save infor user
         $database = $managerRegistry->getManager();
         $database->persist($user);
         $database->flush($user);
+
+        $post = new Post();
+        $post->setUser($user);
+        $post->setCaption($caption);
+        $post->setImage($safeFileImg);
+        $post->setUploadTime(new \DateTime());
+
+        $database->persist($post);
+        $database->flush();
 
         return $this->redirectToRoute('app_profile');
     }

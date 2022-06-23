@@ -45,9 +45,9 @@ $(document).ready(function (){
         var caption = $('.text-area-caption-in-table').val();
         var image = $('#input_up_img_avatar')[0].files.length;
 
-        if(caption == '' && image === 0)
+        if(caption == '' || image === 0)
         {
-            $('.error-message').html('please enter caption or choose image');
+            $('.error-message').html('please enter caption or choose avatar');
             e.preventDefault();
         }
     });
