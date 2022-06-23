@@ -3,7 +3,6 @@ $(document).ready(function (){
     //add image for post
     $('#btn_add_img_post_in_table').on('click', function() {
         $('#input_up_img').click();
-
     });
 
     //image preview before up post
@@ -13,6 +12,13 @@ $(document).ready(function (){
         $('#img_preview').show();
 
     })
+
+    //delete preview img post
+    $('#btn_delete_preview_img_in_table').click(function (){
+        $('#img_preview').attr('src', '');
+        $('#input_up_img').val('');
+    })
+    
     function PreviewImage() {
         var imageReader = new FileReader();
         imageReader.readAsDataURL(document.getElementById("input_up_img").files[0]);

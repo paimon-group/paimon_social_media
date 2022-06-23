@@ -48,10 +48,13 @@ class ProfileController extends AbstractController
         {
             $error = true;
             $errorMessage = 'Only accept image!';
+            $userInfor = $userRepository->getProfile($_SESSION['user_id']);
             return $this->render('profile/profileIndex.html.twig', [
+                'error' => true,
                 'errorChangeAvatar' => $error,
                 'errorMessage' => $errorMessage,
-                'caption' => $caption
+                'caption' => $caption,
+                'inforUser' => $userInfor
             ]);
         }
         else

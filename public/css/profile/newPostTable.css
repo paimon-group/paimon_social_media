@@ -23,7 +23,7 @@
 }
 
 .img-post-in-table img{
-    transform: translateY(-2rem);
+    transform: translateY(-6rem);
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -43,6 +43,7 @@
     height: 2rem;
     transform: translateY(13rem);
     padding: 0.2rem;
+    margin-bottom: 1rem;
 }
 
 .btn-add-img-post-in-table:hover{
