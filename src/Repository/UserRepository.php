@@ -82,6 +82,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $resultSet->fetchAllAssociative();
     }
+
+    public function getAvatar($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='SELECT u.avatar from user as u WHERE u.id=:user_id';
+
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
