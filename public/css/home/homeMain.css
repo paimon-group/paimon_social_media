@@ -153,11 +153,14 @@ body{
 .img-post-home{
     width: fit-content;
     height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .img-post-home img{
     width: 100%;
     height: auto;
+
 }
 
 

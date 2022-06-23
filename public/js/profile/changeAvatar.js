@@ -50,5 +50,31 @@ $(document).ready(function (){
             console.log('click')
             e.preventDefault();
         }
+        else
+        {
+            e.preventDefault();
+            var changeAvatarForm = new FormData(this);
+
+            $.ajax({
+                type:'POST',
+                url: $(this).attr('action'),
+                data: changeAvatarForm,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success: function (data){
+                    if(data['notification'] == 'success')
+                    {
+                        location.href = '/profile';
+                    }
+                    else
+                    {
+                        $('#error_change_avatar').html(data['notification']);
+                        console.log(data['notification']);
+                    }
+                }
+            })
+
+        }
     });
 });

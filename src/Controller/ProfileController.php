@@ -44,6 +44,18 @@ class ProfileController extends AbstractController
     }
 
     /**
+     * @Route ("/profile/updateInformation", name="app_update_profile")
+     */
+    public function updateInforProfileAction()
+    {
+        $user = new User();
+        $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
+        return $this->render('profile/profileUpdateInfor.html.twig',[
+            'updateInforForm' => $formUpdateInfor->createView()
+        ]);
+    }
+
+    /**
      * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
      */
     public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
@@ -51,28 +63,18 @@ class ProfileController extends AbstractController
 
         $caption = $_POST['captionChangeAvatar'];
         $imgFile = $_FILES['imgAvatar'];
-        $userId = $_POST['userId'];
 
-        if(!($imgFile["type"] =="image/jpg" || $imgFile['type'] == "image/jpeg" || $imgFile['type'] == "image/png"))
+        $error = $this->checkPost($imgFile, $caption);
+
+        if($error != '')
         {
-            $error = true;
-            $errorMessage = 'Only accept image!';
-            $userInfor = $userRepository->getProfile($_SESSION['user_id']);
-            return $this->render('profile/profileIndex.html.twig', [
-                'error' => true,
-                'errorChangeAvatar' => $error,
-                'errorMessage' => $errorMessage,
-                'caption' => $caption,
-                'inforUser' => $userInfor
-            ]);
+            return new JsonResponse(['notification' => $error]);
         }
-        else
-        {
-            $safeFileImg = uniqid().$imgFile['name'];
-            copy($imgFile['tmp_name'], "image/avatar/".$safeFileImg);
-        }
+        $safeFileImg = uniqid().$imgFile['name'];
+        copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
 
         //get user data
+        $userId = $this->getUser()->getId();
         $user = $userRepository->find($userId);
 
         //set data for user
@@ -92,20 +94,9 @@ class ProfileController extends AbstractController
         $database->persist($post);
         $database->flush();
 
-        return $this->redirectToRoute('app_profile');
+        return new JsonResponse(['notification' => 'success']);
     }
 
-    /**
-     * @Route ("/profile/updateInformation", name="app_update_profile")
-     */
-    public function updateInforProfileAction()
-    {
-        $user = new User();
-        $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
-        return $this->render('profile/profileUpdateInfor.html.twig',[
-            'updateInforForm' => $formUpdateInfor->createView()
-        ]);
-    }
 
     /**
      * @Route ("/Post/new", name="new_post", methods="POST")
@@ -157,7 +148,7 @@ class ProfileController extends AbstractController
                   $error = 'Only accept image';
             }
         }
-        else if($caption == '')
+        else if($imgFile['name'] != '' && $caption == '')
         {
             $error = 'content is empty';
         }
