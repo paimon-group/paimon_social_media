@@ -57,9 +57,27 @@ $(document).ready(function (){
         {
             e.preventDefault();
             var postForm = new FormData(this);
+
             $.ajax({
-                
-            })
+                type:'POST',
+                url: $(this).attr('action'),
+                data:postForm,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success: function (data){
+                    if(data['notification'] == 'success')
+                    {
+                        location.href = '/profile';
+                    }
+                    else
+                    {
+                        $('#error_up_post').html(data['notification'])
+                    }
+
+                }
+         })
+
         }
     });
 

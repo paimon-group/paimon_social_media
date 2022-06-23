@@ -8,7 +8,9 @@ use App\Form\Type\updateProfileFormType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -112,22 +114,25 @@ class ProfileController extends AbstractController
     {
         $imgFile = $_FILES['imgPost'];
         $caption = $_POST['captionPost'];
-        $error = false;
+
         $error = $this->checkPost($imgFile, $caption);
 
         if($error != '')
         {
-            return $this->json(['error' => $error]);
+            return new JsonResponse(['notification' => $error]);
         }
         else
         {
-            $safeFileImg = uniqid().$imgFile['name'];
-            copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
-
             $post = new Post();
             $user = $this->getUser();
 
-            $post->setImage($safeFileImg);
+            if($imgFile['name'] != '')
+            {
+                $safeFileImg = uniqid().$imgFile['name'];
+                copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
+                $post->setImage($safeFileImg);
+            }
+
             $post->setUser($user);
             $post->setCaption($caption);
             $post->setUploadTime(new \DateTime());
@@ -137,24 +142,26 @@ class ProfileController extends AbstractController
             $database->persist($post);
             $database->flush();
 
-            return $this->redirectToRoute('app_profile');
+            return new JsonResponse(['notification' => 'success']);
         }
 
     }
 
     public function checkPost($imgFile, $caption)
     {
-        if($imgFile['name'] != '' && $caption != '')
+        $error = '';
+        if($imgFile['name'] != '')
         {
             if(!($imgFile["type"] =="image/jpg" || $imgFile['type'] == "image/jpeg" || $imgFile['type'] == "image/png"))
             {
                   $error = 'Only accept image';
             }
         }
-        else
+        else if($caption == '')
         {
             $error = 'content is empty';
         }
+
         return $error;
     }
 }
