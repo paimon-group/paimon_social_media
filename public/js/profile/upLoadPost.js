@@ -43,16 +43,27 @@ $(document).ready(function (){
         }
     })
 
-    //if post content is empty will not up post
+    //if post content is empty will not up post else will be up load by ajax
     $('#new_post_form').submit(function(e){
-        var caption = $('.text-area-caption-in-table').val();
-        var image = $('#input_up_img')[0].files.length;
+        var caption = $('#caption_post_in_table').val();
+        var image = $('#input_up_img')[0].files;
 
-        if(caption == '' && image === 0)
+        if(caption == '' && image.length === 0)
         {
-            $('.error-message').html('please enter caption or choose image');
+            $('#error_up_post').html('please enter caption or choose image');
             e.preventDefault();
         }
+        else
+        {
+            e.preventDefault();
+            var postForm = new FormData(this);
+            $.ajax({
+                
+            })
+        }
     });
+
+
+
 
 });

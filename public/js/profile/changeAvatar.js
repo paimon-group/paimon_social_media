@@ -41,13 +41,13 @@ $(document).ready(function (){
     })
 
     //if post content is empty will not update avatar
-    $('#change_avatar_model').submit(function(e){
-        var caption = $('.text-area-caption-in-table').val();
+    $('#change_avatar_form').submit(function(e){
         var image = $('#input_up_img_avatar')[0].files.length;
 
-        if(caption == '' || image === 0)
+        if(image === 0)
         {
-            $('.error-message').html('please enter caption or choose avatar');
+            $('#error_change_avatar').html('please choose avatar');
+            console.log('click')
             e.preventDefault();
         }
     });

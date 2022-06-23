@@ -7,7 +7,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Change Avatar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn_close_table_new_post"></button>
             </div>
-            <form method="post" action="{{ path('app_change_avatar') }}" enctype="multipart/form-data" id="new_post_form">
+            <form method="post" action="{{ path('app_change_avatar') }}" enctype="multipart/form-data" id="change_avatar_form">
                 <div class="modal-body new-post-table-body">
                     <div class="new-post-table">
                         <div class="img-post-in-table">
@@ -18,17 +18,17 @@
                             <img src="" alt="" id="img_preview_atavar">
                         </div>
                         <div class="caption-post-in-table">
-                            <textarea placeholder="write something..." name="captionChangeAvatar" id="" cols="30" rows="10" class="text-area-caption-in-table">{% if caption != '' %}{{ caption }}{% endif %}</textarea>
+                            <textarea placeholder="write something..." name="captionChangeAvatar" id="caption_change_avatar_in_table" cols="30" rows="10" class="text-area-caption-in-table">{% if caption != '' %}{{ caption }}{% endif %}</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="error-message" style="transform: translateX(-20rem); color: red">
+                    <div class="error-message" id="error_change_avatar" style="transform: translateX(-20rem); color: red">
                         {% if error %}
                             Only accept image
                         {% endif %}
                     </div>
-                    <button type="submit" class="btn btn-primary" id="btn_up_post">Save</button>
+                    <button type="submit" class="btn btn-primary" id="btn_submit_change_avatar">Save</button>
                 </div>
             </form>
         </div>

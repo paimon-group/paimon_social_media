@@ -54,7 +54,7 @@ class PostRepository extends ServiceEntityRepository
     public function getPostProfile($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
+        $query ='SELECT u.avatar,u.fullname, p.id,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
         FROM post as p, user as u WHERE
          p.user_id=:user_id and p.user_id=u.id
          ORDER BY p.upload_time DESC ';

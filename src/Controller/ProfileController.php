@@ -26,12 +26,19 @@ class ProfileController extends AbstractController
         $caption = '';
 
         $userInfor = $userRepository->getProfile($_SESSION['user_id']);
+        $posts = $postRepository->getPostProfile($_SESSION['user_id']);
+
         return $this->render('profile/profileIndex.html.twig', [
             'error' => $error,
             'caption' => $caption,
-            'inforUser' => $userInfor
+            'inforUser' => $userInfor,
+            'posts' => $posts
         ]);
-//        return $this->json(['infor' => $userInfor]);
+//        return $this->json([
+//            'error' => $error,
+//            'inforUser' => $userInfor,
+//            'posts' => $posts
+//        ]);
     }
 
     /**
@@ -101,42 +108,53 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/Post/new", name="new_post", methods="POST")
      */
-    public function newPostAction(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function newPostAction(PostRepository $postRepository, ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
         $imgFile = $_FILES['imgPost'];
-        $caption = $request->request->get('captionPost');
+        $caption = $_POST['captionPost'];
+        $error = false;
+        $error = $this->checkPost($imgFile, $caption);
 
-        if($imgFile['size'] != 0)
+        if($error != '')
+        {
+            return $this->json(['error' => $error]);
+        }
+        else
+        {
+            $safeFileImg = uniqid().$imgFile['name'];
+            copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
+
+            $post = new Post();
+            $user = $this->getUser();
+
+            $post->setImage($safeFileImg);
+            $post->setUser($user);
+            $post->setCaption($caption);
+            $post->setUploadTime(new \DateTime());
+
+            //save data
+            $database = $managerRegistry->getManager();
+            $database->persist($post);
+            $database->flush();
+
+            return $this->redirectToRoute('app_profile');
+        }
+
+    }
+
+    public function checkPost($imgFile, $caption)
+    {
+        if($imgFile['name'] != '' && $caption != '')
         {
             if(!($imgFile["type"] =="image/jpg" || $imgFile['type'] == "image/jpeg" || $imgFile['type'] == "image/png"))
             {
-                $error = true;
-                $errorMessage = 'Only accept image!';
-                return $this->render('profile/profileIndex.html.twig', [
-                    'error' => $error,
-                    'errorMessage' => $errorMessage,
-                    'caption' => $caption
-                ]);
-            }
-            else
-            {
-                $safeFileImg = uniqid().$imgFile['name'];
-                copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
+                  $error = 'Only accept image';
             }
         }
-
-        $user = $this->getUser();
-        $post = new Post();
-        $post->setUser($user);
-        $post->setCaption($caption);
-        $post->setImage($safeFileImg);
-        $post->setUploadTime(new \DateTime());
-        $database = $managerRegistry->getManager();
-        $database->persist($post);
-        $database->flush();
-
-        return $this->redirectToRoute('app_profile');
+        else
+        {
+            $error = 'content is empty';
+        }
+        return $error;
     }
-
-
 }
