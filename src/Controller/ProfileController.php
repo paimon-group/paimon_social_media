@@ -19,14 +19,19 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile", name="app_profile")
      */
-    public function index()
+    public function index(UserRepository $userRepository, PostRepository $postRepository)
     {
+        session_start();
         $error = false;
         $caption = '';
+
+        $userInfor = $userRepository->getProfile($_SESSION['user_id']);
         return $this->render('profile/profileIndex.html.twig', [
             'error' => $error,
-            'caption' => $caption
+            'caption' => $caption,
+            'inforUser' => $userInfor
         ]);
+//        return $this->json(['infor' => $userInfor]);
     }
 
     /**

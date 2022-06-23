@@ -3,15 +3,18 @@
     <div class="header-profile">
         <div class="avatar-profile">
             <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="">
+            <input type="button" value="change avatar" id="btn_change_avatar_profile">
         </div>
         <div class="short-information-profile">
             <div class="user-name-profile">
-                <h4>Nguyen Nhat Khang</h4>
+                <h4>{{ inforUser[0].fullname }}</h4>
             </div>
-            <div class="infor-profile-item" id="count-posts"><p>Pots: 13</p></div>
-            <div class="infor-profile-item" id="count-friend"><p>Friends: 200</p></div>
-            <div class="infor-profile-item" id="add-friend"><p>Add friend</p></div>
+            <div class="infor-profile-item" id="count-posts"><p>Pots: {{ inforUser[0].total_post }}</p></div>
+            <div class="infor-profile-item" id="count-friend"><p>Friends: {{ inforUser[0].total_friend }}</p></div>
         </div>
+        {% if inforUser[0].id != app.user.id %}
+            <div class="infor-profile-item" id="add-friend" data-id-user="{{ inforUser[0].id }}"><p>Add friend</p></div>
+        {% endif %}
     </div>
     <div class="detail-information">
         <div class="btn-new-post" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -24,11 +27,11 @@
         </a>
         <hr>
         <div class="block-information-profile">
-            <div class="detail-infor-item">Phone: 0123456789</div>
-            <div class="detail-infor-item">Gender: male</div>
-            <div class="detail-infor-item">Birthday: 12/12/2022</div>
-            <div class="detail-infor-item">Address: Ninh kieu , can tho</div>
-            <div class="detail-infor-item">Email: khangok1610@gmai.com</div>
+            <div class="detail-infor-item">Phone: {{ inforUser[0].phone }}</div>
+            <div class="detail-infor-item">Gender: {{ (inforUser[0].gender == 0) ? 'male' : 'female' }}</div>
+            <div class="detail-infor-item">Birthday: {{ inforUser[0].birthdate }}</div>
+            <div class="detail-infor-item">Address: {{ inforUser[0].address  }}</div>
+            <div class="detail-infor-item">Email: {{ inforUser[0].email }} </div>
         </div>
     </div>
 </div>

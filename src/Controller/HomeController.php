@@ -19,7 +19,8 @@ class HomeController extends AbstractController
      */
     public function index(PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
     {
-        $_SESSION['user_id']= $this->getUser()->getId();
+        session_start();
+        $_SESSION['user_id'] = $this->getUser()->getId();
 
         $post = $postRepository->getPost();
         $liekNotification = $notificationRepository->getLikeFromOtherUser($_SESSION['user_id']);
