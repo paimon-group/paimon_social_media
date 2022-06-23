@@ -22,18 +22,18 @@ class HomeController extends AbstractController
         session_start();
         $_SESSION['user_id'] = $this->getUser()->getId();
 
-        $post = $postRepository->getPost();
+        $post = $postRepository->getPost($_SESSION['user_id']);
         $liekNotification = $notificationRepository->getLikeFromOtherUser($_SESSION['user_id']);
         $commentNotification = $notificationRepository->getCommentFromOtherUser($_SESSION['user_id']);
         $inviteFriend = $notificationRepository->getInvitefriend($_SESSION['user_id']);
         $friendList = $relationshipRepository->getFriendList($_SESSION['user_id']);
         $totalLikeAndComment = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
 
-//        return $this->render('home/homeIndex.html.twig',[
-//            'post'=>$post,
-//
-//        ]);
-        return $this->json(['posts' => $post[1]]);
+        return $this->render('home/homeIndex.html.twig',[
+            'post'=>$post,
+
+        ]);
+//        return $this->json(['posts' => $post[1]]);
     }
 
 }

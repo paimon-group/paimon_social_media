@@ -37,15 +37,46 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
      */
-    public function updateInforProfileAction()
+    public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
+
+        $caption = $_POST['captionChangeAvatar'];
+        $imgFile = $_FILES['imgAvatar'];
+        $userId = $_POST['userId'];
+
+        if(!($imgFile["type"] =="image/jpg" || $imgFile['type'] == "image/jpeg" || $imgFile['type'] == "image/png"))
+        {
+            $error = true;
+            $errorMessage = 'Only accept image!';
+            return $this->render('profile/profileIndex.html.twig', [
+                'errorChangeAvatar' => $error,
+                'errorMessage' => $errorMessage,
+                'caption' => $caption
+            ]);
+        }
+        else
+        {
+            $safeFileImg = uniqid().$imgFile['name'];
+            copy($imgFile['tmp_name'], "image/avatar/".$safeFileImg);
+        }
+
+        //get user data
+        $user = $userRepository->find($userId);
+
+        //set data for user
+        $user->setAvatar($safeFileImg);
+
+        $database = $managerRegistry->getManager();
+        $database->persist($user);
+        $database->flush($user);
+
         return $this->redirectToRoute('app_profile');
     }
 
     /**
      * @Route ("/profile/updateInformation", name="app_update_profile")
      */
-    public function changeAvatarProfileAction()
+    public function updateInforProfileAction()
     {
         $user = new User();
         $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
@@ -76,7 +107,8 @@ class ProfileController extends AbstractController
             }
             else
             {
-                copy($imgFile['tmp_name'], "image/post/".uniqid().$imgFile['name']);
+                $safeFileImg = uniqid().$imgFile['name'];
+                copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
             }
         }
 
@@ -84,7 +116,7 @@ class ProfileController extends AbstractController
         $post = new Post();
         $post->setUser($user);
         $post->setCaption($caption);
-        $post->setImage($imgFile['name']);
+        $post->setImage($safeFileImg);
         $post->setUploadTime(new \DateTime());
         $database = $managerRegistry->getManager();
         $database->persist($post);
