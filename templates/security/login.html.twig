@@ -36,12 +36,9 @@
                value="{{ csrf_token('authenticate') }}"
         >
         {{ form_end(Login) }}
-        <div class="alert alert-danger" style="color: yellow;transform: translate(8rem, 1rem); width: fit-content;">
-            {{ notificationRegisterMessage }}
-        </div>
-        {% if notificationLogin %}
+        {% if errorLogin %}
             <div class="alert alert-danger" style="color: yellow;transform: translate(8rem, 1rem);     width: fit-content;">
-                {{ notificationLoginMessage }}
+                {{ errorLogin.message }}
             </div>
         {% endif %}
     </div>
@@ -49,14 +46,16 @@
         {{ form_start(Register, {'action': path('app_registration'), 'method':'POST'}) }}
 
         {{ form_end(Register) }}
+        {% if errorRegister %}
             <div class="alert alert-danger" style="color: yellow;transform: translate(8rem, 1rem); width: fit-content;">
-                {{ notificationRegisterMessage }}
+                {{ errorRegister }}
             </div>
+        {% endif %}
     </div>
 </div>
 </body>
 {%  block subjavascript %}
-    {% if notificationRegister == false %}
+    {% if errorRegister %}
         <script>
             $(document).ready(function (){
                 $('.title-sign-up').click();

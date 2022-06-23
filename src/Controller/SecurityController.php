@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -27,49 +28,49 @@ class SecurityController extends AbstractController
     /**
      * @Route ("/registration", name="app_registration", methods="POST")
      */
-    public function RegistrationProcessAction(Request $request, ManagerRegistry $managerRegistry)
+    public function RegistrationProcessAction(Request $request, ManagerRegistry $managerRegistry,ValidatorInterface  $validator)
     {
-        $notificationRegister = true;
-        $notificationRegisterMessage = 'Register successful';
-
         $user = new User();
         $formRegister = $this->createForm(registerFormType::class, $user);
         $formRegister->handleRequest($request);
 
-        //get data from register form
-        $user->setUsername($formRegister->get('username')->getData());
-        $user->setFullname($formRegister->get('fullname')->getData());
-
-        if($formRegister->isSubmitted() && $formRegister->isValid())
+        if($formRegister->isSubmitted())
         {
-            //continue get data from register form
-            $user->setPassword($this->passwordHasher->hashPassword(
-                $user, $formRegister->get('password')->getData())
-
-            );
+            //get data from register form
+            $user->setUsername($formRegister->get('username')->getData());
+            $user->setFullname($formRegister->get('fullname')->getData());
+            $user->setPassword($formRegister->get('password')->getData());
             $user->setGender($formRegister->get('gender')->getData());
-            $user->setRoles(['ROLE_USER']);
 
-            // push data to database
-            $database = $managerRegistry->getManager();
-            $database->persist($user);
-            $database->flush();
+            if($formRegister->isValid())
+            {
+                $user->setPassword($this->passwordHasher->hashPassword(
+                    $user, $formRegister->get('password')->getData())
+                );
+                $user->setRoles(['ROLE_USER']);
 
-            return $this->redirectToRoute("app_login", [
-                'notificationRegister' => $notificationRegister,
-                'notificationRegisterMessage' => $notificationRegisterMessage
-            ]);
+                // push data to database
+                $database = $managerRegistry->getManager();
+                $database->persist($user);
+                $database->flush();
+
+                return $this->redirectToRoute("app_login", [
+
+                ]);
+            }
+            else
+            {
+                $errorRegister = $validator->validate($user);
+                if(count($errorRegister) > 0 )
+                {
+                    $errorsString = (string) $errorRegister;
+                }
+                return $this->redirectToRoute('app_login', [
+                   'errorRegister' => $errorsString
+                ]);
+            }
         }
-        else
-        {
-            $notificationRegister = false;
-            $notificationRegisterMessage = 'Confirm password not match';
-            return $this->redirectToRoute('app_login', [
-                'notificationRegister' => $notificationRegister,
-                'notificationRegisterMessage' => $notificationRegisterMessage
-            ]);
-        }
-
+        return new Response('register', 200);
     }
 
     /**
@@ -79,16 +80,11 @@ class SecurityController extends AbstractController
     {
 
         // get the login error if there is one
-        $notificationLogin = $authenticationUtils->getLastAuthenticationError();
-        $notificationLoginMessage = 'Username or Passowrd is wrong!';
-        $notificationRegister = true;
-        $notificationRegisterMessage = '';
-        if(isset($_GET['notificationRegister']))
+        $errorLogin = $authenticationUtils->getLastAuthenticationError();
+        $errorRegister = '';
+        if(isset($_GET['errorRegister']))
         {
-            $notificationRegister = $_GET['notificationRegister'];
-
-            //show notification register success
-            $notificationRegisterMessage  = $_GET['notificationRegisterMessage'];
+            $errorRegister = $_GET['errorRegister'];
         }
 
         // create form
@@ -98,10 +94,8 @@ class SecurityController extends AbstractController
 
 
         return $this->render('security/login.html.twig', [
-                'notificationRegister' => $notificationRegister,
-                'notificationRegisterMessage' => $notificationRegisterMessage,
-                'notificationLogin' => $notificationLogin,
-                'notificationLoginMessage' => $notificationLoginMessage,
+                'errorLogin' => $errorLogin,
+                'errorRegister' => $errorRegister,
                 'Login' => $loginForm->createView(),
                 'Register' => $registerForm->createView()
             ]);

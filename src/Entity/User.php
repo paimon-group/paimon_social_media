@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,6 +24,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(
+     *     min = 10,
+     *     max = 50,
+     *     minMessage = "username must be greater than or equal {{ limit }} character!",
+     *     maxMessage = "username must be less than or equal {{ limit }} character!"
+     * )
      */
     private $username;
 
@@ -34,6 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length (
+     *     min = 8,
+     *     minMessage = "password must be greater than or equal {{ limit }} character!"
+     * )
      */
     private $password;
 
@@ -44,6 +55,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=24)
+     * @Assert\Length (
+     *     min = 3,
+     *     max = 24,
+     *     minMessage = "Fullname must be greater than or equal {{ limit }} character!"
+     *     maxMessage = "Fullname must be less than or equal {{ limit }} character!"
+     * )
      */
     private $fullname;
 
@@ -59,6 +76,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Email(
+     *     message = "The email {{ value }} is not a valid email!"
+     * )
      */
     private $email;
 
