@@ -59,10 +59,16 @@ class Post
      */
     private $Comment_Post;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="post")
+     */
+    private $post_report;
+
     public function __construct()
     {
         $this->Post_Reaction = new ArrayCollection();
         $this->Comment_Post = new ArrayCollection();
+        $this->post_report = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,36 @@ class Post
             // set the owning side to null (unless already changed)
             if ($commentPost->getPost() === $this) {
                 $commentPost->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getPostReport(): Collection
+    {
+        return $this->post_report;
+    }
+
+    public function addPostReport(Report $postReport): self
+    {
+        if (!$this->post_report->contains($postReport)) {
+            $this->post_report[] = $postReport;
+            $postReport->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostReport(Report $postReport): self
+    {
+        if ($this->post_report->removeElement($postReport)) {
+            // set the owning side to null (unless already changed)
+            if ($postReport->getPost() === $this) {
+                $postReport->setPost(null);
             }
         }
 
