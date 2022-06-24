@@ -8,6 +8,7 @@ $(document).ready(function (){
     $('#btn_delete_preview_img_avatar_in_table').click(function (){
         $('#img_preview_atavar').attr('src', '');
         $('#input_up_img_avatar').val('');
+        $('#btn_add_img_change_avatar_in_table').html('Add image');
     })
 
     //image preview before up avatar
@@ -29,7 +30,7 @@ $(document).ready(function (){
     $('.img-post-in-table').mouseenter(function (){
         if($('#img_preview_atavar').attr('src') != '')
         {
-            $('#btn_add_img_change_avatar_in_table').html('change image');
+            $('#btn_add_img_change_avatar_in_table').html('Change image');
             $('#img_preview_atavar').hide();
         }
     })

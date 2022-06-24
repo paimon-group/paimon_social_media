@@ -17,6 +17,7 @@ $(document).ready(function (){
     $('#btn_delete_preview_img_in_table').click(function (){
         $('#img_preview').attr('src', '');
         $('#input_up_img').val('');
+        $('#btn_add_img_post_in_table').html('Add image');
     })
 
     function PreviewImage() {
@@ -32,7 +33,7 @@ $(document).ready(function (){
     $('.img-post-in-table').mouseenter(function (){
         if($('#img_preview').attr('src') != '')
         {
-            $('#btn_add_img_post_in_table').html('change image');
+            $('#btn_add_img_post_in_table').html('Change image');
             $('#img_preview').hide();
         }
     })

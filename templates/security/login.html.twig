@@ -43,7 +43,7 @@
         {% endif %}
     </div>
     <div class="register-form">
-        {{ form_start(Register, {'action': path('app_registration'), 'method':'POST' }) }}
+        {{ form_start(Register, {'action': path('app_registration'), 'method':'POST', 'attr': {'id':'register_form'}}) }}
         {{ form_end(Register) }}
             <div class="alert alert-danger" id="error_register_form" style="color: yellow;transform: translate(3rem, 1rem); width: fit-content;">
                 {{ errorRegister }}

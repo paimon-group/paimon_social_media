@@ -18,7 +18,7 @@ $(document).ready(function () {
         $('.register-form').show();
     })
 
-    $('#register_form_Register').submit(function (e){
+    $('#register_form').submit(function (e){
         var pass = $('#register_form_password_first').val();
         var passConfirm = $('#register_form_password_second').val();
 
