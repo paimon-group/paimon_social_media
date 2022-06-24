@@ -25,11 +25,9 @@
                                 </button>
                             </li>
                             <li class="dropdown-item edit-option-post-profile" data-post-id="{{ post['id'] }}">
-                                <button type="button" class="item-option-post-home edit-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#edit_post_model" >
-                                    Edit
-                                    <i class="bi-pencil-fill"></i>
-                                </button>
+                                Edit<i class="bi-pencil-fill"></i>
                             </li>
+                            <button type="button" class="item-option-post-home" id="edit_option_post_profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#edit_post_model" hidden></button>
                         {% else %}
                             <li class="dropdown-item report-option-post-profile" data-post-id="{{ post['id'] }}">Report<i class="bi-lightning-fill"></i></li>
                         {% endif %}

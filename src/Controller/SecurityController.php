@@ -54,19 +54,14 @@ class SecurityController extends AbstractController
                 $database->persist($user);
                 $database->flush();
 
-                return $this->redirectToRoute("app_login", [
-
-                ]);
+                return $this->redirectToRoute("app_login");
             }
             else
             {
                 $errorRegister = $validator->validate($user);
-                if(count($errorRegister) > 0 )
-                {
-                    $errorsString = (string) $errorRegister;
-                }
+
                 return $this->redirectToRoute('app_login', [
-                   'errorRegister' => $errorsString
+                   'errorRegister' => $errorRegister
                 ]);
             }
         }
@@ -76,16 +71,27 @@ class SecurityController extends AbstractController
     /**
      * @Route("/", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(Request $request ,AuthenticationUtils $authenticationUtils): Response
     {
 
         // get the login error if there is one
         $errorLogin = $authenticationUtils->getLastAuthenticationError();
-        $errorRegister = '';
-        if(isset($_GET['errorRegister']))
+        $errorRegister = $request->query->get('errorRegister');
+
+        $userCutLength = 56;
+        $fullnameCutLength = 56;
+
+        $indexUsername = strpos($errorRegister, 'username');
+        if($indexUsername > 0)
         {
-            $errorRegister = $_GET['errorRegister'];
+            $errorRegister = substr($errorRegister, $indexUsername + 10, $userCutLength);
         }
+        else
+        {
+            $indexFullname = strpos($errorRegister, 'fullname');
+            $errorRegister = substr($errorRegister, $indexFullname + 10, $fullnameCutLength);
+        }
+
 
         // create form
         $user = new User();

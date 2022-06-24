@@ -24,14 +24,13 @@
                     'required' => true,
                     'first_options' => ['label' => 'Password'],
                     'second_options' => ['label'=>'Confirm Password']
-
                 ])
                 ->add('fullname', TextType::class,['attr' => ['class' => 'text']])
                 ->add('gender', ChoiceType::class, [
                     'choices' =>
                     [
-                        'Male' => '0',
-                        'Female' => '1'
+                        'Male' => 'male',
+                        'Female' => 'female'
                     ],
                     'expanded' => true
                 ])

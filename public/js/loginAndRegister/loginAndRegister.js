@@ -17,4 +17,16 @@ $(document).ready(function () {
         $('.login-form').hide();
         $('.register-form').show();
     })
+
+    $('#register_form_Register').submit(function (e){
+        var pass = $('#register_form_password_first').val();
+        var passConfirm = $('#register_form_password_second').val();
+
+        if(pass != passConfirm)
+        {
+            e.preventDefault();
+            $('#error_register_form').html('Confirm pass not match');
+        }
+    })
+
 })
