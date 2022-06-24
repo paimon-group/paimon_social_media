@@ -1,6 +1,15 @@
 $(document).ready(function (){
     var idPost = '';
 
+    //get url
+    function getUrl()
+    {
+        var locationCurrent = $(location).attr("href");
+        var indexSubstring = locationCurrent.lastIndexOf('/');
+
+        return url = locationCurrent.substring(indexSubstring);
+    }
+
     //delete post
     $(document).on('click', '.delete-option-post-profile', function (){
         idPost = $(this).data('post-id');
@@ -15,7 +24,7 @@ $(document).ready(function (){
                 if(data['notification'] == 'success')
                 {
                     console.log('success')
-                    if($(location).attr("href") == 'https://localhost:8000/profile')
+                    if(getUrl() == '/profile')
                     {
                         location.href = '/profile';
                     }
