@@ -58,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length (
      *     min = 3,
      *     max = 24,
-     *     minMessage = "Fullname must be greater than or equal {{ limit }} character!"
+     *     minMessage = "Fullname must be greater than or equal {{ limit }} character!",
      *     maxMessage = "Fullname must be less than or equal {{ limit }} character!"
      * )
      */

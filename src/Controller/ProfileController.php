@@ -93,6 +93,7 @@ class ProfileController extends AbstractController
         $post->setCaption($caption);
         $post->setImage($safeFileImg);
         $post->setUploadTime(new \DateTime());
+        $post->setDeleted('false');
 
         $database->persist($post);
         $database->flush();
@@ -130,6 +131,7 @@ class ProfileController extends AbstractController
             $post->setUser($user);
             $post->setCaption($caption);
             $post->setUploadTime(new \DateTime());
+            $post->setDeleted('false');
 
             //save data
             $database = $managerRegistry->getManager();
@@ -176,8 +178,10 @@ class ProfileController extends AbstractController
                 unlink('image/post/'.$post->getImage());
             }
 
+            $post->setDeleted('true');
+
             $database = $managerRegistry->getManager();
-            $database->remove($post);
+            $database->persist($post);
             $database->flush();
 
             return new JsonResponse(['notification' => 'success', 'id' => $idPost]);
@@ -187,5 +191,22 @@ class ProfileController extends AbstractController
             return new JsonResponse(['notification' => 'fail', 'id' => $idPost]);
         }
 
+    }
+
+    /**
+     * @Route ("/post/getInforPost", name="app_edit_post", methods="GET")
+     */
+    public function editPostAction(PostRepository $postRepository)
+    {
+        $idPost = $_GET['idPost'];
+
+        $post = new Post();
+        $post = $postRepository->find($idPost);
+
+        return new JsonResponse([
+            'status' => 'success',
+            'caption' => $post->getCaption(),
+            'image' => $post->getImage()
+        ]);
     }
 }

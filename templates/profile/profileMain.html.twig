@@ -24,7 +24,12 @@
                                     <i class="bi-trash3-fill"></i>
                                 </button>
                             </li>
-                            <li class="dropdown-item delete-option-post-profile" data-post-id="{{ post['id'] }}">Edit<i class="bi-pencil-fill"></i></li>
+                            <li class="dropdown-item edit-option-post-profile" data-post-id="{{ post['id'] }}">
+                                <button type="button" class="item-option-post-home edit-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#edit_post_model" >
+                                    Edit
+                                    <i class="bi-pencil-fill"></i>
+                                </button>
+                            </li>
                         {% else %}
                             <li class="dropdown-item report-option-post-profile" data-post-id="{{ post['id'] }}">Report<i class="bi-lightning-fill"></i></li>
                         {% endif %}
