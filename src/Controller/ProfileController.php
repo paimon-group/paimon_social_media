@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
+
 class ProfileController extends AbstractController
 {
     /**
@@ -59,7 +60,7 @@ class ProfileController extends AbstractController
     //=====================================Routing for API request by AJAX=================================
 
     /**
-     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
+     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="PUT")
      */
     public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
@@ -162,7 +163,7 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route ("/profile/deletePost", name="app_delete_post", methods="POST")
+     * @Route ("/profile/deletePost", name="app_delete_post", methods="DELETE")
      */
     public function deletePostAction(UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
@@ -196,7 +197,7 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/post/getInforPost", name="app_edit_post", methods="GET")
      */
-    public function editPostAction(PostRepository $postRepository)
+    public function getInforPostAction(PostRepository $postRepository)
     {
         $idPost = $_GET['idPost'];
 
@@ -208,5 +209,29 @@ class ProfileController extends AbstractController
             'caption' => $post->getCaption(),
             'image' => $post->getImage()
         ]);
+    }
+
+    /**
+     * @Route ("/post/updatePost", name="app_update_post", methods={"PUT"})
+     */
+    public function updatePostAction(Request $request)
+    {
+        $request = $this->tranform($request);
+//        $data = $request->files->get('imgPost');
+//        $data = $request->request->get('data');
+        $data = $request->files->get('data');
+
+//        $data = json_decode($request->getContent(), true);
+//        $data = $data['caption'];
+        return new JsonResponse(['status_code' => 200, 'data' => $data]);
+    }
+
+    public function tranform($request){
+        $data = json_decode($request->getContent(), true);
+        if($data === null){
+            return $request;
+        }
+        $request->request->replace($data);
+        return $request;
     }
 }

@@ -36,13 +36,13 @@ $(document).ready(function (){
             $('#btn_add_img_post_in_table').html('Change image');
             $('#img_preview').hide();
         }
-    })
+    });
     $('.img-post-in-table').mouseleave(function (){
         if($('#img_preview').attr('src') != '')
         {
             $('#img_preview').show();
         }
-    })
+    });
 
     //if post content is empty will not up post else will be up load by ajax
     $('#new_post_form').submit(function(e){

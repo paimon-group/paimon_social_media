@@ -36,14 +36,15 @@ class SecurityController extends AbstractController
 
         if($formRegister->isSubmitted())
         {
-            //get data from register form
-            $user->setUsername($formRegister->get('username')->getData());
-            $user->setFullname($formRegister->get('fullname')->getData());
-            $user->setPassword($formRegister->get('password')->getData());
-            $user->setGender($formRegister->get('gender')->getData());
 
             if($formRegister->isValid())
             {
+                //get data from register form
+                $user->setUsername($formRegister->get('username')->getData());
+                $user->setFullname($formRegister->get('fullname')->getData());
+                $user->setPassword($formRegister->get('password')->getData());
+                $user->setGender($formRegister->get('gender')->getData());
+                $user->setAvatar('avatar.png');
                 $user->setPassword($this->passwordHasher->hashPassword(
                     $user, $formRegister->get('password')->getData())
                 );
