@@ -164,16 +164,16 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/profile/deletePost", name="app_delete_post", methods="POST")
      */
-    public function deletePostAction(PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function deletePostAction(UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         $idPost = $_POST['idPost'];
 
         $post = $postRepository->find($idPost);
+        $user = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         if($post)
         {
-
-            if($post->getImage() != null)
+            if($post->getImage() != null && $post->getImage() != $user[0]['avatar'])
             {
                 unlink('image/post/'.$post->getImage());
             }
