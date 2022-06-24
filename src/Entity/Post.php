@@ -64,6 +64,11 @@ class Post
      */
     private $post_report;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $deleted;
+
     public function __construct()
     {
         $this->Post_Reaction = new ArrayCollection();
@@ -234,6 +239,18 @@ class Post
                 $postReport->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeleted(): ?string
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(string $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

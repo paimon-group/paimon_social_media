@@ -42,10 +42,10 @@ class PostRepository extends ServiceEntityRepository
     public function getPost($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
+        $query ="SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
         FROM post as p, user as u, relationship as r WHERE
         r.user_id=:user_id AND p.user_id=r.friend_id AND u.id=r.friend_id 
-        AND r.status=1 AND DATE(P.upload_time)+3>DATE(NOW()) ORDER BY RAND()';
+        AND r.status=1 AND p.deleted='false' and DATE(P.upload_time)+3>DATE(NOW()) ORDER BY RAND()";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
@@ -54,10 +54,10 @@ class PostRepository extends ServiceEntityRepository
     public function getPostProfile($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='SELECT u.avatar,u.fullname, p.id,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
+        $query ="SELECT u.avatar,u.fullname, p.id,p.caption,p.image,p.total_like,p.total_comment,p.upload_time 
         FROM post as p, user as u WHERE
-         p.user_id=:user_id and p.user_id=u.id
-         ORDER BY p.upload_time DESC ';
+         p.user_id=:user_id and p.user_id=u.id and p.deleted='false'
+         ORDER BY p.upload_time DESC";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
