@@ -61,6 +61,36 @@ class ReportRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
     }
+    // get information about report 
+    public function getReport()
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ="SELECT rep.id, u.avatar as user_send_report_avatar,u.fullname as user_send_report_name
+        ,us.avatar as user_reported_avatar,  us.fullname as user_reported_name
+        ,rep.report_time, rep.post_id 
+        from user as u , report as rep, user as us 
+        WHERE u.id=rep.user_send_report_id AND us.id=rep.user_reported_id";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function getReportDetail($report_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ="SELECT rep.id ,p.caption,
+        us.avatar as user_reported_avatar, us.fullname as user_reported_name,
+        p.image ,p.total_like ,p.total_comment ,p.upload_time,
+        u.avatar as user_send_report_avatar, u.fullname as user_send_report_name,
+        rep.reason, rep.report_time from 
+        user as u , report as rep, user as us, post as p 
+        WHERE rep.id=:report_id AND u.id=rep.user_send_report_id AND us.id=rep.user_reported_id AND p.id=rep.post_id 
+        ORDER BY rep.id ASC";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['report_id'=>$report_id]);
+        return $resultSet->fetchAllAssociative();
+    }
+
 
 
 //    /**
