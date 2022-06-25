@@ -8,6 +8,18 @@
             <p>Update Information</p>
             {{ form_start(updateInforForm) }}
             {{ form_end(updateInforForm) }}
+            <div class="erro-mess-update-infor-profile">
+                {% for error in errorUpdateInfor %}
+                    {% if error.propertyPath ==  'fullname' %}
+                        {{ error.message }}
+                    {% elseif error.propertyPath ==  'email' %}
+                        {{ error.message }}
+                    {% elseif error.propertyPath ==  'phone' %}
+                        {{ error.message }}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
+
 {% endblock %}

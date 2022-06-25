@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+
 class HomeController extends AbstractController
 {
     /**
@@ -20,25 +21,23 @@ class HomeController extends AbstractController
      */
     public function index(UserRepository $userRepository,PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
     {
-        session_start();
-        $_SESSION['user_id'] = $this->getUser()->getId();
 
         //get avatar header
-        $inforUser = $userRepository->getUserInforNavBar($_SESSION['user_id']);
+        $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         //get total notification of like and comment
-        $liekNotification = $notificationRepository->getLikeFromOtherUser($_SESSION['user_id']);
-        $commentNotification = $notificationRepository->getCommentFromOtherUser($_SESSION['user_id']);
+        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+        $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
         $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
 
         //get notification of invite friend
-        $inviteFriend = $notificationRepository->getInvitefriend($_SESSION['user_id']);
+        $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
 
         //get friend list
-        $friendList = $relationshipRepository->getFriendList($_SESSION['user_id']);
+        $friendList = $relationshipRepository->getFriendList($this->getUser()->getId());
 
         //get post
-        $post = $postRepository->getPost($_SESSION['user_id']);
+        $post = $postRepository->getPost($this->getUser()->getId());
 
         return $this->render('home/homeIndex.html.twig',[
             'inforUser' => $inforUser,

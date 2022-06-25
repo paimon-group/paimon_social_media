@@ -1,15 +1,9 @@
 $(document).ready(function (){
-    if($(location).attr("href") == 'https://localhost:8000/home')
-    {
-        document.title = "Paimon";
-    }
-    if($(location).attr("href") == 'https://localhost:8000/profile')
-    {
-        document.title = "nguyen nhat khang";
-    }
+
+    document.title = "Profile";
 
     $('#count-friend').click(function (){
-        location.assign('/profile/friend-list')
+        location.assign('/friendList')
     });
 
     $('#count-posts').click(function (){

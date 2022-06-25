@@ -17,22 +17,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profile", name="app_profile")
+     * @Route("/profile", name="app_profile", methods={"GET"})
      */
     public function index(UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
-        session_start();
         $error = false;
         $caption = '';
 
-        $userInfor = $userRepository->getProfile($_SESSION['user_id']);
-        $posts = $postRepository->getPostProfile($_SESSION['user_id']);
-        $postLiked = $reactionRepository->checklike($_SESSION['user_id']);
+        $userInfor = $userRepository->getProfile($this->getUser()->getId());
+        $posts = $postRepository->getPostProfile($this->getUser()->getId());
+        $postLiked = $reactionRepository->checklike($this->getUser()->getId());
         return $this->render('profile/profileIndex.html.twig', [
             'error' => $error,
             'caption' => $caption,
@@ -46,21 +46,82 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route ("/profile/updateInformation", name="app_update_profile")
+     * @Route ("/updateInformation", name="app_update_profile", methods={"POST", "GET"})
      */
-    public function updateInforProfileAction()
+    public function updateInforProfileAction(Request $request, UserRepository $userRepository, ValidatorInterface $validator, ManagerRegistry $managerRegistry)
     {
+        $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
+        $errorUpdateInfor = null;
+
         $user = new User();
         $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
+        $formUpdateInfor->handleRequest($request);
+
+        if($formUpdateInfor->isSubmitted())
+        {
+            if($formUpdateInfor->isValid())
+            {
+                $dataInforUpdate = $formUpdateInfor->getData();
+                $user->setFullname($dataInforUpdate->getFullname());
+                $user->setEmail($dataInforUpdate->getEmail());
+                $user->setBirthdate($dataInforUpdate->getBirthDate());
+                $user->setPhone($dataInforUpdate->getPhone());
+                $user->setAddress($dataInforUpdate->getAddress());
+
+                $database = $managerRegistry->getManager();
+                $database->persist($user);
+                $database->flush();
+
+                $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
+            }
+            else
+            {
+                $errorUpdateInfor = $validator->validate($user);
+            }
+
+        }
+        else
+        {
+
+            $inforUpdate = $userRepository->getProfile($this->getUser()->getId());
+
+            $user->setFullname($inforUpdate[0]['fullname']);
+            $user->setEmail($inforUpdate[0]['email']);
+            $user->setEmail($inforUpdate[0]['email']);
+            $user->setBirthdate($inforUpdate[0]['birthdate']);
+            $user->setPhone($inforUpdate[0]['phone']);
+            $user->setAddress($inforUpdate[0]['address']);
+            $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
+        }
+
+
         return $this->render('profile/profileUpdateInfor.html.twig',[
+            'errorUpdateInfor' => $errorUpdateInfor,
+            'inforUser' => $inforUser,
             'updateInforForm' => $formUpdateInfor->createView()
         ]);
+
+//        return new JsonResponse(['inforUpdate' => $inforUpdate]);
+    }
+
+    /**
+     * @Route ("/friendList", name="app_friend_list", methods={"GET"})
+     */
+    public function friendListAction(Request $request, UserRepository $userRepository)
+    {
+        $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
+
+        return $this->render('profile/profileFriendList.html.twig',[
+            'inforUser' => $inforUser
+        ]);
+
+
     }
 
     //=====================================Routing for API request by AJAX=================================
 
     /**
-     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="PUT")
+     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
      */
     public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
@@ -163,7 +224,7 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route ("/profile/deletePost", name="app_delete_post", methods="DELETE")
+     * @Route ("/profile/deletePost", name="app_delete_post", methods="POST")
      */
     public function deletePostAction(UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {

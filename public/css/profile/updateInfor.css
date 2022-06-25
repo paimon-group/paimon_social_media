@@ -7,6 +7,7 @@
     margin-right: auto;
     padding-left: 7rem;
     padding-right: 7rem;
+    font-family: inherit;
 }
 
 .form-update-infor{
@@ -23,10 +24,36 @@
 
 }
 
+.form-update-infor form label{
+    float: left;
+    margin-left: 1rem;
+    display: block;
+}
+
 .form-update-infor form div{
-    background-color: red;
+    text-align: center;
+    height: 5rem;
 }
 
 .infor-item{
+    border: 1px solid;
+    outline: none;
+    border-radius: 0.3rem;
+    width: 34rem;
+    padding-left: 1rem;
+}
 
+#update_profile_form_birthdate{
+    transform: translateX(1rem);
+}
+
+#update_profile_form_save{
+    border: none;
+    background-color: rgb(102, 169, 177);
+    padding: 0!important;
+}
+
+#update_profile_form_save:hover{
+    background-color: rgb(0, 56, 68);
+    color: white;
 }
