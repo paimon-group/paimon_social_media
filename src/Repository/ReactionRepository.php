@@ -44,10 +44,10 @@ class ReactionRepository extends ServiceEntityRepository
         $conn=$this->getEntityManager()->getConnection();
         $query='SELECT p.id as liked
         FROM post as p, reaction as r WHERE
-         p.user_id=:user_id and r.user_id=p.user_id AND r.post_id=p.id and p.deleted="false"
+         r.user_id=:user_id AND r.post_id=p.id and p.deleted="false"
          ORDER BY p.upload_time DESC';
         $stmt=$conn->prepare($query);
-        $resultSet=$stmt->executeQuery(['post_id'=>$user_id]);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
     }
 //    /**
