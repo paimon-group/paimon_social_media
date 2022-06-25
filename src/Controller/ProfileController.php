@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\Type\updateProfileFormType;
 use App\Repository\PostRepository;
+use App\Repository\ReactionRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\This;
@@ -23,7 +24,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile", name="app_profile")
      */
-    public function index(UserRepository $userRepository, PostRepository $postRepository)
+    public function index(UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
         session_start();
         $error = false;
@@ -31,17 +32,16 @@ class ProfileController extends AbstractController
 
         $userInfor = $userRepository->getProfile($_SESSION['user_id']);
         $posts = $postRepository->getPostProfile($_SESSION['user_id']);
-
+        $postLiked = $reactionRepository->checklike($_SESSION['user_id']);
         return $this->render('profile/profileIndex.html.twig', [
             'error' => $error,
             'caption' => $caption,
             'inforUser' => $userInfor,
-            'posts' => $posts
+            'posts' => $posts,
+            'postLiked' => $postLiked
         ]);
 //        return $this->json([
-//            'error' => $error,
-//            'inforUser' => $userInfor,
-//            'posts' => $posts
+//            'postLiked' => $postLiked
 //        ]);
     }
 

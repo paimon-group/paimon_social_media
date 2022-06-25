@@ -1,4 +1,5 @@
 $(document).ready(function (){
+
     //change tym of post
     $(document).on('click',  '.icon-tym-post-home', function(){
         //get id post
@@ -6,15 +7,13 @@ $(document).ready(function (){
 
         if($(this).hasClass('has-tym'))
         {
-            $(this).removeClass('bi-heart-fill has-tym');
-            $(this).addClass('bi-heart');
+            $(this).removeClass('has-tym');
             $(this).css('color', 'black');
             unLike(id);
         }
         else
         {
-            $(this).removeClass('bi-heart');
-            $(this).addClass('bi-heart-fill has-tym');
+            $(this).addClass('has-tym');
             $(this).css('color', 'red');
             likePost(id);
         }
@@ -30,7 +29,15 @@ $(document).ready(function (){
                 if(data['status_code'] == 200)
                 {
                     var countLike = $('#count_tym_post_id_'+id).html();
-                    var increaseLike = $('#count_tym_post_id_'+id).html(parseInt(countLike) + 1);
+                    if(countLike == '')
+                    {
+                        $('#count_tym_post_id_'+id).html(1);
+                    }
+                    else
+                    {
+                        $('#count_tym_post_id_'+id).html(parseInt(countLike) + 1);
+                    }
+                    console.log($('#count_tym_post_id_'+id).html())
                 }
             }
         })
@@ -45,8 +52,9 @@ $(document).ready(function (){
             success:function (data){
                 if(data['status_code'] == 200)
                 {
+                    console.log(data)
                     var countLike = $('#count_tym_post_id_'+id).html();
-                    var increaseLike = $('#count_tym_post_id_'+id).html(parseInt(countLike) - 1);
+                    $('#count_tym_post_id_'+id).html(parseInt(countLike) - 1);
                 }
             }
         })

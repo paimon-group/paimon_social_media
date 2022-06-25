@@ -1,12 +1,22 @@
 $(document).ready(function (){
+    function getLocation()
+    {
+        var location =  window.location.href;
+        var indexCut = location.lastIndexOf("/");
+        location = location.substring(indexCut);
+
+        return location;
+    }
+
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
 
-            if($(location).attr("href") == 'http://localhost:8000/home')
+
+            if(getLocation() == '/home')
             {
                 loadMorePostHome();
             }
-            if($(location).attr("href") == 'http://localhost:8000/profile')
+            if(getLocation() == '/profile')
             {
                 loadMorePostProfile();
             }
