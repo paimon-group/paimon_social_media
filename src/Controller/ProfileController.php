@@ -216,14 +216,11 @@ class ProfileController extends AbstractController
      */
     public function updatePostAction(Request $request)
     {
-        $request = $this->tranform($request);
-//        $data = $request->files->get('imgPost');
-//        $data = $request->request->get('data');
-        $data = $request->files->get('data');
 
-//        $data = json_decode($request->getContent(), true);
-//        $data = $data['caption'];
-        return new JsonResponse(['status_code' => 200, 'data' => $data]);
+        $request = $this->tranform($request);
+        $data = $request->get('captionPost');
+        $img = $request->files->get('imgPost');
+        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
     }
 
     public function tranform($request){

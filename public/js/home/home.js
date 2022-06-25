@@ -10,23 +10,6 @@ $(document).ready(function ()
         $("#logo").attr('src', '/image/decorate/logo.png');
     });
 
-    //change tym of post
-    $(document).on('click',  '.icon-tym-post-home', function(){
-        console.log($(this).data('post_id'));
-        id = $(this).data('post_id');
-        if($('#tym_'+id).hasClass('has-tym'))
-        {
-            $('#tym_'+id).removeClass('bi-heart-fill has-tym');
-            $('#tym_'+id).addClass('bi-heart');
-            $('#tym_'+id).css('color', 'black');
-        }
-        else
-        {
-            $('#tym_'+id).removeClass('bi-heart');
-            $('#tym_'+id).addClass('bi-heart-fill has-tym');
-            $('#tym_'+id).css('color', 'red');
-        }
-    });
 
     $(document).on('click',  '.comment-post-home', function(){
         console.log($(this).data('comment_id'));

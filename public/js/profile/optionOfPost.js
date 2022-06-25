@@ -73,13 +73,14 @@ $(document).ready(function (){
         '                    <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>\n' +
         '                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn_close_table_new_post"></button>\n' +
         '                </div>\n' +
-        '                <form method="PUT" action="/post/updatePost" enctype="multipart/form-data" id="edit_post_form">\n' +
+        '                <form method="POST" action="/post/updatePost" enctype="multipart/form-data" id="edit_post_form">\n' +
         '                <div class="modal-body new-post-table-body">\n' +
         '                        <div class="new-post-table">\n' +
         '                            <div class="img-post-in-table">\n' +
         '                                <div class="btn-add-img-post-in-table" id="btn_add_img_edit_post_in_table">Add image</div>\n' +
         '                                <div class="btn-add-img-post-in-table" id="btn_delete_preview_img_edit_in_table">Delete</div>\n' +
         '                                <input type="file" id="input_up_img_edit" name="imgPost" hidden>\n' +
+        '                                <input type="hidden" name="_method" value="PUT">\n' +
         '                                <img src="" alt="" id="img_preview_edit">\n' +
         '                            </div>\n' +
         '                            <div class="caption-post-in-table">\n' +
@@ -103,7 +104,7 @@ $(document).ready(function (){
     $('.img-post-in-table').mouseenter(function (){
         if($('#img_preview_edit').attr('src') != '')
         {
-            $('#btn_add_img_post_in_table').html('Change image');
+            $('#btn_add_img_edit_post_in_table').html('Change image');
             $('#img_preview_edit').hide();
         }
     })
@@ -139,7 +140,7 @@ $(document).ready(function (){
     $('#btn_delete_preview_img_edit_in_table').click(function (){
         $('#img_preview_edit').attr('src', '');
         $('#input_up_img_edit').val('');
-        $('#btn_add_img_post_in_table').html('Add image');
+        $('#btn_add_img_edit_post_in_table').html('Add image');
     })
 
     //save post just update
@@ -156,6 +157,7 @@ $(document).ready(function (){
         {
             e.preventDefault();
             var postForm = new FormData(this);
+
             $.ajax({
                 type:'PUT',
                 url: $(this).attr('action'),
@@ -165,6 +167,7 @@ $(document).ready(function (){
                 processData: false,
                 success: function (data){
                     console.log(data)
+
                     if(data['notification'] == 'success')
                     {
                         location.href = '/profile';
