@@ -38,7 +38,15 @@ class ReactionRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    // this function will count the row if that return 1 varify that the user was liked this post and 0 is not
+    public function checklike($user_id,$post_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query='SELECT count(r.id) as liked from reaction as r WHERE r.user_id=:user_id AND r.post_id=:post_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'post_id'=>$post_id]);
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Reaction[] Returns an array of Reaction objects
 //     */
