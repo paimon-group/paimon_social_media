@@ -46,7 +46,7 @@ class PostRepository extends ServiceEntityRepository
         FROM post as p, user as u, relationship as r WHERE
         (r.user_id=:user_id AND p.user_id=r.friend_id AND u.id=r.friend_id 
         AND r.status=1 AND p.deleted='false' and DATE(P.upload_time)+3>DATE(NOW())) or 
-        (r.friend_id=:user_id AND r.friend_id=p.user_id AND u.id=p.user_id AND p.deleted='false')
+        (r.friend_id=:user_id AND r.friend_id=p.user_id AND u.id=p.user_id AND p.deleted='false' and DATE(P.upload_time)+3>DATE(NOW()))
         GROUP BY p.id ORDER BY RAND()";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
