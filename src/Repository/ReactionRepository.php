@@ -50,6 +50,14 @@ class ReactionRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
     }
+    public function getReactionId($user_id,$post_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query='SELECT r.id FROM reaction as r WHERE r.user_id:=user_id AND r.post_id:=post_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'post_id'=>$post_id]);
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Reaction[] Returns an array of Reaction objects
 //     */
