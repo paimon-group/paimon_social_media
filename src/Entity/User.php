@@ -326,12 +326,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthdate()
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    public function setBirthdate($birthdate): self
     {
         $this->birthdate = $birthdate;
 

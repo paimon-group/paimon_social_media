@@ -61,7 +61,11 @@ class ProfileController extends AbstractController
         {
             if($formUpdateInfor->isValid())
             {
+                $user = $userRepository->find($this->getUser()->getId());
                 $dataInforUpdate = $formUpdateInfor->getData();
+
+                $user->setUsername($this->getUser()->getUsername());
+                $user->setPassword($this->getUser()->getPassword());
                 $user->setFullname($dataInforUpdate->getFullname());
                 $user->setEmail($dataInforUpdate->getEmail());
                 $user->setBirthdate($dataInforUpdate->getBirthDate());
@@ -87,7 +91,7 @@ class ProfileController extends AbstractController
 
             $user->setFullname($inforUpdate[0]['fullname']);
             $user->setEmail($inforUpdate[0]['email']);
-            $user->setEmail($inforUpdate[0]['email']);
+            $user->setGender($inforUpdate[0]['gender']);
             $user->setBirthdate($inforUpdate[0]['birthdate']);
             $user->setPhone($inforUpdate[0]['phone']);
             $user->setAddress($inforUpdate[0]['address']);

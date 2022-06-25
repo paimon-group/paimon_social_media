@@ -12,9 +12,11 @@
                 {% for error in errorUpdateInfor %}
                     {% if error.propertyPath ==  'fullname' %}
                         {{ error.message }}
-                    {% elseif error.propertyPath ==  'email' %}
+                    {% endif %}
+                    {% if error.propertyPath ==  'email' %}
                         {{ error.message }}
-                    {% elseif error.propertyPath ==  'phone' %}
+                    {% endif %}
+                    {% if error.propertyPath ==  'phone' %}
                         {{ error.message }}
                     {% endif %}
                 {% endfor %}

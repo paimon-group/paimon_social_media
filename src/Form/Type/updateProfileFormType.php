@@ -4,6 +4,7 @@ namespace App\Form\Type;
 use App\Entity\User;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -24,6 +25,14 @@ class updateProfileFormType extends AbstractType
     {
         $builder
         ->add('fullname',TextType::class,['attr'=>['class'=>'infor-item']])
+        ->add('gender', ChoiceType::class, [ 'attr' => ['id' => 'radio_button'],
+                'choices' =>
+                    [
+                        'Male' => 'male',
+                        'Female' => 'female'
+                    ],
+                'expanded' => true
+            ])
         ->add('email',EmailType::class,['attr'=>['class'=>'infor-item']])
         ->add('birthdate',DateType::class,['attr'=>['class' => 'form-control input-inline datetimepicker infor-item',
             'data-provide' => 'datetimepicker',
