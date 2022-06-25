@@ -1,7 +1,5 @@
 $(document).ready(function (){
-
-    document.title = "Profile";
-
+    
     $('#count-friend').click(function (){
         location.assign('/friendList')
     });

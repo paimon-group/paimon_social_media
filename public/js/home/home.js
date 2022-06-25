@@ -10,7 +10,6 @@ $(document).ready(function ()
         $("#logo").attr('src', '/image/decorate/logo.png');
     });
 
-
     $(document).on('click',  '.comment-post-home', function(){
         console.log($(this).data('comment_id'));
         id = $(this).data('comment_id');
@@ -42,6 +41,28 @@ $(document).ready(function ()
             $('.post-notification-table').removeClass('show-post-notification-table')
         }
     })
+
+    //search user by fullname
+    $('#txt_search_user_home_left').keyup(function (e)
+    {
+        if(e.keyCode == 13)
+        {
+            searchUserWithFUllname()
+        }
+    });
+    function searchUserWithFUllname()
+    {
+        var fullname = $('#txt_search_user_home_left').val();
+
+        $.ajax({
+            url:'/searchUser',
+            type:'GET',
+            data:{'fullname':fullname},
+            success:function (data){
+                console.log(data);
+            }
+        })
+    }
 
 });
 

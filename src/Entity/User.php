@@ -27,8 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(
      *     min = 10,
      *     max = 50,
-     *     minMessage = "username must be greater than or equal {{ limit }} character!",
-     *     maxMessage = "username must be less than or equal {{ limit }} character!"
+     *     minMessage = "Username must be greater than or equal {{ limit }} character!",
+     *     maxMessage = "Username must be less than or equal {{ limit }} character!"
      * )
      */
     private $username;

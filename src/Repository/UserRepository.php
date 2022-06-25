@@ -90,7 +90,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT u.id,u.avatar,u.fullname from user as u WHERE u.fullname=:fullname';
+        $query ="SELECT u.id,u.avatar,u.fullname from user as u WHERE u.fullname like :fullname ";
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['fullname'=>$fullname]);
@@ -102,7 +102,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT count(u.id) as count_user from user as u WHERE u.username=:username';
+        $query ="SELECT count(u.id) as count_user from user as u WHERE u.username = :username";
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['username'=>$username]);

@@ -9,6 +9,8 @@ use App\Repository\PostRepository;
 use App\Repository\RelationshipRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +47,38 @@ class HomeController extends AbstractController
 
         ]);
 //        return $this->json(['inforUser' => $inforUser[0]['avatar']]);
+    }
+
+    //=====================================Rest API call by AJAX===================================================================
+
+    /**
+     * @Route ("/searchUser", name="search_user", methods={"GET"})
+     */
+    public function searchUser(Request $request, UserRepository $userRepository)
+    {
+        $request = $this->tranform($request);
+        $userFullname = $request->get('fullname');
+
+        $userList = $userRepository->searchUserWithFullName($userFullname);
+
+        if($userList)
+        {
+//            return $this->render('home/searchFriend.html.twig');
+            return new JsonResponse(['status_code' => 200, 'userList' => $userList]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Message' => 'Not found user with name: '.$userFullname]);
+        }
+    }
+
+        public function tranform($request){
+        $data = json_decode($request->getContent(), true);
+        if($data === null){
+            return $request;
+        }
+        $request->request->replace($data);
+        return $request;
     }
 
 }
