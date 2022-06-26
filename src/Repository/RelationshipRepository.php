@@ -70,6 +70,16 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
         return $resultSet->fetchAllAssociative(); 
     }
+    // because we login by the account which be requested add friend so friend_id is the current user_id
+    public function updateStatus($user_id,$friend_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='UPDATE relationship set relationship.status=1 
+        WHERE relationship.user_id=:friend_id AND relationship.friend_id=:user_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
+        return $resultSet->fetchAllAssociative(); 
+    }
 
 
 
