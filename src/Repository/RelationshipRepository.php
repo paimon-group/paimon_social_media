@@ -48,6 +48,16 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative(); 
     }
+// this function will return 0 1 2. 0 is there are not friend 1 is has send invite and 2 is there are friend
+    public function checkRelatonshipStatus($user_id,$friend_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='SELECT count(r.id) from relationship as r WHERE
+        r.user_id=:user_id AND r.friend_id=:friend_id AND r.status=1 or r.user_id=:friend_id AND r.friend_id=:user_id AND r.status=1';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
+        return $resultSet->fetchAllAssociative(); 
+    }
     
 //    /**
 //     * @return Relationship[] Returns an array of Relationship objects
