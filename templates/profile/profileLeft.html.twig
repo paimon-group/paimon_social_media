@@ -3,17 +3,19 @@
     <div class="header-profile">
         <div class="avatar-profile">
             <img src="/image/post/{{ inforUser[0].avatar }}" alt="avatar">
-            <div id="btn_change_avatar_profile" data-bs-toggle="modal" data-bs-target="#change_avatar_model">Change avatar</div>
+            {% if inforUser[0].id == app.user.id %}
+                <div id="btn_change_avatar_profile" data-bs-toggle="modal" data-bs-target="#change_avatar_model">Change avatar</div>
+            {% endif %}
         </div>
         <div class="short-information-profile">
             <div class="user-name-profile">
                 <h4>{{ inforUser[0].fullname }}</h4>
             </div>
-            <div class="infor-profile-item" id="count-posts"><p>Pots: {{ inforUser[0].total_post }}</p></div>
-            <div class="infor-profile-item" id="count-friend"><p>Friends: {{ inforUser[0].total_friend }}</p></div>
+            <div class="infor-profile-item" id="count-posts" data-user-id="{{ inforUser[0].id }}"><p>Pots: {{ inforUser[0].total_post }}</p></div>
+            <div class="infor-profile-item" id="count-friend" data-user-id="{{ inforUser[0].id }}"><p>Friends: {{ inforUser[0].total_friend }}</p></div>
         </div>
         {% if inforUser[0].id != app.user.id %}
-            <div class="infor-profile-item" id="add-friend" data-id-user="{{ inforUser[0].id }}"><p>Add friend</p></div>
+            <div class="infor-profile-item" id="send_invite_friend" data-user-id="{{ inforUser[0].id }}"><p>Add friend</p></div>
         {% endif %}
     </div>
     <div class="detail-information">

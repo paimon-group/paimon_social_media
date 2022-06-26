@@ -171,14 +171,14 @@
     padding: 0.2rem;
 }
 
-#add-friend{
+#send_invite_friend{
     display: block;
     margin-left: 4rem;
     cursor: pointer;
     transform: translateX(12rem);
 }
 
-#add-friend:hover{
+#send_invite_friend:hover{
     color: white;
     background-color: black;
 }

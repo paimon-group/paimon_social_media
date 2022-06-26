@@ -1,11 +1,13 @@
 $(document).ready(function (){
     
     $('#count-friend').click(function (){
-        location.assign('/friendList')
+        var userId =  $(this).data('user-id');
+        location.assign('/friendList/' + userId)
     });
 
     $('#count-posts').click(function (){
-        location.assign('/profile')
+        var userId =  $(this).data('user-id');
+        location.assign('/profile/' + userId)
     });
 
 });

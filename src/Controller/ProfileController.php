@@ -109,20 +109,6 @@ class ProfileController extends AbstractController
 //        return new JsonResponse(['inforUpdate' => $inforUpdate]);
     }
 
-    /**
-     * @Route ("/friendList", name="app_friend_list", methods={"GET"})
-     */
-    public function friendListAction(Request $request, UserRepository $userRepository)
-    {
-        $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
-
-        return $this->render('profile/profileFriendList.html.twig',[
-            'inforUser' => $inforUser
-        ]);
-
-
-    }
-
     //=====================================Routing for API request by AJAX=================================
 
     /**

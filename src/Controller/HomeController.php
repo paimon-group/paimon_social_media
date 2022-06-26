@@ -24,7 +24,6 @@ class HomeController extends AbstractController
      */
     public function index(UserRepository $userRepository,PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository, ManagerRegistry $managerRegistry)
     {
-//        $this->setUserLoginStatus($userRepo, $manager);
         //get avatar header
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
@@ -44,16 +43,14 @@ class HomeController extends AbstractController
 
         return $this->render('home/homeIndex.html.twig',[
             'inforNavBar' => $inforNavBar,
-            'post'=>$post,
-
+            'totalLikeAndComment' => $totalLikeAndCommentNotification,
+            'inviteFriend' => $inviteFriend,
+            'post'=> $post,
+            'friendList' => $friendList
         ]);
 //        return $this->json(['inforUser' => $inforUser[0]['avatar']]);
     }
 
-//    public function setUserLoginStatus($userRepo, $manager)
-//    {
-//
-//    }
 
     //=====================================Rest API call by AJAX===================================================================
 
