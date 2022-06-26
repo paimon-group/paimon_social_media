@@ -8,6 +8,7 @@ use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +22,9 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="app_home")
      */
-    public function index(UserRepository $userRepository,PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
+    public function index(UserRepository $userRepository,PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository, ManagerRegistry $managerRegistry)
     {
-
+//        $this->setUserLoginStatus($userRepo, $manager);
         //get avatar header
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
@@ -49,10 +50,10 @@ class HomeController extends AbstractController
 //        return $this->json(['inforUser' => $inforUser[0]['avatar']]);
     }
 
-    /**
-     *
-     */
-
+//    public function setUserLoginStatus($userRepo, $manager)
+//    {
+//
+//    }
 
     //=====================================Rest API call by AJAX===================================================================
 

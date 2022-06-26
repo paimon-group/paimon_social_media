@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +54,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
          return new RedirectResponse($this->urlGenerator->generate('app_home'));
 
     }
+
+
 
     protected function getLoginUrl(Request $request): string
     {

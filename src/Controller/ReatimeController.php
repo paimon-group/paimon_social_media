@@ -16,6 +16,7 @@
         public function onOpen(ConnectionInterface $conn)
         {
             $this->userConnects->attach($conn);
+
             echo "New connection! (id {$conn->resourceId})\n";
         }
 
@@ -33,4 +34,5 @@
         {
             // TODO: Implement onError() method.
         }
+
     }

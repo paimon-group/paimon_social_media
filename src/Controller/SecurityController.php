@@ -56,6 +56,7 @@ class SecurityController extends AbstractController
                         $user, $formRegister->get('password')->getData())
                     );
                     $user->setRoles(['ROLE_USER']);
+                    $user->setLoginStatus('offline');
 
                     // push data to database
                     $database = $managerRegistry->getManager();
