@@ -2,6 +2,7 @@
     namespace App\Controller;
 
     use App\Entity\Relationship;
+    use App\Repository\ReactionRepository;
     use App\Repository\RelationshipRepository;
     use App\Repository\UserRepository;
     use Doctrine\Persistence\ManagerRegistry;
@@ -33,7 +34,7 @@
         /**
          * @Route ("/sendInviteFriend", name="api_add_friend", methods={"PUT"})
          */
-        public function addFriend(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
+        public function sendInviteFriendAPI(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
         {
             $request = $this->tranform($request);
             $friendId = $request->get('userId');
@@ -67,9 +68,9 @@
         }
 
         /**
-         * @Route ("/acceptFriend", name="api_accept_friend, methods={"PUT"})
+         * @Route ("/acceptFriend", name="api_accept_friend", methods={"PUT"})
          */
-        public function acceptFriend(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
+        public function acceptFriendAPI(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
         {
             $request = $this->tranform($request);
             $senderId = $request->get('senderId');
@@ -77,28 +78,52 @@
 
             if($sender)
             {
+                // save new friend
                 $relationShip = new Relationship();
-                $relationShip->setUser($sender);
-                $relationShip->setFriend($this->getUser());
+                $relationShip->setUser($this->getUser());
+                $relationShip->setFriend($sender);
                 $relationShip->setStatus('1');
 
                 $database = $managerRegistry->getManager();
                 $database->persist($relationShip);
                 $database->flush();
 
+                //update friend status sender
+                $relationshipRepository->updateStatus($this->getUser()->getId(), $senderId);
+
                 return new JsonResponse([
                     'status_code' => 200,
-                    'Message' => 'Has send invite friend to user with id: '.$friendId
+                    'Message' => 'Accept friend to user with id: '.$senderId
                 ]);
             }
             else
             {
                 return new JsonResponse([
                     'status_code' => 400,
-                    'Message' => 'Not found user with id: '.$friendId
+                    'Message' => 'Not found user with id: '.$senderId
                 ]);
             }
 
+        }
+
+        /**
+         * @Route ("/unFriend", name="api_unFriend", methods={"DELETE"})
+         */
+        public function unFriendAPI(Request $request, RelationshipRepository $relationshipRepository)
+        {
+            $request = $this->tranform($request);
+            $idWantToUnfriend = $request->get('friendId');
+
+            $unFriendResult = $relationshipRepository->unfriend($this->getUser()->getId(), $idWantToUnfriend);
+
+            if($unFriendResult)
+            {
+                return new JsonResponse(['status_code' => 200, 'Message' => 'Success unfriend with user id: '.$idWantToUnfriend]);
+            }
+            else
+            {
+                return new JsonResponse(['status_code' => 400, 'Message' => 'Fail unfriend with user id: '.$idWantToUnfriend]);
+            }
 
         }
 

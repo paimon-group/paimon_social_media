@@ -22,11 +22,11 @@ $(document).ready(function (){
     })
 
     //accept friend
-    $('btn_accept_invite_friend').click(function (){
+    $('#btn_accept_invite_friend').click(function (){
         var senderId = $(this).data('sender-id');
 
         $.ajax({
-            url:'/sendInviteFriend',
+            url:'/acceptFriend',
             type:'PUT',
             data:{'senderId':senderId},
             success:function (data){
@@ -40,6 +40,27 @@ $(document).ready(function (){
                 }
             }
         })
-    })
+    });
+
+    //unfriend
+    $('#btn_unfriend').click(function (){
+        var friendId = $(this).data('friend-id');
+
+        $.ajax({
+            url:'/unFriend',
+            type:'DELETE',
+            data:{'friendId':friendId},
+            success:function (data){
+                if(data['status'] == 200)
+                {
+                    console.log(data);
+                }
+                else
+                {
+                    console.log(data['Message']);
+                }
+            }
+        })
+    });
 
 })

@@ -30,7 +30,7 @@
                     </div>
                 {% endif %}
             {% elseif friendStatus[0]['friendStatus'] == 2 %}
-                <div class="send_request"><p>Friend</p><div><i class="bi-check-lg"></i></div></div>
+                <div class="send_request" id="btn_unfriend" data-friend-id="{{ inforUser[0].id }}" ><p>Unfirend</p><div><i class="bi-check-lg"></i></div></div>
             {% endif %}
         {% endif %}
     </div>
