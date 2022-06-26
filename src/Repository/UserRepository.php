@@ -90,7 +90,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ="SELECT u.id,u.avatar,u.fullname from user as u WHERE u.fullname like :fullname ";
+        $query ="SELECT u.id,u.avatar,u.fullname,
+        (SELECT COUNT(p.id) from post as p, user as u where 
+        u.fullname like :fullname and u.id=p.user_id AND p.deleted='false') as count_post, 
+        (SELECT COUNT(r.user_id) FROM relationship as r, user as u 
+        WHERE u.fullname like :fullname AND u.id=r.user_id AND r.status=1)as count_friend
+        from user as u WHERE u.fullname like :fullname";
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['fullname'=>$fullname]);
