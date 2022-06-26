@@ -13,8 +13,24 @@ class AdminController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/login/loginAdmin.html.twig', [
             'controller_name' => 'AdminController',
         ]);
+    }
+
+    /**
+     * @Route ("/statificalManager", name="app_dashboard")
+     */
+    public function dashboardAction()
+    {
+        return $this->render('admin/statifical/adminHome.html.twig');
+    }
+
+    /**
+     * @Route ("/statifical", name="app_dashboard")
+     */
+    public function reportManagerdAction()
+    {
+        return $this->render('admin/statifical/adminHome.html.twig');
     }
 }

@@ -18,17 +18,17 @@
             {% if friendStatus[0]['friendStatus'] == 0 %}
                 <div class="infor-profile-item" id="send_invite_friend" data-user-id="{{ inforUser[0].id }}"><p>Add friend</p></div>
             {% elseif friendStatus[0]['friendStatus'] == 1 %}
-                {% if friendStatus[0]['sendToId'] == app.user.id %}
-                    <div class="send_request">
+{#                {% if friendStatus[0]['sendToId'] == app.user.id %}#}
+                    <div id="send_request">
                         <p>Send request</p>
                         <div><i class="bi-arrow-right-short"></i></div>
                     </div>
-                {% else %}
-                    <div class="send_request">
-                        <p>Accept</p>
-                        <div><i class="bi-arrow-right-short"></i></div>
-                    </div>
-                {% endif %}
+{#                {% else %}#}
+{#                    <div class="send_request">#}
+{#                        <p>Accept</p>#}
+{#                        <div><i class="bi-arrow-right-short"></i></div>#}
+{#                    </div>#}
+{#                {% endif %}#}
             {% elseif friendStatus[0]['friendStatus'] == 2 %}
                 <div class="send_request"><p>Friend</p><div><i class="bi-check-lg"></i></div></div>
             {% endif %}
