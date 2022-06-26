@@ -52,8 +52,8 @@ class RelationshipRepository extends ServiceEntityRepository
     public function checkRelatonshipStatus($user_id,$friend_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='SELECT count(r.id) from relationship as r WHERE
-        r.user_id=:user_id AND r.friend_id=:friend_id AND r.status=1 or r.user_id=:friend_id AND r.friend_id=:user_id AND r.status=1';
+        $query ='SELECT count(r.id) as friendStatus from relationship as r WHERE
+        r.user_id=:user_id AND r.friend_id=:friend_id AND r.status=0 or r.user_id=:friend_id AND r.friend_id=:user_id AND r.status=0';
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
         return $resultSet->fetchAllAssociative(); 

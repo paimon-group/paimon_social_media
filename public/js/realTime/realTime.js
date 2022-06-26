@@ -1,18 +1,18 @@
 $(document).ready(function (){
 
-    var conn = new WebSocket('ws://localhost:4444');
-    conn.onopen = function (){
-        console.log("Connection success!");
-    }
-
-    conn.onmessage = function (){
-    }
-
-    conn.onclose = function (){
-    }
-
-    conn.onerror = function (){
-    }
+    // var conn = new WebSocket('ws://localhost:4444');
+    // conn.onopen = function (){
+    //     console.log("Connection success!");
+    // }
+    //
+    // conn.onmessage = function (){
+    // }
+    //
+    // conn.onclose = function (){
+    // }
+    //
+    // conn.onerror = function (){
+    // }
 
     function getUrl()
     {

@@ -188,3 +188,31 @@
     color: white;
     cursor: auto;
 }
+
+#send_request{
+    transform: translateX(15rem);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    width: 9rem;
+    height: 2rem;
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    color: black;
+}
+
+#send_request div{
+    display: inline-block;
+    transform: translate(0.3rem,-0.2rem);
+}
+
+#send_request p{
+    margin: 0;
+    transform: translateY(-7px);
+    display: inline-block;
+}
+
+#send_request i{
+    font-size: x-large;
+
+}

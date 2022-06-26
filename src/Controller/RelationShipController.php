@@ -36,7 +36,7 @@
         public function addFriend(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
         {
             $request = $this->tranform($request);
-            $friendId = $request->get('friendId');
+            $friendId = $request->get('userId');
             $sendToFriend = $userRepository->find($friendId);
 
             if($sendToFriend)
@@ -44,6 +44,7 @@
                 $relationShip = new Relationship();
                 $relationShip->setUser($this->getUser());
                 $relationShip->setFriend($sendToFriend);
+                $relationShip->setStatus('0');
 
                 $database = $managerRegistry->getManager();
                 $database->persist($relationShip);

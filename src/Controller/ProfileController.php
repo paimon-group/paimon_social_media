@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\Type\updateProfileFormType;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
+use App\Repository\RelationshipRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\This;
@@ -25,25 +26,44 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
-    public function index($userId, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
+    public function index($userId, RelationshipRepository $relationshipRepository, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
         $error = false;
         $caption = '';
+        $relationshipStatus = '';
+
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
         $userInfor = $userRepository->getProfile($userId);
         $posts = $postRepository->getPostProfile($userId);
-        $postLiked = $reactionRepository->checklike($userId);
-        return $this->render('profile/profileIndex.html.twig', [
-            'error' => $error,
-            'caption' => $caption,
-            'inforNavBar' => $inforNavBar,
-            'inforUser' => $userInfor,
-            'posts' => $posts,
-            'postLiked' => $postLiked
-        ]);
-//        return $this->json([
-//            'postLiked' => $postLiked
-//        ]);
+        $postLiked = $reactionRepository->checklike($this->getUser()->getId());
+
+        if($userId != $this->getUser()->getId())
+        {
+            $relationshipStatus = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $userId);
+            return $this->render( 'profile/profileIndex.html.twig',[
+                'error' => $error,
+                'caption' => $caption,
+                'inforNavBar' => $inforNavBar,
+                'inforUser' => $userInfor,
+                'posts' => $posts,
+                'postLiked' => $postLiked,
+                'friendStatus' => $relationshipStatus,
+            ]);
+//            return new JsonResponse($relationshipStatus);
+        }
+        else
+        {
+            return $this->render('profile/profileIndex.html.twig', [
+                'error' => $error,
+                'caption' => $caption,
+                'inforNavBar' => $inforNavBar,
+                'inforUser' => $userInfor,
+                'posts' => $posts,
+                'postLiked' => $postLiked,
+                'friendStatus' => $relationshipStatus,
+            ]);
+        }
+
     }
 
     /**
