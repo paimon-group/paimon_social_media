@@ -58,6 +58,21 @@ class RelationshipRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
         return $resultSet->fetchAllAssociative(); 
     }
+
+    public function unfriend($user_id,$friend_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='DELETE from relationship WHERE
+        relationship.user_id=:user_id AND relationship.friend_id=:friend_id 
+        AND relationship.status=1 or relationship.user_id=:friend_id AND 
+        relationship.friend_id=:user_id AND relationship.status=1';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
+        return $resultSet->fetchAllAssociative(); 
+    }
+
+
+
     
 //    /**
 //     * @return Relationship[] Returns an array of Relationship objects
