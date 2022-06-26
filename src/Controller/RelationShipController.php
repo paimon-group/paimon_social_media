@@ -66,6 +66,42 @@
 
         }
 
+        /**
+         * @Route ("/acceptFriend", name="api_accept_friend, methods={"PUT"})
+         */
+        public function acceptFriend(Request $request, UserRepository $userRepository, RelationshipRepository $relationshipRepository, ManagerRegistry $managerRegistry)
+        {
+            $request = $this->tranform($request);
+            $senderId = $request->get('senderId');
+            $sender = $userRepository->find($senderId);
+
+            if($sender)
+            {
+                $relationShip = new Relationship();
+                $relationShip->setUser($sender);
+                $relationShip->setFriend($this->getUser());
+                $relationShip->setStatus('1');
+
+                $database = $managerRegistry->getManager();
+                $database->persist($relationShip);
+                $database->flush();
+
+                return new JsonResponse([
+                    'status_code' => 200,
+                    'Message' => 'Has send invite friend to user with id: '.$friendId
+                ]);
+            }
+            else
+            {
+                return new JsonResponse([
+                    'status_code' => 400,
+                    'Message' => 'Not found user with id: '.$friendId
+                ]);
+            }
+
+
+        }
+
         public function tranform($request){
             $data = json_decode($request->getContent(), true);
             if($data === null){

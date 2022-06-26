@@ -189,7 +189,7 @@
     cursor: auto;
 }
 
-#send_request{
+.send_request{
     transform: translateX(15rem);
     border-radius: 0.5rem;
     margin-top: 1rem;
@@ -201,18 +201,24 @@
     color: black;
 }
 
-#send_request div{
+.send_request div{
     display: inline-block;
     transform: translate(0.3rem,-0.2rem);
 }
 
-#send_request p{
+.send_request p{
     margin: 0;
     transform: translateY(-7px);
     display: inline-block;
 }
 
-#send_request i{
+.send_request i{
     font-size: x-large;
 
+}
+
+#btn_accept_invite_friend:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
 }
