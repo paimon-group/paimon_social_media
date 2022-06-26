@@ -79,7 +79,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT u.avatar from user as u WHERE u.id=:user_id';
+        $query ='SELECT u.id, u.avatar from user as u WHERE u.id=:user_id';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);

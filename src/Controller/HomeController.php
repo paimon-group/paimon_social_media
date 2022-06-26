@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     {
 
         //get avatar header
-        $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
+        $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         //get total notification of like and comment
         $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
@@ -42,12 +42,17 @@ class HomeController extends AbstractController
         $post = $postRepository->getPost($this->getUser()->getId());
 
         return $this->render('home/homeIndex.html.twig',[
-            'inforUser' => $inforUser,
+            'inforNavBar' => $inforNavBar,
             'post'=>$post,
 
         ]);
 //        return $this->json(['inforUser' => $inforUser[0]['avatar']]);
     }
+
+    /**
+     *
+     */
+
 
     //=====================================Rest API call by AJAX===================================================================
 
@@ -63,8 +68,7 @@ class HomeController extends AbstractController
 
         if($userList)
         {
-//            return $this->render('home/searchFriend.html.twig');
-            return new JsonResponse(['status_code' => 200, 'userList' => $userList]);
+             return new JsonResponse(['status_code' => 200, 'userList' => $userList]);
         }
         else
         {

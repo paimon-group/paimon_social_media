@@ -47,9 +47,12 @@ $(document).ready(function ()
     {
         if(e.keyCode == 13)
         {
-            searchUserWithFUllname()
+            searchUserWithFUllname();
         }
     });
+    $('#btn_search_user').click(function (){
+        searchUserWithFUllname();
+    })
     function searchUserWithFUllname()
     {
         var fullname = $('#txt_search_user_home_left').val();
@@ -59,10 +62,49 @@ $(document).ready(function ()
             type:'GET',
             data:{'fullname':fullname},
             success:function (data){
-                console.log(data);
+                if(data['status_code'] == 200)
+                {
+                    console.log(data['userList'].length);
+                    showUserList(data['userList']);
+                }
+                else
+                {
+                    console.log(data['Message']);
+                }
             }
         })
     }
+    function showUserList(data)
+    {   console.log(data)
+        $('#root-post').hide();
+        $('.user-list-found').remove();
 
+        var userFoundBody =
+            '<div class="user-list-found">\n' +
+            '    <div class="body-user-list-found">\n' +
+            '    </div>\n' +
+            '</div>';
+        $('.root-body-home').append(userFoundBody);
+
+        var userList = ''
+        for (i = 0; i < data.length; i++)
+        {
+            var user =
+            '        <div class="item-user-list-found" data-user-id="'+ data[i]['id'] +'">\n' +
+            '            <div class="avatar-user-found"><img src="/image/post/'+ data[i]['avatar'] +'" alt="avatar"></div>\n' +
+            '            <div class="fullname-user-found">'+ data[i]['fullname'] +'</div>\n' +
+            '        </div>\n';
+
+            userList += user;
+        }
+
+        $('.body-user-list-found').append(userList);
+    }
+
+    //view profile of other user
+    $(document).on('click', '.item-user-list-found', function (){
+        var userId = $(this).data('user-id');
+        location.href = '/profile/' + userId;
+    })
 });
 

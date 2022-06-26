@@ -2,10 +2,10 @@
 {#    <div class="header-post-profile">#}
 {#    </div>#}
     {% for post in posts %}
-        <div class="post-home">
+        <div class="post-home" id="post_id_{{ post['id'] }}">
             <div class="post-header-home">
                 <div class="avatar-post-home">
-                    <img src="image/post/{{ inforUser[0].avatar }}" alt="avatar">
+                    <img src="{{ asset(image_dir ~ inforUser[0].avatar) }}" alt="avatar">
                 </div>
                 <div class="user-name-and-time-post-home">
                     <a href=""><div><h5>{{ post['fullname'] }}</h5></div></a>

@@ -5,6 +5,8 @@
     position: fixed;
     transform: translateX(70.7rem);
     box-shadow: 0 2px 6px grey;
+    -webkit-box-shadow: 0 2px 6px grey;
+    -moz-box-shadow: 0 2px 6px grey;
 }
 
 .header-right-block{

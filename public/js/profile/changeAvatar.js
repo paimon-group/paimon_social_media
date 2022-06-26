@@ -64,14 +64,13 @@ $(document).ready(function (){
                 contentType: false,
                 processData: false,
                 success: function (data){
-                    if(data['notification'] == 'success')
+                    if(data['status_code'] == 200)
                     {
-                        location.href = '/profile';
+                        location.href = '/profile/' + data['userId'];
                     }
                     else
                     {
-                        $('#error_change_avatar').html(data['notification']);
-                        console.log(data['notification']);
+                        $('#error_change_avatar').html(data['Message']);
                     }
                 }
             })

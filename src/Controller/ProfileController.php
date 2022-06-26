@@ -23,19 +23,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profile", name="app_profile", methods={"GET"})
+     * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
-    public function index(UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
+    public function index($userId, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
         $error = false;
         $caption = '';
-
-        $userInfor = $userRepository->getProfile($this->getUser()->getId());
-        $posts = $postRepository->getPostProfile($this->getUser()->getId());
-        $postLiked = $reactionRepository->checklike($this->getUser()->getId());
+        $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
+        $userInfor = $userRepository->getProfile($userId);
+        $posts = $postRepository->getPostProfile($userId);
+        $postLiked = $reactionRepository->checklike($userId);
         return $this->render('profile/profileIndex.html.twig', [
             'error' => $error,
             'caption' => $caption,
+            'inforNavBar' => $inforNavBar,
             'inforUser' => $userInfor,
             'posts' => $posts,
             'postLiked' => $postLiked
@@ -137,7 +138,7 @@ class ProfileController extends AbstractController
 
         if($error != '')
         {
-            return new JsonResponse(['notification' => $error]);
+            return new JsonResponse(['status_code' => 400, 'Message' => $error]);
         }
         $safeFileImg = uniqid().$imgFile['name'];
         copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
@@ -164,7 +165,11 @@ class ProfileController extends AbstractController
         $database->persist($post);
         $database->flush();
 
-        return new JsonResponse(['notification' => 'success']);
+        return new JsonResponse([
+            'status_code' => 200,
+            'Message' => 'success',
+            'userId' => $this->getUser()->getId()
+        ]);
     }
 
 
@@ -180,7 +185,7 @@ class ProfileController extends AbstractController
 
         if($error != '')
         {
-            return new JsonResponse(['notification' => $error]);
+            return new JsonResponse(['status_code' => 400,'Message' => $error]);
         }
         else
         {
@@ -204,7 +209,11 @@ class ProfileController extends AbstractController
             $database->persist($post);
             $database->flush();
 
-            return new JsonResponse(['notification' => 'success']);
+            return new JsonResponse([
+                'status_code' => 200,
+                'Message' => 'success',
+                'userId' => $this->getUser()->getId()
+            ]);
         }
 
     }
@@ -250,11 +259,14 @@ class ProfileController extends AbstractController
             $database->persist($post);
             $database->flush();
 
-            return new JsonResponse(['notification' => 'success', 'id' => $idPost]);
+            return new JsonResponse(['status_code' => 200, 'postId' => $idPost]);
         }
         else
         {
-            return new JsonResponse(['notification' => 'fail', 'id' => $idPost]);
+            return new JsonResponse([
+                'status_code' => 400,
+                'Message' => 'Not found post with id: '.$idPost
+            ]);
         }
 
     }
@@ -268,25 +280,35 @@ class ProfileController extends AbstractController
 
         $post = new Post();
         $post = $postRepository->find($idPost);
+        if($post)
+        {
+            return new JsonResponse([
+                'status_code' => 200,
+                'caption' => $post->getCaption(),
+                'image' => $post->getImage()
+            ]);
+        }
+        else
+        {
+            return new JsonResponse([
+                'status_code' => 400,
+                'Message' => 'Not found post with id: '.$idPost
+            ]);
+        }
 
-        return new JsonResponse([
-            'status' => 'success',
-            'caption' => $post->getCaption(),
-            'image' => $post->getImage()
-        ]);
     }
 
-    /**
-     * @Route ("/post/updatePost", name="app_update_post", methods={"PUT"})
-     */
-    public function updatePostAction(Request $request)
-    {
-
-        $request = $this->tranform($request);
-        $data = $request->get('captionPost');
-        $img = $request->files->get('imgPost');
-        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
-    }
+//    /**
+//     * @Route ("/post/updatePost", name="app_update_post", methods={"PUT"})
+//     */
+//    public function updatePostAction(Request $request)
+//    {
+//
+//        $request = $this->tranform($request);
+//        $data = $request->get('captionPost');
+//        $img = $request->files->get('imgPost');
+//        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
+//    }
 
     public function tranform($request){
         $data = json_decode($request->getContent(), true);

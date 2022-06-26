@@ -21,21 +21,14 @@ $(document).ready(function (){
             dataType: 'json',
             data: {'idPost':idPost},
             success: function (data){
-                if(data['notification'] == 'success')
+                if(data['status_code'] == 200)
                 {
-                    console.log('success')
-                    if(getUrl() == '/profile')
-                    {
-                        location.href = '/profile';
-                    }
-                    else
-                    {
-                        location.href = '/home';
-                    }
+                    $('#btn_close_comfirm_table').click();
+                    $('#post_id_'+data['postId']).remove();
                 }
                 else
                 {
-                    console.log('false')
+                    console.log(data['Message']);
                 }
             }
         })
@@ -44,6 +37,7 @@ $(document).ready(function (){
     //edit post
     $(document).on('click', '.edit-option-post-profile', function (){
         idPost = $(this).data('post-id');
+        console.log(idPost);
         getInforPost(idPost);
 
     })
@@ -55,16 +49,23 @@ $(document).ready(function (){
             dataType:'json',
             data:{'idPost': idPost},
             success: function (data){
-                $('#caption_edit_post_in_table').html(data['caption']);
-                $('#img_preview_edit').attr('src', 'image/post/' + data['image']);
-                $('#btn_add_img_post_in_table').html('Change image');
-                $('#img_preview_edit').show();
-                $('#edit_option_post_profile').click();
+                if(data['status_code'] == 200)
+                {
+                    $('#caption_edit_post_in_table').html(data['caption']);
+                    $('#img_preview_edit').attr('src', '../image/post/' + data['image']);
+                    $('#btn_add_img_post_in_table').html('Change image');
+                    $('#img_preview_edit').show();
+                    $('#edit_option_post_profile').click();
+                    console.log(data);
+                }
+                else
+                {
+                    console.log(data['Message']);
+                }
             }
         })
 
     }
-
     var editTable =
         ' <div class="modal fade" id="edit_post_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">\n' +
         '        <div class="modal-dialog modal-dialog-custom-new-post">\n' +
@@ -98,8 +99,6 @@ $(document).ready(function (){
         '        </div>\n' +
         '    </div>'
     $('.root-body-profile').append(editTable);
-
-
     //change image up post
     $('.img-post-in-table').mouseenter(function (){
         if($('#img_preview_edit').attr('src') != '')
@@ -114,12 +113,10 @@ $(document).ready(function (){
             $('#img_preview_edit').show();
         }
     });
-
     //add image edit
     $('#btn_add_img_edit_post_in_table').on('click', function() {
         $('#input_up_img_edit').click();
     });
-
     //image preview before up post
     $('#input_up_img_edit').change(function (){
 
@@ -135,14 +132,12 @@ $(document).ready(function (){
             document.getElementById("img_preview_edit").src = oFREvent.target.result;
         };
     }
-
     // delete preview img edit post
     $('#btn_delete_preview_img_edit_in_table').click(function (){
         $('#img_preview_edit').attr('src', '');
         $('#input_up_img_edit').val('');
         $('#btn_add_img_edit_post_in_table').html('Add image');
     })
-
     //save post just update
     $('#edit_post_form').submit(function(e){
         var caption = $('#caption_edit_post_in_table').val();
@@ -168,13 +163,13 @@ $(document).ready(function (){
                 success: function (data){
                     console.log(data)
 
-                    if(data['notification'] == 'success')
+                    if(data['status_code'] == 200)
                     {
-                        location.href = '/profile';
+                        location.href = '/profile/' + data['userId'];
                     }
                     else
                     {
-                        $('#error_up_edit_post').html(data['notification'])
+                        $('#error_up_edit_post').html(data['Message'])
                     }
 
                 }

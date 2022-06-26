@@ -18,6 +18,7 @@
             <link rel="stylesheet" href="{{ asset('css/profile/profileFriendList.css') }}">
             <link rel="stylesheet" href="{{ asset('css/profile/newPostTable.css') }}">
             <link rel="stylesheet" href="{{ asset('css/profile/updateInfor.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/home/userListFound.css') }}">
         {% endblock %}
     </head>
     <body>
@@ -62,8 +63,8 @@
                                 <a class="nav-link-header" href="{{ path('app_logout') }}"><i class="bi-box-arrow-right icon-nav-header"></i></a>
                             </li>
                             <li class="nav-item nav-item-header-custom">
-                                <a class="" href="/profile">
-                                    <img src="image/post/{{ inforUser[0].avatar }}" alt="" class="icon-nav-header img-avatar-header">
+                                <a class="" href="/profile/{{ inforNavBar[0].id }}">
+                                    <img src="{{ asset( image_dir ~ inforNavBar[0].avatar ) }}" alt="" class="icon-nav-header img-avatar-header">
                                 </a>
                             </li>
                         </ul>
