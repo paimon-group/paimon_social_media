@@ -18,16 +18,16 @@
         /**
          * @Route ("/friendList/{userId}", name="app_friend_list", methods={"GET"})
          */
-        public function friendListAction($userId, Request $request, UserRepository $userRepository)
+        public function friendListAction($userId, UserRepository $userRepository, RelationshipRepository $relationshipRepository)
         {
-            $inforUser = $userRepository->getUserInforNavBar($userId);
             $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
+            $friendList = $relationshipRepository->getFriendList($userId);
             return $this->render('profile/profileFriendList.html.twig',[
                 'inforNavBar' => $inforNavBar,
-                'inforUser' => $inforUser,
-
+                'friendList' => $friendList
             ]);
+//            return new JsonResponse(['friendList' => $friendList]);
 
         }
 

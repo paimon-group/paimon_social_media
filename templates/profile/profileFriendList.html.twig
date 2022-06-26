@@ -6,12 +6,12 @@
     <div class="root-body-profile">
 {#        {{ include('profile/profileLeft.html.twig') }}#}
         <div class="friend-list-profile">
-            {% for i in 1..200 %}
-                <div class="friend-in-list-profile">
+            {% for friend in friendList %}
+                <div class="friend-in-list-profile" data-user-id="{{ friend['id'] }}">
                     <div class="avatar-friend-in-list-profile">
-                        <img src="{{ asset('image/post/avatar.png') }}" alt="avatar">
+                        <img src="{{ asset(image_dir ~ friend['avatar']) }}" alt="avatar">
                     </div>
-                    <div class="name-friend-in-list-profile"><p>nguyen nhat khang</p></div>
+                    <div class="name-friend-in-list-profile"><p>{{ friend['fullname'] }}</p></div>
                 </div>
             {% endfor %}
         </div>

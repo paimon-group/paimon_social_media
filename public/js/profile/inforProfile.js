@@ -7,7 +7,13 @@ $(document).ready(function (){
 
     $('#count-posts').click(function (){
         var userId =  $(this).data('user-id');
-        location.assign('/profile/' + userId)
+        location.assign('/friendList/' + userId)
+    });
+
+    $('.friend-in-list-profile').click(function (){
+        var userId = $(this).data('user-id');
+
+        location.href = '/profile/' + userId;
     });
 
 });
