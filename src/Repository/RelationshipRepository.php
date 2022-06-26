@@ -42,7 +42,7 @@ class RelationshipRepository extends ServiceEntityRepository
     public function getFriendList($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ='select r.id,u.avatar,u.fullname,u.login_status from relationship as r, user as u
+        $query ='select u.id,u.avatar,u.fullname,u.login_status from relationship as r, user as u
         where r.status=1 AND r.friend_id=u.id AND r.user_id=:user_id';
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
