@@ -137,12 +137,13 @@ class ProfileController extends AbstractController
                 $user = $userRepository->find($this->getUser()->getId());
                
                 $dataInforUpdate = $formUpdateInfor->getData();
-                $hashedPassword=$this->passwordHasher->hashPassword($user,$dataInforUpdate->getPassword('password'));
-                return new JsonResponse(['a'=>$user->getPassword()]);
+                $hashedPassword=0;
+                // $this->passwordHasher->hashPassword($user,$dataInforUpdate->getPassword('password'));
+                return new JsonResponse(['a'=>$user->getPassword(),'b'=>$this->passwordHasher->hashPassword($user,$dataInforUpdate->getPassword('password'))]);
                 if($hashedPassword==$user->getPassword())
                 {
                 $user->setUsername($this->getUser()->getUsername());
-                $user->setPassword($dataInforUpdate->getPassword('password'));
+                $user->setPassword($dataInforUpdate->get('password')->getData());
                 $user->setFullname($dataInforUpdate->getFullname());
                 $user->setEmail($dataInforUpdate->getEmail());
                 $user->setPhone($dataInforUpdate->getPhone());
