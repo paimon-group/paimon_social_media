@@ -29,6 +29,7 @@ class ReactionController extends AbstractController
 
         $post = $postRepository->find($idPostWantLike);
         $reaction = new  Reaction();
+
         if($post)
         {
             if($optionLike == 'like')

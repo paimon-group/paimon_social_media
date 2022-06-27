@@ -26,6 +26,7 @@ $(document).ready(function (){
             type:'PUT',
             data:{'idPost':id, 'optionLike':'like'},
             success:function (data){
+                console.log(data)
                 if(data['status_code'] == 200)
                 {
                     var countLike = $('#count_tym_post_id_'+id).html();
@@ -37,7 +38,6 @@ $(document).ready(function (){
                     {
                         $('#count_tym_post_id_'+id).html(parseInt(countLike) + 1);
                     }
-                    console.log($('#count_tym_post_id_'+id).html())
                 }
             }
         })
@@ -50,9 +50,10 @@ $(document).ready(function (){
             type:'PUT',
             data:{'idPost':id, 'optionLike':'unlike'},
             success:function (data){
+                console.log(data)
                 if(data['status_code'] == 200)
                 {
-                    console.log(data)
+
                     var countLike = $('#count_tym_post_id_'+id).html();
                     $('#count_tym_post_id_'+id).html(parseInt(countLike) - 1);
                 }

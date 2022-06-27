@@ -92,8 +92,23 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/updateInformation", name="app_update_profile", methods={"POST", "GET"})
      */
-    public function updateInforProfileAction(Request $request, UserRepository $userRepository, ValidatorInterface $validator, ManagerRegistry $managerRegistry)
+    public function updateInforProfileAction(Request $request, NotificationRepository $notificationRepository, UserRepository $userRepository, ValidatorInterface $validator, ManagerRegistry $managerRegistry)
     {
+        //get infor navbar
+        $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
+
+        //get total notification of like and comment
+        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+        $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
+        $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+
+        //get notification of invite friend
+        $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
+
+        //get detail notification
+        $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
+        $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
+
         $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
         $errorUpdateInfor = null;
 
@@ -144,6 +159,11 @@ class ProfileController extends AbstractController
 
 
         return $this->render('profile/profileUpdateInfor.html.twig',[
+            'inforNavBar' => $inforNavBar,
+            'countlikeAndComment' => $totalLikeAndCommentNotification,
+            'countInviteFriend' => $inviteFriend,
+            'likeAndCommentDetail' => $likeAndCommentDetail,
+            'inviteFriendDetail' => $inviteFriendDetail,
             'errorUpdateInfor' => $errorUpdateInfor,
             'inforUser' => $inforUser,
             'updateInforForm' => $formUpdateInfor->createView()
