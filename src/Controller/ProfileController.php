@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\Type\updateProfileFormType;
+use App\Repository\CommentRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
@@ -27,7 +28,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
-    public function index($userId, NotificationRepository $notificationRepository, RelationshipRepository $relationshipRepository, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
+    public function index($userId, CommentRepository $commentRepository, NotificationRepository $notificationRepository, RelationshipRepository $relationshipRepository, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
         $error = false;
         $caption = '';
@@ -52,6 +53,9 @@ class ProfileController extends AbstractController
         $posts = $postRepository->getPostProfile($userId);
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());
 
+        //get comment
+        $comments = $commentRepository->getComment();
+
         if($userId != $this->getUser()->getId())
         {
             $relationshipStatus = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $userId);
@@ -66,6 +70,7 @@ class ProfileController extends AbstractController
                 'inforUser' => $userInfor,
                 'posts' => $posts,
                 'postLiked' => $postLiked,
+                'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
 //            return new JsonResponse($relationshipStatus);

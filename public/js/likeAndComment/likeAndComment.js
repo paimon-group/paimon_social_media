@@ -53,11 +53,14 @@ $(document).ready(function (){
                 console.log(data)
                 if(data['status_code'] == 200)
                 {
-
                     var countLike = $('#count_tym_post_id_'+id).html();
                     $('#count_tym_post_id_'+id).html(parseInt(countLike) - 1);
                 }
             }
         })
     }
+
+    $('.comment-post-home').click(function (){
+        $(this).show();
+    })
 });

@@ -62,28 +62,28 @@
                     <div class="count-comments-post-home">{{ post['total_comment'] }}</div>
                 </div>
             </div>
-{#            <div class="user-comments-home" data-post-id="{{ post['id'] }}">#}
-{#                <hr class="separator-comment-with-post-home">#}
-{#                <div class="comment-box-post-home">#}
-{#                    <div class="avatar-post-home">#}
-{#                        <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">#}
-{#                    </div>#}
-{#                    <input type="text" class="txt_comment_post_home" id="txt_comment_post_home_{{ i }}" placeholder="  comment...">#}
-{#                    <div class="btn-send-comment-post"><i class="bi-send-fill"></i></div>#}
-{#                </div>#}
-{#                {% for i in 1..10 %}#}
-{#                    <div class="other-user-comment">#}
-{#                        <div class="avatar-other-user-home">#}
-{#                            <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">#}
-{#                        </div>#}
-{#                        <div class="comment-content-post">#}
-{#                            <h5 id="user_id_{{ i }}">nguyen nhat khang</h5>#}
-{#                            <p>Mọi ng t phía trước đang cần vài bạn có kiến thức về Godot cùng làm dự án Platformed của mình. Cho phép tham gia ở mọi lứa tuổi và nhiều loại hình khác nhau, bao gồm Đồ họa chỉ hiện “Hẹn gặp lại”.</p>#}
-{#                            <div class="time-comment-post-home">12/12/2022 12:12:12</div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            </div>#}
+            <div class="user-comments-home" data-post-id="{{ post['id'] }}">
+                <hr class="separator-comment-with-post-home">
+                <div class="comment-box-post-home">
+                    <div class="avatar-post-home">
+                        <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">
+                    </div>
+                    <input type="text" class="txt_comment_post_home" id="txt_comment_post_home_" placeholder="  comment...">
+                    <div class="btn-send-comment-post"><i class="bi-send-fill"></i></div>
+                </div>
+                {% for i in 1..10 %}
+                    <div class="other-user-comment">
+                        <div class="avatar-other-user-home">
+                            <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">
+                        </div>
+                        <div class="comment-content-post">
+                            <h5 id="user_id_">nguyen nhat khang</h5>
+                            <p>Mọi ng t phía trước đang cần vài bạn có kiến thức về Godot cùng làm dự án Platformed của mình. Cho phép tham gia ở mọi lứa tuổi và nhiều loại hình khác nhau, bao gồm Đồ họa chỉ hiện “Hẹn gặp lại”.</p>
+                            <div class="time-comment-post-home">12/12/2022 12:12:12</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 </div>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Messages;
 use App\Entity\Notification;
 use App\Entity\Reaction;
+use App\Repository\CommentRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
@@ -43,7 +44,7 @@ class ReactionController extends AbstractController
             }
             else
             {
-                $reactionid = $this->unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository);
+                $reactionid = $this->unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository, $postRepository);
                 return new JsonResponse(['status_code' => 200, 'Message' => 'Un like success with post id: '.$idPostWantLike, 'remove' => $reactionid[0]['id']]);
             }
         }
@@ -79,7 +80,7 @@ class ReactionController extends AbstractController
         $database->persist($notification);
         $database->flush();
     }
-    function unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository)
+    function unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository, $postRepository)
     {
         //save total like
         $post->setTotalLike($post->getTotalLike() - 1);
@@ -95,14 +96,27 @@ class ReactionController extends AbstractController
         $database->flush();
 
         //remove notification like
-        $notificationRepository->removeNotificationLike($this->getUser()->getId(), $post->getUserId());
+        $receiverId =  $postRepository->getUserIdFromAPost($idPostWantLike);
+        $notificationRepository->removeNotificationLike($this->getUser()->getId(), $receiverId[0]['id']);
 
         return $reactionid;
     }
 
+//    /**
+//     * @Route ("/getCommentPost", name="api_get_comment_post", methods="GET")
+//     */
+//    public function getCommentPost(Request $request, CommentRepository $commentRepository)
+//    {
+//        $request = $this->tranform($request);
+//        $postId = $request->get('postId');
+//
+//        $comments = $commentRepository->getComment($postId);
+//        return new JsonResponse(['status_code' => 200, 'comment' => $comments]);
+//    }
 
     //tranform data when request by PUT method
-    public function tranform($request){
+    public function tranform($request)
+    {
         $data = json_decode($request->getContent(), true);
         if($data === null){
             return $request;
