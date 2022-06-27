@@ -68,9 +68,14 @@ $(document).ready(function (){
     $(document).on('click',  '.btn-send-comment-post', function(){
         var postId = $(this).data('btn-send-comment-id');
         var content = $('#txt_comment_post_home_'+postId).val();
-        console.log(content);
-        // $.ajax({
-        //
-        // })
+
+        $.ajax({
+            url: '/sendCommentPost',
+            type: 'PUT',
+            data:{'postId':postId, 'content':content},
+            success:function (data){
+                console.log(data);
+            }
+        })
     });
 });

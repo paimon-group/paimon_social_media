@@ -71,17 +71,19 @@
                     <input type="text" class="txt_comment_post_home" id="txt_comment_post_home_{{ post['id'] }}" placeholder="  comment...">
                     <div class="btn-send-comment-post" data-btn-send-comment-id="{{ post['id'] }}" ><i class="bi-send-fill"></i></div>
                 </div>
-                {% for i in 1..10 %}
-                    <div class="other-user-comment">
-                        <div class="avatar-other-user-home">
-                            <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">
+                {% for comment in comments %}
+                    {% if comment.post_id ==  post['id']  %}
+                        <div class="other-user-comment">
+                            <div class="avatar-other-user-home">
+                                <img src="{{ asset( image_dir ~ comment.avatar) }}" alt="avatar">
+                            </div>
+                            <div class="comment-content-post">
+                                <h5 id="user_id_">{{ comment.fullname }}</h5>
+                                <p>{{ comment.comment_content }}</p>
+                                <div class="time-comment-post-home">{{ comment.upload_time }}</div>
+                            </div>
                         </div>
-                        <div class="comment-content-post">
-                            <h5 id="user_id_">nguyen nhat khang</h5>
-                            <p>Mọi ng t phía trước đang cần vài bạn có kiến thức về Godot cùng làm dự án Platformed của mình. Cho phép tham gia ở mọi lứa tuổi và nhiều loại hình khác nhau, bao gồm Đồ họa chỉ hiện “Hẹn gặp lại”.</p>
-                            <div class="time-comment-post-home">12/12/2022 12:12:12</div>
-                        </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

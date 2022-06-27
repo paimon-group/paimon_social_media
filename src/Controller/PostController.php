@@ -65,12 +65,12 @@ class PostController extends AbstractController
     /**
      * @Route ("/post/updatePost", name="app_update_post", methods={"POST"})
      */
-    public function updatePostAction(Request $request, ManagerRegistry $managerRegistry)
+    public function updatePostAction(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
-        $userId = $this->getUser()->getId();
         $postId = $_POST['postId'];
         $image = $_FILES['imgPost'];
         $caption = $_POST['captionPost'];
+
         $error = $this->checkPost($image,$caption);
 
         if($error != '')
@@ -79,8 +79,7 @@ class PostController extends AbstractController
         }
         else
         {
-            $post = new Post();
-            $user = $this->getUser();
+            $post = $postRepository->find($postId);
 
             if($image['name'] != '')
             {
@@ -89,10 +88,7 @@ class PostController extends AbstractController
                 $post->setImage($safeFileImg);
             }
 
-            $post->setUser($user);
             $post->setCaption($caption);
-            $post->setUploadTime(new \DateTime());
-            $post->setDeleted('false');
 
             //save data
             $database = $managerRegistry->getManager();
@@ -101,7 +97,7 @@ class PostController extends AbstractController
 
             return new JsonResponse([
                 'status_code' => 200,
-                'Message' => 'success',
+                'Message' => 'update post success with id: '.$post->getId(),
                 'userId' => $this->getUser()->getId()
             ]);
         }

@@ -306,6 +306,7 @@ body{
     height: fit-content;
     width: fit-content;
     max-width: 34rem;
+    min-width: 12rem;
     /*background-color: rgb(255, 255, 255);*/
     padding-bottom: 0.5rem;
     background-color: rgb(216, 216, 216);

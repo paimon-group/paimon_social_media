@@ -10,11 +10,11 @@ $(document).ready(function ()
         $("#logo").attr('src', '/image/decorate/logo.png');
     });
 
-    $(document).on('click',  '.comment-post-home', function(){
-        console.log($(this).data('comment_id'));
-        id = $(this).data('comment_id');
-       $('#user_comments_'+id).show();
-    });
+    // $(document).on('click',  '.comment-post-home', function(){
+    //     console.log($(this).data('comment_id'));
+    //     id = $(this).data('comment_id');
+    //    $('#user_comments_'+id).show();
+    // });
 
     $('#post_notification').click(function (){
 

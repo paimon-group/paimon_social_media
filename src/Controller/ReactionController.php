@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Messages;
 use App\Entity\Notification;
 use App\Entity\Reaction;
@@ -102,17 +103,36 @@ class ReactionController extends AbstractController
         return $reactionid;
     }
 
-//    /**
-//     * @Route ("/getCommentPost", name="api_get_comment_post", methods="GET")
-//     */
-//    public function getCommentPost(Request $request, CommentRepository $commentRepository)
-//    {
-//        $request = $this->tranform($request);
-//        $postId = $request->get('postId');
-//
-//        $comments = $commentRepository->getComment($postId);
-//        return new JsonResponse(['status_code' => 200, 'comment' => $comments]);
-//    }
+    /**
+     * @Route ("/sendCommentPost", name="api_send_comment_post", methods="PUT")
+     */
+    public function getCommentPostAPI(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    {
+        $request = $this->tranform($request);
+        $postId = $request->get('postId');
+        $content = $request->get('content');
+
+        $post = $postRepository->find($postId);
+        if($post)
+        {
+            $comment = new Comment();
+            $comment->setPost($post);
+            $comment->setUser($this->getUser());
+            $comment->setCommentContent($content);
+            $comment->setUploadTime(new \DateTime());
+
+            $database = $managerRegistry->getManager();
+            $database->persist($comment);
+            $database->flush();
+
+            return new JsonResponse(['status_code' => 200, 'Message' => 'Success send comment to post id: '.$postId]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Message' => 'Fail send comment to post id: '.$postId]);
+        }
+
+    }
 
     //tranform data when request by PUT method
     public function tranform($request)
