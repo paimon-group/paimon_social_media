@@ -64,6 +64,17 @@ class PostRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
     }
+    // use post_id to get user_id 
+    public function getUserIdFromAPost($post_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ="SELECT u.id FROM user as u, post as p WHERE p.id=:post_id AND u.id=p.user_id AND p.deleted='false'";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['post_id'=>$post_id]);
+        return $resultSet->fetchAllAssociative();
+    }
+
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
