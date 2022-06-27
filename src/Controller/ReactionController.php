@@ -106,7 +106,7 @@ class ReactionController extends AbstractController
     /**
      * @Route ("/sendCommentPost", name="api_send_comment_post", methods="PUT")
      */
-    public function getCommentPostAPI(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function getCommentPostAPI(Request $request, UserRepository $userRepository,PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         $request = $this->tranform($request);
         $postId = $request->get('postId');
@@ -115,15 +115,10 @@ class ReactionController extends AbstractController
         $post = $postRepository->find($postId);
         if($post)
         {
-            $comment = new Comment();
-            $comment->setPost($post);
-            $comment->setUser($this->getUser());
-            $comment->setCommentContent($content);
-            $comment->setUploadTime(new \DateTime());
-
             $database = $managerRegistry->getManager();
-            $database->persist($comment);
-            $database->flush();
+
+            $this->saveComment($post, $content, $database);
+            $this->saveCommentNotification($post, $postRepository, $userRepository, $database);
 
             return new JsonResponse(['status_code' => 200, 'Message' => 'Success send comment to post id: '.$postId]);
         }
@@ -132,6 +127,32 @@ class ReactionController extends AbstractController
             return new JsonResponse(['status_code' => 400, 'Message' => 'Fail send comment to post id: '.$postId]);
         }
 
+    }
+    public function saveComment($post, $content, $database)
+    {
+        $comment = new Comment();
+        $comment->setPost($post);
+        $comment->setUser($this->getUser());
+        $comment->setCommentContent($content);
+        $comment->setUploadTime(new \DateTime());
+
+
+        $database->persist($comment);
+        $database->flush();
+    }
+
+    public function saveCommentNotification($post, $postRepository, $userRepository, $database)
+    {
+        $commentNotification = new Notification();
+        $receiverId = $postRepository->getUserIdFromAPost($post->getId());
+        $receiver = $userRepository->find($receiverId[0]['id']);
+        $commentNotification->setReceiver($receiver);
+        $commentNotification->setSender($this->getUser());
+        $commentNotification->setType('comment');
+        $commentNotification->setSeen('no');
+
+        $database->persist($commentNotification);
+        $database->flush();
     }
 
     //tranform data when request by PUT method

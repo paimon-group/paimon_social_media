@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use DateTimeZone;
 /**
  * @extends ServiceEntityRepository<Report>
  *
@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Report[]    findAll()
  * @method Report[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 class ReportRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

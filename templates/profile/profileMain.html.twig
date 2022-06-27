@@ -78,7 +78,7 @@
                                 <img src="{{ asset( image_dir ~ comment.avatar) }}" alt="avatar">
                             </div>
                             <div class="comment-content-post">
-                                <h5 id="user_id_">{{ comment.fullname }}</h5>
+                                <h5 class="" data-user-id="{{ comment.id  }}">{{ comment.fullname }}</h5>
                                 <p>{{ comment.comment_content }}</p>
                                 <div class="time-comment-post-home">{{ comment.upload_time }}</div>
                             </div>

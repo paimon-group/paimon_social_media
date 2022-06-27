@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use DateTimeZone;
 /**
  * @extends ServiceEntityRepository<Post>
  *
@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 class PostRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
