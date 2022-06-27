@@ -14,7 +14,7 @@
                         <div><i class="bi-three-dots"></i></div>
                     </button>
                     <ul class="dropdown-menu tab-option-post-home">
-                        {%  if  app.user.id == inforUser[0].id or app.user.roles == 'ROLE_ADMIN' %}
+                        {%  if  app.user.id == inforUser[0].id or app.user.roles[0] == 'ROLE_ADMIN' %}
                             <li class="dropdown-item">
                                 <button type="button" class="item-option-post-home delete-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#comfirm_delete_post_profile" >
                                     Delete
@@ -30,7 +30,7 @@
                         {% else %}
                             <li class="dropdown-item report-option-post-profile" data-post-id="{{ post['id'] }}">
                                 <button type="button" class="item-option-post-home report-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#report_post_model" >
-                                    Report<i class="bi-lightning-fill"></i>
+                                    Report <i class="bi-lightning-fill"></i>
                                 </button>
                             </li>
                         {% endif %}

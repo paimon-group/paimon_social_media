@@ -14,7 +14,7 @@
                             <div><i class="bi-three-dots"></i></div>
                         </button>
                         <ul class="dropdown-menu tab-option-post-home">
-                            {% if app.user.id == post.ownerPost or app.user.roles == 'ROLE_ADMIN' %}
+                            {% if app.user.id == post.ownerPost or app.user.roles[0] == 'ROLE_ADMIN' %}
                                 <button type="button" class="item-option-post-home delete-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#comfirm_delete_post_profile" >
                                     Delete
                                     <i class="bi-trash3-fill"></i>
