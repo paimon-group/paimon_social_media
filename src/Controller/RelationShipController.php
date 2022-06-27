@@ -60,7 +60,6 @@
 
             if($sendToFriend)
             {
-
                 $relationShip = new Relationship();
                 $relationShip->setUser($this->getUser());
                 $relationShip->setFriend($sendToFriend);
@@ -70,9 +69,17 @@
                 $database->persist($relationShip);
                 $database->flush();
 
-                if($relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $friendId) == 2)
+                $countStatusRelationShip = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $friendId);
+
+                if($countStatusRelationShip[0]['friendStatus'] == 2)
                 {
+                    //update friend status sender
                     $relationshipRepository->updateStatus($this->getUser()->getId(), $friendId);
+
+                    return new JsonResponse([
+                        'status_code' => 200,
+                        'Message' => 'Accept friend to user with id: '.$friendId
+                    ]);
                 }
 
                 return new JsonResponse([
@@ -102,18 +109,23 @@
 
             if($sender)
             {
-                // save new friend
-                $relationShip = new Relationship();
-                $relationShip->setUser($this->getUser());
-                $relationShip->setFriend($sender);
-                $relationShip->setStatus('1');
+                    // save new friend
+                    $relationShip = new Relationship();
+                    $relationShip->setUser($this->getUser());
+                    $relationShip->setFriend($sender);
+                    $relationShip->setStatus('1');
 
-                $database = $managerRegistry->getManager();
-                $database->persist($relationShip);
-                $database->flush();
+                    $database = $managerRegistry->getManager();
+                    $database->persist($relationShip);
+                    $database->flush();
 
-                //update friend status sender
-                $relationshipRepository->updateStatus($this->getUser()->getId(), $senderId);
+                    $countStatusRelationShip = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $senderId);
+
+                    if($countStatusRelationShip[0]['friendStatus'] == 2)
+                    {
+                        //update friend status sender
+                        $relationshipRepository->updateStatus($this->getUser()->getId(), $senderId);
+                    }
 
                 return new JsonResponse([
                     'status_code' => 200,
