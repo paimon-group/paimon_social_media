@@ -35,6 +35,9 @@ class HomeController extends AbstractController
         //get notification of invite friend
         $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
 
+        //get detail notification
+        $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
+        $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
         //get friend list
         $friendList = $relationshipRepository->getFriendList($this->getUser()->getId());
 
@@ -45,12 +48,16 @@ class HomeController extends AbstractController
             'inforNavBar' => $inforNavBar,
             'countlikeAndComment' => $totalLikeAndCommentNotification,
             'countInviteFriend' => $inviteFriend,
+            'likeAndCommentDetail' => $likeAndCommentDetail,
+            'inviteFriendDetail' => $inviteFriendDetail,
             'post'=> $post,
             'friendList' => $friendList
         ]);
 //        return $this->json([
 //            'countlikeAndComment' => $totalLikeAndCommentNotification,
-//            'countInviteFriend' => $inviteFriend
+//            'countInviteFriend' => $inviteFriend,
+//            'likeAndCommentDetail' => $likeAndCommentDetail,
+//            'inviteFriendDetail' => $inviteFriendDetail,
 //        ]);
     }
 
@@ -85,5 +92,6 @@ class HomeController extends AbstractController
         $request->request->replace($data);
         return $request;
     }
+
 
 }

@@ -44,8 +44,16 @@
                                     </i>
                                 </a>
                                 <div class="overflow-auto post-notification-table">
-                                    {% for i in 1..10 %}
-                                        <div class="item-post-notification-table"><p>nguyen nhat khang has like your post</p></div>
+                                    {% for likeAndComment in likeAndCommentDetail %}
+                                        <div class="item-post-notification-table">
+                                            <p>{{ likeAndComment['fullname'] }}
+                                            {% if likeAndComment['type'] == 'like' %}
+                                                has liked your post
+                                            {% else %}
+                                                has comment your post
+                                            {% endif %}
+                                            </p>
+                                        </div>
                                     {% endfor %}
                                 </div>
                             </li>
@@ -58,8 +66,12 @@
                                     </i>
                                 </a>
                                 <div class="overflow-auto friend-notification-table">
-                                    {% for i in 1..10 %}
-                                        <div class="item-friend-notification-table"><p>nguyen nhat khang has send a friend request</p></div>
+                                    {% for inviteFriend in inviteFriendDetail %}
+                                        <div class="item-friend-notification-table" data-sender-id="{{ inviteFriend['senderId'] }}">
+                                            <p>{{ inviteFriend['fullname'] }}
+                                                has send request friend
+                                            </p>
+                                        </div>
                                     {% endfor %}
                                 </div>
                             </li>

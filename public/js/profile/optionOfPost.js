@@ -17,7 +17,7 @@ $(document).ready(function (){
     $('#btn_confirm_delete_post').click(function (){
         $.ajax({
             url:'/profile/deletePost',
-            type:'POST',
+            type:'DELETE',
             dataType: 'json',
             data: {'idPost':idPost},
             success: function (data){

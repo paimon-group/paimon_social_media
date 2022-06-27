@@ -30,37 +30,32 @@ $(document).ready(function (){
             type:'PUT',
             data:{'senderId':senderId},
             success:function (data){
-                if(data['status'] == 200)
+                if(data['status_code'] == 200)
                 {
-                    console.log(data);
-                }
-                else
-                {
-                    console.log(data['Message']);
+                    location.href = '/profile/' + senderId;
                 }
             }
         })
     });
 
+    var friendId = '';
+
     //unfriend
     $('#btn_unfriend').click(function (){
-        var friendId = $(this).data('friend-id');
-
+        friendId = $(this).data('friend-id');
+    });
+    $('#btn_confirm_unfriend_post').click(function (){
         $.ajax({
             url:'/unFriend',
             type:'DELETE',
             data:{'friendId':friendId},
             success:function (data){
-                if(data['status'] == 200)
+                if(data['status_code'] == 200)
                 {
-                    console.log(data);
-                }
-                else
-                {
-                    console.log(data['Message']);
+                    location.href = '/profile/' + friendId;
                 }
             }
         })
-    });
+    })
 
 })

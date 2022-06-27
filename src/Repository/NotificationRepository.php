@@ -93,7 +93,7 @@ class NotificationRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT u.fullname from user as u ,relationship as r where u.id=r.user_id AND r.friend_id=:user_id AND r.status=0';
+        $query ='SELECT r.user_id as senderId, u.fullname from user as u ,relationship as r where u.id=r.user_id AND r.friend_id=:user_id AND r.status=0';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);

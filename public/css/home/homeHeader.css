@@ -100,8 +100,8 @@
 
 .post-notification-table{
     position: absolute;
-    width: 21rem;
-    height: fit-content;
+    width: 20rem;
+    min-height: 26rem;
     max-height: 26rem;
     background-color: white;
     transform: translateX(-17rem);
@@ -127,6 +127,7 @@
 
 .item-post-notification-table:hover{
     background-color: rgb(102, 167, 175);
+    color: white;
 }
 
 .show-post-notification-table{
@@ -145,15 +146,15 @@
 
 .friend-notification-table{
     position: absolute;
-    width: 21rem;
-    height: fit-content;
-    max-height: 26rem;
+    width: 20rem;
     background-color: white;
     transform: translateX(-17rem);
     display: none;
     opacity: .5;
     box-shadow: 0 2px 6px grey;
     border-radius: 1rem;
+    min-height: 26rem;
+    max-height: 26rem;
 }
 
 .item-friend-notification-table{
@@ -168,6 +169,7 @@
 
 .item-friend-notification-table:hover{
     background-color: rgb(102, 167, 175);
+    color: white;
 }
 
 .show-friend-notification-table{

@@ -106,5 +106,12 @@ $(document).ready(function ()
         var userId = $(this).data('user-id');
         location.href = '/profile/' + userId;
     })
+
+    //go to invite friend sender
+    $('.item-friend-notification-table').click(function (){
+        var senderId = $(this).data('sender-id');
+
+        location.href = '/profile/' + senderId;
+    })
 });
 

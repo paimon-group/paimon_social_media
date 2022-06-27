@@ -16,4 +16,10 @@ $(document).ready(function (){
         location.href = '/friendList/' + userId;
     });
 
+    //go to friend profile
+    $('.friend-in-list-profile').click(function (){
+        var userId  = $(this).data('user-id');
+
+        location.href = '/profile/' + userId;
+    })
 });

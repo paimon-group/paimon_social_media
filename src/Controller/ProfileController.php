@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\Type\updateProfileFormType;
+use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
 use App\Repository\RelationshipRepository;
@@ -26,13 +27,27 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
-    public function index($userId, RelationshipRepository $relationshipRepository, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
+    public function index($userId, NotificationRepository $notificationRepository, RelationshipRepository $relationshipRepository, UserRepository $userRepository, PostRepository $postRepository, ReactionRepository $reactionRepository)
     {
         $error = false;
         $caption = '';
         $relationshipStatus = '';
 
+        //get infor navbar
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
+
+        //get total notification of like and comment
+        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+        $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
+        $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+
+        //get notification of invite friend
+        $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
+
+        //get detail notification
+        $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
+        $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
+
         $userInfor = $userRepository->getProfile($userId);
         $posts = $postRepository->getPostProfile($userId);
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());
@@ -44,6 +59,10 @@ class ProfileController extends AbstractController
                 'error' => $error,
                 'caption' => $caption,
                 'inforNavBar' => $inforNavBar,
+                'countlikeAndComment' => $totalLikeAndCommentNotification,
+                'countInviteFriend' => $inviteFriend,
+                'likeAndCommentDetail' => $likeAndCommentDetail,
+                'inviteFriendDetail' => $inviteFriendDetail,
                 'inforUser' => $userInfor,
                 'posts' => $posts,
                 'postLiked' => $postLiked,
@@ -57,6 +76,10 @@ class ProfileController extends AbstractController
                 'error' => $error,
                 'caption' => $caption,
                 'inforNavBar' => $inforNavBar,
+                'countlikeAndComment' => $totalLikeAndCommentNotification,
+                'countInviteFriend' => $inviteFriend,
+                'likeAndCommentDetail' => $likeAndCommentDetail,
+                'inviteFriendDetail' => $inviteFriendDetail,
                 'inforUser' => $userInfor,
                 'posts' => $posts,
                 'postLiked' => $postLiked,
@@ -179,51 +202,6 @@ class ProfileController extends AbstractController
     }
 
 
-    /**
-     * @Route ("/Post/new", name="app_new_post", methods="POST")
-     */
-    public function newPostAction(PostRepository $postRepository, ManagerRegistry $managerRegistry, UserRepository $userRepository)
-    {
-        $imgFile = $_FILES['imgPost'];
-        $caption = $_POST['captionPost'];
-
-        $error = $this->checkPost($imgFile, $caption);
-
-        if($error != '')
-        {
-            return new JsonResponse(['status_code' => 400,'Message' => $error]);
-        }
-        else
-        {
-            $post = new Post();
-            $user = $this->getUser();
-
-            if($imgFile['name'] != '')
-            {
-                $safeFileImg = uniqid().$imgFile['name'];
-                copy($imgFile['tmp_name'], "image/post/".$safeFileImg);
-                $post->setImage($safeFileImg);
-            }
-
-            $post->setUser($user);
-            $post->setCaption($caption);
-            $post->setUploadTime(new \DateTime());
-            $post->setDeleted('false');
-
-            //save data
-            $database = $managerRegistry->getManager();
-            $database->persist($post);
-            $database->flush();
-
-            return new JsonResponse([
-                'status_code' => 200,
-                'Message' => 'success',
-                'userId' => $this->getUser()->getId()
-            ]);
-        }
-
-    }
-
     public function checkPost($imgFile, $caption)
     {
         $error = '';
@@ -241,80 +219,6 @@ class ProfileController extends AbstractController
 
         return $error;
     }
-
-    /**
-     * @Route ("/profile/deletePost", name="app_delete_post", methods="POST")
-     */
-    public function deletePostAction(UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
-    {
-        $idPost = $_POST['idPost'];
-
-        $post = $postRepository->find($idPost);
-        $user = $userRepository->getUserInforNavBar($this->getUser()->getId());
-
-        if($post)
-        {
-            if($post->getImage() != null && $post->getImage() != $user[0]['avatar'])
-            {
-                unlink('image/post/'.$post->getImage());
-            }
-
-            $post->setDeleted('true');
-
-            $database = $managerRegistry->getManager();
-            $database->persist($post);
-            $database->flush();
-
-            return new JsonResponse(['status_code' => 200, 'postId' => $idPost]);
-        }
-        else
-        {
-            return new JsonResponse([
-                'status_code' => 400,
-                'Message' => 'Not found post with id: '.$idPost
-            ]);
-        }
-
-    }
-
-    /**
-     * @Route ("/post/getInforPost", name="app_edit_post", methods="GET")
-     */
-    public function getInforPostAction(PostRepository $postRepository)
-    {
-        $idPost = $_GET['idPost'];
-
-        $post = new Post();
-        $post = $postRepository->find($idPost);
-        if($post)
-        {
-            return new JsonResponse([
-                'status_code' => 200,
-                'caption' => $post->getCaption(),
-                'image' => $post->getImage()
-            ]);
-        }
-        else
-        {
-            return new JsonResponse([
-                'status_code' => 400,
-                'Message' => 'Not found post with id: '.$idPost
-            ]);
-        }
-
-    }
-
-//    /**
-//     * @Route ("/post/updatePost", name="app_update_post", methods={"PUT"})
-//     */
-//    public function updatePostAction(Request $request)
-//    {
-//
-//        $request = $this->tranform($request);
-//        $data = $request->get('captionPost');
-//        $img = $request->files->get('imgPost');
-//        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
-//    }
 
     public function tranform($request){
         $data = json_decode($request->getContent(), true);

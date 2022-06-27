@@ -2,6 +2,7 @@
     namespace App\Controller;
 
     use App\Entity\Relationship;
+    use App\Repository\NotificationRepository;
     use App\Repository\ReactionRepository;
     use App\Repository\RelationshipRepository;
     use App\Repository\UserRepository;
@@ -18,13 +19,30 @@
         /**
          * @Route ("/friendList/{userId}", name="app_friend_list", methods={"GET"})
          */
-        public function friendListAction($userId, UserRepository $userRepository, RelationshipRepository $relationshipRepository)
+        public function friendListAction($userId, NotificationRepository $notificationRepository, UserRepository $userRepository, RelationshipRepository $relationshipRepository)
         {
+            //get information navbar
             $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
+            //get total notification of like and comment
+            $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+            $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
+            $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+
+            //get notification of invite friend
+            $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
+
+            //get detail notification
+            $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
+            $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
             $friendList = $relationshipRepository->getFriendList($userId);
+
             return $this->render('profile/profileFriendList.html.twig',[
                 'inforNavBar' => $inforNavBar,
+                'countlikeAndComment' => $totalLikeAndCommentNotification,
+                'countInviteFriend' => $inviteFriend,
+                'likeAndCommentDetail' => $likeAndCommentDetail,
+                'inviteFriendDetail' => $inviteFriendDetail,
                 'friendList' => $friendList
             ]);
 //            return new JsonResponse(['friendList' => $friendList]);
