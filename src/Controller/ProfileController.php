@@ -49,6 +49,7 @@ class ProfileController extends AbstractController
         $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
         $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
 
+        //get data user
         $userInfor = $userRepository->getProfile($userId);
         $posts = $postRepository->getPostProfile($userId);
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());

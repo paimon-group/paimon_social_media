@@ -107,6 +107,17 @@ $(document).ready(function (){
                     '     </div>\n' +
                     '</div>';
                 $('#comment_post_'+postId).append(NewComment);
+                $('#txt_comment_post_home_'+postId).val('');
+
+                if($('#count_comment_post_'+postId).html() == '')
+                {
+                    $('#count_comment_post_'+postId).html(1)
+                }
+                else
+                {
+                    var countComment = $('#count_comment_post_'+postId).html();
+                    $('#count_comment_post_'+postId).html(parseInt(countComment) + 1);
+                }
             }
         })
     }

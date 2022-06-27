@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Relationship;
 use App\Entity\User;
+use App\Repository\CommentRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
+use App\Repository\ReactionRepository;
 use App\Repository\RelationshipRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,7 +24,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="app_home")
      */
-    public function index(UserRepository $userRepository,PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository, ManagerRegistry $managerRegistry)
+    public function index(ReactionRepository $reactionRepository, CommentRepository $commentRepository, UserRepository $userRepository, PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
     {
         //get avatar header
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
@@ -41,8 +43,12 @@ class HomeController extends AbstractController
         //get friend list
         $friendList = $relationshipRepository->getFriendList($this->getUser()->getId());
 
-        //get post
+        //get post and data user
         $post = $postRepository->getPost($this->getUser()->getId());
+        $postLiked = $reactionRepository->checklike($this->getUser()->getId());
+        $userInfor = $userRepository->getProfile($this->getUser()->getId());
+        //get comment
+        $comments = $commentRepository->getFullComment();
 
         return $this->render('home/homeIndex.html.twig',[
             'inforNavBar' => $inforNavBar,
@@ -50,15 +56,12 @@ class HomeController extends AbstractController
             'countInviteFriend' => $inviteFriend,
             'likeAndCommentDetail' => $likeAndCommentDetail,
             'inviteFriendDetail' => $inviteFriendDetail,
-            'post'=> $post,
+            'inforUser' => $userInfor,
+            'posts'=> $post,
+            'postLiked' => $postLiked,
+            'comments' => $comments,
             'friendList' => $friendList
         ]);
-//        return $this->json([
-//            'countlikeAndComment' => $totalLikeAndCommentNotification,
-//            'countInviteFriend' => $inviteFriend,
-//            'likeAndCommentDetail' => $likeAndCommentDetail,
-//            'inviteFriendDetail' => $inviteFriendDetail,
-//        ]);
     }
 
 

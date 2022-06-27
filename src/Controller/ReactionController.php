@@ -119,6 +119,10 @@ class ReactionController extends AbstractController
         {
             $database = $managerRegistry->getManager();
 
+            $post->setTotalComment($post->getTotalComment() + 1);
+            $database->persist($post);
+            $database->flush();
+
             $this->saveComment($post, $content, $database);
             $this->saveCommentNotification($post, $postRepository, $userRepository, $database);
 

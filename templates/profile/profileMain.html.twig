@@ -1,6 +1,4 @@
 <div class="profile-main">
-{#    <div class="header-post-profile">#}
-{#    </div>#}
     {% for post in posts %}
         <div class="post-home" id="post_id_{{ post['id'] }}">
             <div class="post-header-home">
@@ -59,7 +57,7 @@
                 </div>
                 <div class="comment-block-post-home">
                     <div class="comment-post-home" data-post-id="{{ post['id'] }}"><i class="bi-chat-right-dots"></i></div>
-                    <div class="count-comments-post-home">{{ post['total_comment'] }}</div>
+                    <div class="count-comments-post-home" id="count_comment_post_{{ post['id'] }}">{{ post['total_comment'] }}</div>
                 </div>
             </div>
             <div class="user-comments-home" id="comment_post_{{ post['id'] }}">

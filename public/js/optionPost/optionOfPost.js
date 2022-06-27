@@ -199,6 +199,7 @@ $(document).ready(function (){
                 success: function (data){
                     if(data['status_code'] == 200)
                     {
+                        $('#report_caption').val('');
                         $('#btn_close_table_report_post').click();
                     }
                     else

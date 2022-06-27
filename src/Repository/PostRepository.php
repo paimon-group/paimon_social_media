@@ -44,7 +44,7 @@ class PostRepository extends ServiceEntityRepository
     public function getPost($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ="SELECT u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time,p.id
+        $query ="SELECT u.id as ownerPost, u.avatar,u.fullname,p.caption,p.image,p.total_like,p.total_comment,p.upload_time,p.id
         FROM post as p, user as u, relationship as r WHERE
         (r.user_id=:user_id AND p.user_id=r.friend_id AND u.id=r.friend_id 
         AND r.status=1 AND p.deleted='false' and DATE(P.upload_time)+3>DATE(NOW())) or 
