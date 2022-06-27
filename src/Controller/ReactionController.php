@@ -33,49 +33,42 @@ class ReactionController extends AbstractController
         $post = $postRepository->find($idPostWantLike);
         $reaction = new  Reaction();
 
+        $database = $managerRegistry->getManager();
         if($post)
         {
             if($optionLike == 'like')
             {
-                $this->saveLike($post, $reaction, $managerRegistry);
-                $this->saveNotification($idPostWantLike, $postRepository, $userRepository, $managerRegistry);
-
+                $this->saveLike($reaction, $database, $post, $postRepository, $idPostWantLike, $userRepository);
                 return new JsonResponse(['status_code' => 200, 'Message' => 'Like success with post id: '.$idPostWantLike]);
             }
             else
             {
-                $this->unlike($post, $managerRegistry, $reactionRepository, $idPostWantLike);
+                $reactionid = $this->unlike($post, $database, $reactionRepository, $idPostWantLike);
                 return new JsonResponse(['status_code' => 200, 'Message' => 'Un like success with post id: '.$idPostWantLike, 'remove' => $reactionid[0]['id']]);
             }
-
         }
         else
         {
             return new JsonResponse(['status_code' => 400, 'Message' => 'Post id: '.$idPostWantLike.' not found' ]);
         }
-
     }
-
-    function saveLike($post, $reaction, $managerRegistry)
+    function saveLike($reaction, $database, $post, $postRepository, $idPostWantLike, $userRepository)
     {
-        $post->setTotalLike($post->getTotalLike() + 1);
-
+        //save like
         $reaction->setUser($this->getUser());
         $reaction->setPost($post);
-
-        $database = $managerRegistry->getManager();
 
         $database->persist($reaction);
         $database->flush();
 
-        $database->persist($post);
+        //save total like
+        $post->setTotalLike($post->getTotalLike() + 1);
+        $database->persist($reaction);
         $database->flush();
-    }
 
-    function saveNotification($idPostWantLike, $postRepository, $userRepository, $managerRegistry)
-    {
+        //save notificacation
         $receiverId = $postRepository->getUserIdFromAPost($idPostWantLike);
-        $receiver = $userRepository->find($receiverId);
+        $receiver = $userRepository->find($receiverId[0]['id']);
 
         $notification = new Notification();
         $notification->setSender($this->getUser());
@@ -83,26 +76,27 @@ class ReactionController extends AbstractController
         $notification->setType('like');
         $notification->setSeen('no');
 
-        $database = $managerRegistry->getManager();
         $database->persist($notification);
         $database->flush();
     }
-
-    function unlike($post, $managerRegistry, $reactionRepository, $idPostWantLike)
+    function unlike($post, $database, $reactionRepository, $idPostWantLike)
     {
+        //save total like
         $post->setTotalLike($post->getTotalLike() - 1);
 
-        $database = $managerRegistry->getManager();
         $database->persist($post);
         $database->flush();
 
+        //remove like reaction
         $reactionid = $reactionRepository->getReactionId($this->getUser()->getId(), $idPostWantLike);
-
         $reactionWantDelete = $reactionRepository->find($reactionid[0]['id']);
 
         $database->remove($reactionWantDelete);
         $database->flush();
+
+        return $reactionid;
     }
+
 
     //tranform data when request by PUT method
     public function tranform($request){
