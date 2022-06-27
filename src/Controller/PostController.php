@@ -68,15 +68,20 @@ class PostController extends AbstractController
      */
     public function deletePostAction(Request $request, UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
+        //get data from request
         $request = $this->tranform($request);
         $idPost = $request->get('idPost');
 
+        //get avatar user
+        $userId = $postRepository->getUserIdFromAPost($idPost);
+        $user = $userRepository->find($userId[0]['id']);
+
         $post = $postRepository->find($idPost);
-        $user = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         if($post)
         {
-            if($post->getImage() != null && $post->getImage() != $user[0]['avatar'])
+            //avoid delete avatar
+            if($post->getImage() != null && $post->getImage() != $user->getAvatar())
             {
                 unlink('image/post/'.$post->getImage());
             }

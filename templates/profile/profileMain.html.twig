@@ -16,13 +16,15 @@
                         <div><i class="bi-three-dots"></i></div>
                     </button>
                     <ul class="dropdown-menu tab-option-post-home">
-                        {%  if  app.user.id == inforUser[0].id %}
+                        {%  if  app.user.id == inforUser[0].id or app.user.roles == 'ROLE_ADMIN' %}
                             <li class="dropdown-item">
                                 <button type="button" class="item-option-post-home delete-option-post-profile" data-post-id="{{ post['id'] }}" data-bs-toggle="modal" data-bs-target="#comfirm_delete_post_profile" >
                                     Delete
                                     <i class="bi-trash3-fill"></i>
                                 </button>
                             </li>
+                        {% endif %}
+                        {%  if  app.user.id == inforUser[0].id %}
                             <li class="dropdown-item edit-option-post-profile" data-post-id="{{ post['id'] }}">
                                 Edit<i class="bi-pencil-fill"></i>
                             </li>
