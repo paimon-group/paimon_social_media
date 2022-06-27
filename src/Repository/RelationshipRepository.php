@@ -75,7 +75,7 @@ class RelationshipRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
         $query ='UPDATE relationship set relationship.status=1 
-        WHERE relationship.user_id=:sender_id AND relationship.friend_id=:user_id';
+        WHERE (relationship.user_id=:sender_id AND relationship.friend_id=user_id) OR (relationship.friend_id=:sender_id AND relationship.user_id=user_id';
         $stmt=$conn->prepare($query);
         $stmt->executeQuery(['user_id'=>$userId,'sender_id'=>$senderId]);
         return $stmt;
