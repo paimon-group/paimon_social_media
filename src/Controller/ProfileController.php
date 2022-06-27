@@ -127,7 +127,6 @@ class ProfileController extends AbstractController
                 $user->setPassword($this->getUser()->getPassword());
                 $user->setFullname($dataInforUpdate->getFullname());
                 $user->setEmail($dataInforUpdate->getEmail());
-                $user->setBirthdate($dataInforUpdate->getBirthDate());
                 $user->setPhone($dataInforUpdate->getPhone());
                 $user->setAddress($dataInforUpdate->getAddress());
 
@@ -151,7 +150,6 @@ class ProfileController extends AbstractController
             $user->setFullname($inforUpdate[0]['fullname']);
             $user->setEmail($inforUpdate[0]['email']);
             $user->setGender($inforUpdate[0]['gender']);
-            $user->setBirthdate($inforUpdate[0]['birthdate']);
             $user->setPhone($inforUpdate[0]['phone']);
             $user->setAddress($inforUpdate[0]['address']);
             $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);

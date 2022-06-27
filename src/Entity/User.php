@@ -78,11 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $birthdate;
-
+    
     /**
      * @ORM\Column(type="string", length=11, nullable=true)
      * @Assert\Length (
@@ -326,17 +322,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthdate()
-    {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate($birthdate): self
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
 
     public function getPhone(): ?string
     {

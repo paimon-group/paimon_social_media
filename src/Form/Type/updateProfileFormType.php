@@ -33,13 +33,9 @@ class updateProfileFormType extends AbstractType
                     ],
                 'expanded' => true
             ])
-        ->add('email',EmailType::class,['attr'=>['class'=>'infor-item']])
-        ->add('birthdate',DateType::class,['attr'=>['class' => 'form-control input-inline datetimepicker infor-item',
-            'data-provide' => 'datetimepicker',
-            'html5' => false],
-        'widget'=>'single_text','format'=>'yyyy-MM-dd',])
-        ->add('phone',TextType::class,['attr'=>['class'=>'infor-item']])
-        ->add('address',TextType::class,['attr'=>['class'=>'infor-item']])
+        ->add('email',EmailType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
+        ->add('phone',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
+        ->add('address',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('save',SubmitType::class,['attr'=>['class'=>'infor-item']]);
     }
 }
