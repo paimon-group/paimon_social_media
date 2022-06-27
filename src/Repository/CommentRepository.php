@@ -39,18 +39,16 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
     // the function will be return ten first comment if number is 0. and you should increase that ten units when user click show more
-    public function getComment($post_id,$number)
+    public function getComment($post_id)
     {
-        return $this->createQueryBuilder('c')
+        $count_Comment= $this->createQueryBuilder('c')
         ->select('u.avatar,u.fullname,c.comment_content,c.upload_time')
         ->innerJoin('c.user','u')
         ->innerJoin('c.post','p')
         ->where('p.id=:post_id')
         ->orderBy('c.upload_time','ASC')
-        ->setMaxResults(10)
-        ->setFirstResult($number)
         ->setParameter('post_id',$post_id)
-        ->getQuery()->execute(); 
+        ->getQuery()->execute();
     }
 
 //    /**
