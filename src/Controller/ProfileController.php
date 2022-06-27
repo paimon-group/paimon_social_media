@@ -21,18 +21,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class ProfileController extends AbstractController
 {
-    private $passwordHasher;
-
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
-    {
-        $this->passwordHasher = $passwordHasher;
-    }
-
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
@@ -62,7 +54,7 @@ class ProfileController extends AbstractController
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());
 
         //get comment
-        $comments = $commentRepository->getFullComment();
+        $comments = $commentRepository->getComment();
 
         if($userId != $this->getUser()->getId())
         {
@@ -81,7 +73,7 @@ class ProfileController extends AbstractController
                 'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
-//            return new JsonResponse(['comments' => comments]);
+//            return new JsonResponse($relationshipStatus);
         }
         else
         {
@@ -96,7 +88,6 @@ class ProfileController extends AbstractController
                 'inforUser' => $userInfor,
                 'posts' => $posts,
                 'postLiked' => $postLiked,
-                'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
         }
@@ -135,25 +126,20 @@ class ProfileController extends AbstractController
             if($formUpdateInfor->isValid())
             {
                 $user = $userRepository->find($this->getUser()->getId());
-               
                 $dataInforUpdate = $formUpdateInfor->getData();
-                $hashedPassword=0;
-                // $this->passwordHasher->hashPassword($user,$dataInforUpdate->getPassword('password'));
-                return new JsonResponse(['a'=>$user->getPassword(),'b'=>$this->passwordHasher->hashPassword($user,$dataInforUpdate->getPassword('password'))]);
-                if($hashedPassword==$user->getPassword())
-                {
+
                 $user->setUsername($this->getUser()->getUsername());
-                $user->setPassword($dataInforUpdate->get('password')->getData());
+                $user->setPassword($this->getUser()->getPassword());
                 $user->setFullname($dataInforUpdate->getFullname());
                 $user->setEmail($dataInforUpdate->getEmail());
                 $user->setPhone($dataInforUpdate->getPhone());
                 $user->setAddress($dataInforUpdate->getAddress());
+
                 $database = $managerRegistry->getManager();
                 $database->persist($user);
                 $database->flush();
 
                 $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
-                }
             }
             else
             {
