@@ -54,7 +54,7 @@ class ProfileController extends AbstractController
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());
 
         //get comment
-        $comments = $commentRepository->getComment();
+        $comments = $commentRepository->getFullComment();
 
         if($userId != $this->getUser()->getId())
         {
@@ -73,7 +73,7 @@ class ProfileController extends AbstractController
                 'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
-//            return new JsonResponse($relationshipStatus);
+//            return new JsonResponse(['comments' => comments]);
         }
         else
         {

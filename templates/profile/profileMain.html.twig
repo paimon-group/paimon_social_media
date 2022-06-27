@@ -62,14 +62,14 @@
                     <div class="count-comments-post-home">{{ post['total_comment'] }}</div>
                 </div>
             </div>
-            <div class="user-comments-home" data-post-id="{{ post['id'] }}">
+            <div class="user-comments-home" id="comment_post_{{ post['id'] }}">
                 <hr class="separator-comment-with-post-home">
                 <div class="comment-box-post-home">
                     <div class="avatar-post-home">
-                        <img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar">
+                        <img src="{{ asset( image_dir ~ inforNavBar[0].avatar ) }}" alt="avatar">
                     </div>
-                    <input type="text" class="txt_comment_post_home" id="txt_comment_post_home_" placeholder="  comment...">
-                    <div class="btn-send-comment-post"><i class="bi-send-fill"></i></div>
+                    <input type="text" class="txt_comment_post_home" id="txt_comment_post_home_{{ post['id'] }}" placeholder="  comment...">
+                    <div class="btn-send-comment-post" data-btn-send-comment-id="{{ post['id'] }}" ><i class="bi-send-fill"></i></div>
                 </div>
                 {% for i in 1..10 %}
                     <div class="other-user-comment">

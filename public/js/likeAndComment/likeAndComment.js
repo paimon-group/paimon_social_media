@@ -60,7 +60,17 @@ $(document).ready(function (){
         })
     }
 
-    $('.comment-post-home').click(function (){
-        $(this).show();
+    $(document).on('click', '.comment-post-home', function (){
+       var commentPostId =  $(this).data('post-id');
+        $('#comment_post_'+commentPostId).show();
     })
+
+    $(document).on('click',  '.btn-send-comment-post', function(){
+        var postId = $(this).data('btn-send-comment-id');
+        var content = $('#txt_comment_post_home_'+postId).val();
+        console.log(content);
+        // $.ajax({
+        //
+        // })
+    });
 });
