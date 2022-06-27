@@ -5,15 +5,15 @@ $(document).ready(function (){
         location.assign('/friendList/' + userId)
     });
 
-    $('#count-posts').click(function (){
+    $('#count_posts').click(function (){
         var userId =  $(this).data('user-id');
-        location.assign('/friendList/' + userId)
+        location.assign('/profile/' + userId)
     });
 
-    $('.friend-in-list-profile').click(function (){
+    $('#count_friend').click(function (){
         var userId = $(this).data('user-id');
 
-        location.href = '/profile/' + userId;
+        location.href = '/friendList/' + userId;
     });
 
 });

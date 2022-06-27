@@ -38,7 +38,9 @@
                             <li class="nav-item nav-item-header-custom" id="post_notification">
                                 <a class="nav-link-header">
                                     <i class="bi-bell icon-nav-header">
-                                        <span class="count-notification-post">1</span>
+                                        {% if countlikeAndComment > 0 %}
+                                            <span class="count-notification-post">{{ countlikeAndComment }}</span>
+                                        {% endif %}
                                     </i>
                                 </a>
                                 <div class="overflow-auto post-notification-table">
@@ -50,7 +52,9 @@
                             <li class="nav-item nav-item-header-custom" id="friend_notification">
                                 <a class="nav-link-header">
                                     <i class="bi-person-plus icon-nav-header">
-                                        <span class="count-notification-friend">2</span>
+                                        {% if countInviteFriend[0].invite_friend_request > 0 %}
+                                            <span class="count-notification-friend">{{ countInviteFriend[0].invite_friend_request }}</span>
+                                        {% endif %}
                                     </i>
                                 </a>
                                 <div class="overflow-auto friend-notification-table">

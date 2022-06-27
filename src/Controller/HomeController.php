@@ -43,12 +43,15 @@ class HomeController extends AbstractController
 
         return $this->render('home/homeIndex.html.twig',[
             'inforNavBar' => $inforNavBar,
-            'totalLikeAndComment' => $totalLikeAndCommentNotification,
-            'inviteFriend' => $inviteFriend,
+            'countlikeAndComment' => $totalLikeAndCommentNotification,
+            'countInviteFriend' => $inviteFriend,
             'post'=> $post,
             'friendList' => $friendList
         ]);
-//        return $this->json(['inforUser' => $inforUser[0]['avatar']]);
+//        return $this->json([
+//            'countlikeAndComment' => $totalLikeAndCommentNotification,
+//            'countInviteFriend' => $inviteFriend
+//        ]);
     }
 
 
