@@ -128,6 +128,7 @@ class ReactionController extends AbstractController
             return new JsonResponse([
                 'status_code' => 200,
                 'userId' => $userId,
+                'avatar' => $FullnameUser->getAvatar(),
                 'fullname' => $FullnameUser->getFullname(),
                 'content' => $content,
                 'dateTime' => new \DateTime(),
