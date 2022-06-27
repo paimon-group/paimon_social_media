@@ -58,6 +58,17 @@ class ReactionRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'post_id'=>$post_id]);
         return $resultSet->fetchAllAssociative();
     }
+
+    public function unlike($user_id,$post_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query='DELETE FROM reaction WHERE reaction.user_id=:user_id AND reaction.post_id=:post_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'post_id'=>$post_id]);
+        return $resultSet->fetchAllAssociative();
+    }
+
+   
 //    /**
 //     * @return Reaction[] Returns an array of Reaction objects
 //     */
