@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,6 +38,17 @@ class updateProfileFormType extends AbstractType
         ->add('email',EmailType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('phone',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('address',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
+        ->add('password',PasswordType::class,
+        ['attr'=>['class'=>'put your class name here','placeholder'=>'enter your crrent password']
+        ])
+        ->add('new_password',RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'The password fields must match.',
+            'options' => ['attr' => ['class' => 'put your class name here']],
+            'required' => true,
+            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password']],
+            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password']],
+            'attr' => ['autocomplete' => 'off']])
         ->add('save',SubmitType::class,['attr'=>['class'=>'infor-item']]);
     }
 }
