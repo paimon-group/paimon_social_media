@@ -62,6 +62,50 @@ class PostController extends AbstractController
 
     }
 
+    /**
+     * @Route ("/post/updatePost", name="app_update_post", methods={"POST"})
+     */
+    public function updatePostAction(Request $request, ManagerRegistry $managerRegistry)
+    {
+        $userId = $this->getUser()->getId();
+        $postId = $_POST['postId'];
+        $image = $_FILES['imgPost'];
+        $caption = $_POST['captionPost'];
+        $error = $this->checkPost($image,$caption);
+
+        if($error != '')
+        {
+            return new JsonResponse(['status_code' => 400,'Message' => $error]);
+        }
+        else
+        {
+            $post = new Post();
+            $user = $this->getUser();
+
+            if($image['name'] != '')
+            {
+                $safeFileImg = uniqid().$image['name'];
+                copy($image['tmp_name'], "image/post/".$safeFileImg);
+                $post->setImage($safeFileImg);
+            }
+
+            $post->setUser($user);
+            $post->setCaption($caption);
+            $post->setUploadTime(new \DateTime());
+            $post->setDeleted('false');
+
+            //save data
+            $database = $managerRegistry->getManager();
+            $database->persist($post);
+            $database->flush();
+
+            return new JsonResponse([
+                'status_code' => 200,
+                'Message' => 'success',
+                'userId' => $this->getUser()->getId()
+            ]);
+        }
+    }
 
     /**
      * @Route ("/profile/deletePost", name="api_delete_post", methods="DELETE")
@@ -131,17 +175,6 @@ class PostController extends AbstractController
 
     }
 
-    //    /**
-//     * @Route ("/post/updatePost", name="api_update_post", methods={"PUT"})
-//     */
-//    public function updatePostAction(Request $request)
-//    {
-//
-//        $request = $this->tranform($request);
-//        $data = $request->get('captionPost');
-//        $img = $request->files->get('imgPost');
-//        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
-//    }
 
     /**
      * @Route ("/reportPost", name="api_report_post", methods={"PUT"})

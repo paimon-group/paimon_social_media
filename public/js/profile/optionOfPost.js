@@ -51,6 +51,7 @@ $(document).ready(function (){
             success: function (data){
                 if(data['status_code'] == 200)
                 {
+                    $('#post_id_edit').val(idPost);
                     $('#caption_edit_post_in_table').html(data['caption']);
                     $('#img_preview_edit').attr('src', '../image/post/' + data['image']);
                     $('#btn_add_img_post_in_table').html('Change image');
@@ -81,7 +82,7 @@ $(document).ready(function (){
         '                                <div class="btn-add-img-post-in-table" id="btn_add_img_edit_post_in_table">Add image</div>\n' +
         '                                <div class="btn-add-img-post-in-table" id="btn_delete_preview_img_edit_in_table">Delete</div>\n' +
         '                                <input type="file" id="input_up_img_edit" name="imgPost" hidden>\n' +
-        '                                <input type="hidden" name="_method" value="PUT">\n' +
+        '                                <input type="hidden" id="post_id_edit" name="postId" value="">\n' +
         '                                <img src="" alt="" id="img_preview_edit">\n' +
         '                            </div>\n' +
         '                            <div class="caption-post-in-table">\n' +
@@ -92,7 +93,7 @@ $(document).ready(function (){
         '                <div class="modal-footer">\n' +
         '                        <div class="error-message" id="error_up_edit_post" style="transform: translateX(-20rem); color: red">\n' +
         '                        </div>\n' +
-        '                    <button type="submit" class="btn btn-primary" id="btn_submit_post">Post</button>\n' +
+        '                    <button type="submit" class="btn btn-primary" id="btn_submit_post">Update Post</button>\n' +
         '                </div>\n' +
         '                </form>\n' +
         '            </div>\n' +
@@ -154,15 +155,13 @@ $(document).ready(function (){
             var postForm = new FormData(this);
 
             $.ajax({
-                type:'PUT',
+                type:'POST',
                 url: $(this).attr('action'),
                 data:postForm,
                 cache:false,
                 contentType: false,
                 processData: false,
                 success: function (data){
-                    console.log(data)
-
                     if(data['status_code'] == 200)
                     {
                         location.href = '/profile/' + data['userId'];

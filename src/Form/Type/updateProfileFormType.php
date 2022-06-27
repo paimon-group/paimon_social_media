@@ -39,15 +39,15 @@ class updateProfileFormType extends AbstractType
         ->add('phone',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('address',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('password',PasswordType::class,
-        ['attr'=>['class'=>'put your class name here','placeholder'=>'enter your crrent password']
+        ['attr'=>['class'=>'infor-item','placeholder'=>'enter your crrent password']
         ])
         ->add('new_password',RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'The password fields must match.',
-            'options' => ['attr' => ['class' => 'put your class name here']],
+            'options' => ['attr' => ['class' => 'infor-item']],
             'required' => true,
-            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password']],
-            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password']],
+            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password', 'class' => 'infor-item']],
+            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password', 'class' => 'infor-item']],
             'attr' => ['autocomplete' => 'off']])
         ->add('save',SubmitType::class,['attr'=>['class'=>'infor-item']]);
     }
