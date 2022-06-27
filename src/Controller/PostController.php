@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Report;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -136,6 +137,46 @@ class PostController extends AbstractController
 //        $img = $request->files->get('imgPost');
 //        return new JsonResponse(['status_code' => 200, 'data' => $data, 'img' => $img]);
 //    }
+
+    /**
+     * @Route ("/reportPost", name="api_report_post", methods={"PUT"})
+     */
+    public function reportPost(Request $request, UserRepository $userRepository,PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    {
+        //tranform and get data
+        $request = $this->tranform($request);
+        $captioneport = $request->get('captionReport');
+        $postReprtedId = $request->get('reportPostId');
+
+        //get user report and user reported
+        $userReportedId = $postRepository->getUserIdFromAPost($postReprtedId);
+        $userReported = $userRepository->find($userReportedId[0]['id']);
+        $userSentReport = $this->getUser();
+
+        //get post reported
+        $post = $postRepository->find($postReprtedId);
+
+        if($userReported && $post)
+        {
+            $report = new Report();
+            $report->setUserSendReport($userSentReport);
+            $report->setReason($captioneport);
+            $report->setUserReported($userReported);
+            $report->setPost($post);
+            $report->setReportTime(new \DateTime());
+
+            $database = $managerRegistry->getManager();
+            $database->persist($report);
+            $database->flush();
+
+            return new JsonResponse(['status_code' => 200, 'Message' => 'Success report post with id: '.$postReprtedId]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Message' => 'fail report post with id: '.$postReprtedId]);
+        }
+
+    }
 
     public function tranform($request){
         $data = json_decode($request->getContent(), true);

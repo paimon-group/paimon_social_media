@@ -60,6 +60,7 @@
 
             if($sendToFriend)
             {
+
                 $relationShip = new Relationship();
                 $relationShip->setUser($this->getUser());
                 $relationShip->setFriend($sendToFriend);
@@ -68,6 +69,11 @@
                 $database = $managerRegistry->getManager();
                 $database->persist($relationShip);
                 $database->flush();
+
+                if($relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $friendId) == 2)
+                {
+                    $relationshipRepository->updateStatus($this->getUser()->getId(), $friendId);
+                }
 
                 return new JsonResponse([
                     'status_code' => 200,

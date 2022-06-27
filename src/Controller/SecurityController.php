@@ -122,7 +122,6 @@ class SecurityController extends AbstractController
             ]);
     }
 
-
     /**
      * @Route("/logout", name="app_logout")
      */
@@ -131,14 +130,4 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    //====================================Rest API request by AJAX=========================================
-
-//    public function tranform($request){
-//        $data = json_decode($request->getContent(), true);
-//        if($data === null){
-//            return $request;
-//        }
-//        $request->request->replace($data);
-//        return $request;
-//    }
 }

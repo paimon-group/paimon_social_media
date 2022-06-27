@@ -47,11 +47,11 @@
                                     {% for likeAndComment in likeAndCommentDetail %}
                                         <div class="item-post-notification-table">
                                             <p>{{ likeAndComment['fullname'] }}
-                                            {% if likeAndComment['type'] == 'like' %}
-                                                has liked your post
-                                            {% else %}
-                                                has comment your post
-                                            {% endif %}
+                                                {% if likeAndComment['type'] == 'like' %}
+                                                    has liked your post
+                                                {% else %}
+                                                    has comment your post
+                                                {% endif %}
                                             </p>
                                         </div>
                                     {% endfor %}

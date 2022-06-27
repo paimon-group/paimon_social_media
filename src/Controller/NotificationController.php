@@ -8,13 +8,11 @@
     class NotificationController extends AbstractController
     {
         /**
-         * @Route ("/seenNotification", name="api_seen_notification", method={"PUT"})
+         * @Route ("/seenNotification", name="api_seen_notification", methods={"PUT"})
          */
         public function seenNotificationAPI(Request $request)
         {
             $request = $this->tranform($request);
-
-
         }
 
         public function tranform($request){

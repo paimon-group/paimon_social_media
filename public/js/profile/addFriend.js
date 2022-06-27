@@ -9,13 +9,9 @@ $(document).ready(function (){
             type:'PUT',
             data:{'userId':userId},
             success:function (data){
-                if(data['status'] == 200)
+                if(data['status_code'] == 200)
                 {
-                    console.log(data);
-                }
-                else
-                {
-                    console.log(data['Message']);
+                    location.href = '/profile/' + userId;
                 }
             }
         })

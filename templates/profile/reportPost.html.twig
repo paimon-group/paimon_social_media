@@ -1,0 +1,21 @@
+<div class="modal fade" id="report_post_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-custom-new-post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Report Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn_close_table_report_post"></button>
+            </div>
+            <form method="POST" action="{{ path('api_report_post') }}" enctype="multipart/form-data" id="report_post_form">
+                <div class="caption-post-in-table">
+                            <textarea placeholder="write something..." name="captionReport" id="report_caption" cols="30" rows="10" class="text-area-caption-in-table"></textarea>
+                </div>
+                <input type="hidden" value="">
+                <div class="modal-footer">
+                    <div class="error-message" id="error_report_post" style="transform: translateX(-20rem); color: red">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btn_send_report">Send report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
