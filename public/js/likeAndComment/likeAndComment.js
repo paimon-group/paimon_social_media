@@ -60,11 +60,13 @@ $(document).ready(function (){
         })
     }
 
+    //show comment block
     $(document).on('click', '.comment-post-home', function (){
        var commentPostId =  $(this).data('post-id');
         $('#comment_post_'+commentPostId).show();
     })
 
+    //send comment
     $(document).on('click',  '.btn-send-comment-post', function(){
         var postId = $(this).data('btn-send-comment-id');
         var content = $('#txt_comment_post_home_'+postId).val();
@@ -74,8 +76,31 @@ $(document).ready(function (){
             type: 'PUT',
             data:{'postId':postId, 'content':content},
             success:function (data){
-                console.log(data);
+                console.log(data)
+                addNewComment(data);
             }
         })
+    });
+    function addNewComment(data)
+    {
+        var NewComment =
+            '<div class="other-user-comment">\n' +
+            '                            <div class="avatar-other-user-home">\n' +
+            '                                <img src="{{ asset( image_dir ~ comment.avatar) }}" alt="avatar">\n' +
+            '                            </div>\n' +
+            '                            <div class="comment-content-post">\n' +
+            '                                <h5 class="full-name-user-comment" data-user-id="{{ comment.id  }}">{{ comment.fullname }}</h5>\n' +
+            '                                <p>{{ comment.comment_content }}</p>\n' +
+            '                                <div class="time-comment-post-home">{{ comment.upload_time }}</div>\n' +
+            '                            </div>\n' +
+            '                        </div>';
+
+    }
+
+    //go to profile of user comment
+    $('.full-name-user-comment').click(function (){
+        var userId = $(this).data('user-id');
+
+        location.href = '/profile/'+userId;
     });
 });

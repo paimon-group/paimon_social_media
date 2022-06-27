@@ -19,7 +19,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use DateTimeZone;
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 class ReactionController extends AbstractController
 {
     /**
@@ -120,7 +122,17 @@ class ReactionController extends AbstractController
             $this->saveComment($post, $content, $database);
             $this->saveCommentNotification($post, $postRepository, $userRepository, $database);
 
-            return new JsonResponse(['status_code' => 200, 'Message' => 'Success send comment to post id: '.$postId]);
+            $userId = $this->getUser()->getId();
+            $FullnameUser = $userRepository->find($userId);
+
+            return new JsonResponse([
+                'status_code' => 200,
+                'userId' => $userId,
+                'fullname' => $FullnameUser->getFullname(),
+                'content' => $content,
+                'dateTime' => new \DateTime(),
+                'Message' => 'Success send comment to post id: '.$postId
+            ]);
         }
         else
         {

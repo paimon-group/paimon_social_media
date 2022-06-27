@@ -1,6 +1,7 @@
 <?php
     namespace App\Controller;
 
+    use App\Entity\Notification;
     use App\Entity\Relationship;
     use App\Repository\NotificationRepository;
     use App\Repository\ReactionRepository;
@@ -60,14 +61,10 @@
 
             if($sendToFriend)
             {
-                $relationShip = new Relationship();
-                $relationShip->setUser($this->getUser());
-                $relationShip->setFriend($sendToFriend);
-                $relationShip->setStatus('0');
-
                 $database = $managerRegistry->getManager();
-                $database->persist($relationShip);
-                $database->flush();
+
+                $this->saveRelationShip($sendToFriend, $database);
+                $this->saveInviteFriend($sendToFriend, $database);
 
                 $countStatusRelationShip = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $friendId);
 
@@ -95,7 +92,27 @@
                 ]);
             }
 
+        }
+        public function saveRelationShip($sendToFriend, $database)
+        {
+            $relationShip = new Relationship();
+            $relationShip->setUser($this->getUser());
+            $relationShip->setFriend($sendToFriend);
+            $relationShip->setStatus('0');
 
+            $database->persist($relationShip);
+            $database->flush();
+        }
+        public function saveInviteFriend($sendToFriend, $database)
+        {
+            $inviteFriendNotifical = new Notification();
+            $inviteFriendNotifical->setSender($this->getUser());
+            $inviteFriendNotifical->setReceiver($sendToFriend);
+            $inviteFriendNotifical->setType('invite');
+            $inviteFriendNotifical->setSeen('no');
+
+            $database->persist($inviteFriendNotifical);
+            $database->flush();
         }
 
         /**
