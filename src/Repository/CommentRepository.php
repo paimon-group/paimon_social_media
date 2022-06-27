@@ -39,17 +39,16 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
     // the function will be return ten first comment if number is 0. and you should increase that ten units when user click show more
-    public function getComment($post_id)
+    
+    public function getFullComment()
     {
-        return $this->createQueryBuilder('c')
-        ->select('u.avatar,u.fullname,c.comment_content,c.upload_time, p.id')
-        ->innerJoin('c.user','u')
-        ->innerJoin('c.post','p')
-        ->where('p.id=:post_id')
-        ->orderBy('c.upload_time','ASC')
-        ->setParameter('post_id',$post_id)
-        ->getQuery()->execute();
+        $conn=$this->getEntityManager()->getConnection();
+        $query="SELECT u.fullname,u.id,u.avatar,c.post_id,c.comment_content,c.upload_time  FROM comment as c,user as u WHERE c.user_id=u.id";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
     }
+    
 
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
