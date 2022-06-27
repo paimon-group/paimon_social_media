@@ -1,7 +1,9 @@
 <?php
     namespace App\Controller;
 
+    use App\Repository\NotificationRepository;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,9 +12,17 @@
         /**
          * @Route ("/seenNotification", name="api_seen_notification", methods={"PUT"})
          */
-        public function seenNotificationAPI(Request $request)
+        public function seenNotificationAPI(NotificationRepository $notificationRepository)
         {
-            $request = $this->tranform($request);
+            $seen = $notificationRepository->updateSeenStatusNotification($this->getUser()->getId());
+            if($seen)
+            {
+                return new JsonResponse(['status_code' => 200, 'Message' => 'Seen notification like and comment']);
+            }
+            else
+            {
+                return new JsonResponse(['status_code' => 400, 'Message' => 'something wrong']);
+            }
         }
 
         public function tranform($request){
@@ -23,4 +33,5 @@
             $request->request->replace($data);
             return $request;
         }
+
     }

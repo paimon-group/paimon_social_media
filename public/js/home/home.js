@@ -75,7 +75,7 @@ $(document).ready(function ()
         })
     }
     function showUserList(data)
-    {   console.log(data)
+    {
         $('#root-post').hide();
         $('.user-list-found').remove();
 
@@ -112,6 +112,21 @@ $(document).ready(function ()
         var senderId = $(this).data('sender-id');
 
         location.href = '/profile/' + senderId;
+    })
+
+    //seen like and comment notification
+    $('#post_notification').click(function (){
+        $.ajax({
+            url:'/seenNotification',
+            type:'PUT',
+            success:function (data){
+                if(data['status_code'] == 200)
+                {
+                   $('.count-notification-post').hide();
+                   $('.count-notification-post').html(0);
+                }
+            }
+        })
     })
 });
 
