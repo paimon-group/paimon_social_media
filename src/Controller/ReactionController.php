@@ -23,7 +23,7 @@ class ReactionController extends AbstractController
     /**
      * @Route("/reaction/like", name="app_reaction_like", methods={"PUT"})
      */
-    public function likeAction(Request $request ,UserRepository $userRepository,PostRepository $postRepository, ReactionRepository $reactionRepository, ManagerRegistry $managerRegistry): Response
+    public function likeAction(Request $request, NotificationRepository $notificationRepository,UserRepository $userRepository,PostRepository $postRepository, ReactionRepository $reactionRepository, ManagerRegistry $managerRegistry): Response
     {
         $request = $this->tranform($request);
 
@@ -43,7 +43,7 @@ class ReactionController extends AbstractController
             }
             else
             {
-                $reactionid = $this->unlike($post, $database, $reactionRepository, $idPostWantLike);
+                $reactionid = $this->unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository);
                 return new JsonResponse(['status_code' => 200, 'Message' => 'Un like success with post id: '.$idPostWantLike, 'remove' => $reactionid[0]['id']]);
             }
         }
@@ -79,7 +79,7 @@ class ReactionController extends AbstractController
         $database->persist($notification);
         $database->flush();
     }
-    function unlike($post, $database, $reactionRepository, $idPostWantLike)
+    function unlike($post, $database, $reactionRepository, $idPostWantLike, $notificationRepository)
     {
         //save total like
         $post->setTotalLike($post->getTotalLike() - 1);
@@ -93,6 +93,9 @@ class ReactionController extends AbstractController
 
         $database->remove($reactionWantDelete);
         $database->flush();
+
+        //remove notification like
+        $notificationRepository->removeNotificationLike($this->getUser()->getId(), $post->getUserId());
 
         return $reactionid;
     }

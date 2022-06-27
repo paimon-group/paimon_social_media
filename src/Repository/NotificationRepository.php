@@ -119,6 +119,15 @@ class NotificationRepository extends ServiceEntityRepository
         return $resultSet;
     }
 
+    public function removeNotificationLike($sender_id,$receiver_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query="DELETE FROM notification WHERE sender_id=:sender_id AND receiver_id=:receiver_id AND type='like'";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+        return $resultSet;
+    }
+
 
 //    /**
 //     * @return Notification[] Returns an array of Notification objects
