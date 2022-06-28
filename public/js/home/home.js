@@ -1,7 +1,5 @@
 $(document).ready(function ()
 {
-    console.log("ready");
-
     //change logo status
     $('.brand').mouseenter(function (){
         $("#logo").attr('src', '/image/decorate/logo2.png');
@@ -101,7 +99,7 @@ $(document).ready(function ()
         $('.body-user-list-found').append(userList);
     }
 
-    //view profile of other user
+    //view profile of other user when search
     $(document).on('click', '.item-user-list-found', function (){
         var userId = $(this).data('user-id');
         location.href = '/profile/' + userId;
@@ -110,7 +108,6 @@ $(document).ready(function ()
     //go to invite friend sender
     $('.item-friend-notification-table').click(function (){
         var senderId = $(this).data('sender-id');
-
         location.href = '/profile/' + senderId;
     })
 

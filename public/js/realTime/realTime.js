@@ -1,41 +1,75 @@
 $(document).ready(function (){
-    var conn;
 
-    $.ajax({
-        url:'/setUserToken',
-        type:'PUT',
-        success:function (data)
+    var conn = new WebSocket('ws://localhost:4444');
+
+    conn.onopen = function (e){
+        console.log("Connection success!");
+    }
+
+    conn.onmessage = function (e){
+        var data = JSON.parse(e.data);
+        addNewMessage(data);
+    }
+    function addNewMessage(data)
+    {
+        var style = 'style="float: left; margin-left: 1rem"';
+        if(data.from === 'me')
         {
-            if(data['status_code'] == 200)
-            {
-                conn = new WebSocket('ws://localhost:4444');
+            style = 'style="float: right; margin-right: 1rem; background-color: rgb(127, 203, 175)"';
+            var blockMessage =
+                '                <div class="block-message" '+style+' >\n' +
+                '                    <div class="content-message">'+data.message+'</div>\n' +
+                '                    <div class="time-message">'+data.time+'</div>\n' +
+                '                </div>'
+        }
+        else
+        {
+            var blockMessage =
+                '                <div class="block-message" '+style+' >\n' +
+                '                    <img src="../image/post/'+data.avatar+'" alt="avatar">\n' +
+                '                    <div class="fullname-user-message" data-user-id="'+data.userId+'">'+data.fullname+'</div>\n' +
+                '                    <div class="content-message">'+data.message+'</div>\n' +
+                '                    <div class="time-message">'+data.time+'</div>\n' +
+                '                </div>'
+        }
 
-                conn.onopen = function (e){
-                    console.log("Connection success!");
-                }
+        $('.body-chat-box').append(blockMessage);
+    }
 
-                conn.onmessage = function (e){
-                    console.log( JSON.parse(e.data));
-                }
-
-                conn.onclose = function (e){
-                }
-
-                conn.onerror = function (e){
-                }
-            }
+    //send mess
+    $(document).on('click', '.btn-send-mess', function (){
+        sendMess();
+    })
+    $('.txt-chat-box').keyup(function (e)
+    {
+        if(e.keyCode == 13)
+        {
+            sendMess();
         }
     });
+    function sendMess()
+    {
+        var userId = $('#btn_go_to_profile_header').data('user-id');
+        var message = $('.txt-chat-box').val();
+        var fullname = $('#fullname_user').val();
+        var avatar = $('#avatar_user').val()
+        if(message !== '')
+        {
+            var data = {
+                userId: userId,
+                message: message,
+                fullname:fullname,
+                avatar:avatar
+            }
+            conn.send(JSON.stringify(data));
+            $('.txt-chat-box').val('');
 
-
-
-    $(document).on('click', '.btn-send-mess', function (){
-        console.log('click')
-        var data = {
-            userId: '2',
-            msg: 'aasdfkjkhbaskdfjk',
         }
-        conn.send(JSON.stringify(data));
+    }
+
+    $(document).on('click', '.fullname-user-message', function (){
+        var friendId = $(this).data('user-id');
+        location.href = '/profile/'+friendId;
     })
 
     function getUrl()

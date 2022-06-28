@@ -23,17 +23,16 @@
 <div class="block-chat">
         <div class="chat-box">
             <div class="header-chat-box">
-                <div class="avatar-friend-in-chat-box"><img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar"></div>
-                <div class="name-friend-in-chat-box">nguyen nhat khang</div>
+                <div class="name-friend-in-chat-box">Chat</div>
                 <div class="btn-collapse-chat-box"><i class="bi-chevron-down"></i></div>
-                <div class="btn-close-chat-box"><i class="bi-x-square"></i></div>
             </div>
             <div class="overflow-auto body-chat-box">
-
             </div>
             <div class="footer-chat-box">
                 <input type="text" class="txt-chat-box">
-                <div class="btn-send-mess"><i class="bi-send-fill"></i></div>
+                <input type="hidden" id="fullname_user" value="{{ inforUser[0].fullname }}">
+                <input type="hidden" id="avatar_user" value="{{ inforUser[0].avatar }}">
+                <div class="btn-send-mess" data-user-id="{{ app.user.id }}"><i class="bi-send-fill"></i></div>
             </div>
         </div>
 </div>

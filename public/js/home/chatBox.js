@@ -15,21 +15,6 @@ $(document).ready(function (){
             $('.btn-collapse-chat-box i').removeClass('bi-chevron-down');
             $('.btn-collapse-chat-box i').addClass('bi-chevron-up');
         }
-
     });
 
-    //open chat box
-    $(document).on('click',  '.friend-in-list', function(){
-        console.log($(this).data('friend-id'));
-        OpenChatBox();
-    });
-
-    function OpenChatBox()
-    {
-        $('.chat-box').show();
-    }
-
-    $('.btn-close-chat-box').click(function (){
-        $('.chat-box').hide();
-    })
 })

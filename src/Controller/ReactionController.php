@@ -135,7 +135,7 @@ class ReactionController extends AbstractController
                 'avatar' => $FullnameUser->getAvatar(),
                 'fullname' => $FullnameUser->getFullname(),
                 'content' => $content,
-                'dateTime' => new \DateTime(),
+                'dateTime' => date('Y-m-d h:i:s'),
                 'Message' => 'Success send comment to post id: '.$postId
             ]);
         }

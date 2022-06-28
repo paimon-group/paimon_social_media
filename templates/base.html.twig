@@ -79,7 +79,7 @@
                                 <a class="nav-link-header" href="{{ path('app_process_logout') }}"><i class="bi-box-arrow-right icon-nav-header"></i></a>
                             </li>
                             <li class="nav-item nav-item-header-custom">
-                                <a class="" href="/profile/{{ inforNavBar[0].id }}">
+                                <a class="" href="/profile/{{ inforNavBar[0].id }}" id="btn_go_to_profile_header" data-user-id="{{ inforNavBar[0].id }}">
                                     <img src="{{ asset( image_dir ~ inforNavBar[0].avatar ) }}" alt="" class="icon-nav-header img-avatar-header">
                                 </a>
                             </li>

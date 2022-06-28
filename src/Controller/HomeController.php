@@ -107,7 +107,9 @@ class HomeController extends AbstractController
         }
     }
 
-        public function tranform($request){
+
+
+    public function tranform($request){
         $data = json_decode($request->getContent(), true);
         if($data === null){
             return $request;
@@ -115,6 +117,4 @@ class HomeController extends AbstractController
         $request->request->replace($data);
         return $request;
     }
-
-
 }

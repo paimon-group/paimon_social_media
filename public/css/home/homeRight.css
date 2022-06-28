@@ -102,20 +102,20 @@
 .block-chat{
     position: fixed;
     width: fit-content;
-    height: 5rem;
+    height: 2rem;
     z-index: 100;
     bottom: 0;
-    right: 23rem;
+    right: 0.2rem;
 }
 
 .chat-box{
-    width: 21rem;
+    width: 22.6rem;
     height: fit-content;
     box-shadow: 0 0 .5rem gray;
     border-radius: 1rem;
     margin-left: 1rem;
     display: inline-block;
-    transform: translateY(-22.53rem);
+    transform: translateY(-41.8rem)
 }
 
 .header-chat-box{
@@ -166,9 +166,9 @@
 }
 
 @keyframes mini-chat-box {
-    0% { transform: translateY(-22.53rem)}
-    20%{transform: translateY(-24rem)}
-    100% { transform: translateY(1.5rem)}
+    0% { transform: translateY(-41.8rem)}
+    20%{transform: translateY(-45rem)}
+    100% { transform: translateY(-1.5rem)}
 /*transform: translateY(-22.53rem);*/
 }
 
@@ -179,8 +179,8 @@
 }
 
 @keyframes max-chat-box {
-    0% { transform: translateY(1.5rem)}
-    100% { transform: translateY(-22.53rem)}
+    0% { transform: translateY(-1.5rem)}
+    100% { transform: translateY(-41.8rem)}
 }
 
 .btn-close-chat-box{
@@ -197,12 +197,12 @@
 
 
 .body-chat-box{
-    height: 20rem;
+    height: 35rem;
     background-color: rgb(227, 237, 241);
 }
 
 .footer-chat-box{
-    height: 4rem;
+    height: 5rem;
     background-color: rgb(102, 167, 175);
     border-radius: 0 0 1rem 1rem;
     border-top: 3px solid rgb(0, 66, 67);
@@ -214,7 +214,7 @@
     transform: translateY(11px);
     margin-left: 1rem;
     display: inline-block;
-    width: 16rem;
+    width: 17rem;
     border: none;
     background-color: rgb(240, 242, 245);
 }
@@ -235,6 +235,50 @@
 .btn-send-mess:hover{
     color: rgb(227, 237, 241);
     cursor: pointer;
+}
+
+.block-message{
+    margin-top: 1rem;
+    background-color: white;
+    min-width: 11rem;
+    max-width: 21rem;
+    height: fit-content;
+    padding: 0.4rem 0.5rem 0.4rem 0.4rem;
+    margin-left: 0.7rem;
+    border-radius: 1rem;
+    right: 0;
+    font-family: inherit;
+}
+
+.block-message img{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 3rem;
+    background: transparent;
+}
+
+.fullname-user-message{
+    display: inline-block;
+    margin-left: .4rem;
+}
+
+.fullname-user-message:hover{
+    color: rgb(102, 167, 175);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+.content-message{
+    text-align: start;
+    word-break: break-word;
+}
+
+.time-message{
+    text-align: end;
+    font-size: .7rem;
+    height: 1rem;
+    width: 100%;
 }
 
 

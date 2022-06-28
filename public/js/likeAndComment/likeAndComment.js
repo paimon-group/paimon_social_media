@@ -95,6 +95,7 @@ $(document).ready(function (){
             type: 'PUT',
             data:{'postId':postId, 'content':content},
             success:function (data){
+                console.log(data)
                 var NewComment =
                     '<div class="other-user-comment">\n' +
                     '     <div class="avatar-other-user-home">\n' +
@@ -103,7 +104,7 @@ $(document).ready(function (){
                     '     <div class="comment-content-post">\n' +
                     '       <h5 class="full-name-user-comment" data-user-id="'+data['userId']+'">'+data['fullname']+'</h5>\n' +
                     '       <p>'+data['content']+'</p>\n' +
-                    '       <div class="time-comment-post-home">'+data['dateTime']['date']+'</div>\n' +
+                    '       <div class="time-comment-post-home">'+data['dateTime']+'</div>\n' +
                     '     </div>\n' +
                     '</div>';
                 $('#comment_post_'+postId).append(NewComment);
