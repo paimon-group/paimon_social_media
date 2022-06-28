@@ -15,7 +15,7 @@ $(document).ready(function (){
         var style = 'style="float: left; margin-left: 1rem"';
         if(data.from === 'me')
         {
-            style = 'style="float: right; margin-right: 1rem; background-color: rgb(127, 203, 175)"';
+            style = 'style="float: right; margin-right: 1rem; background-color: rgb(212, 237, 228)"';
             var blockMessage =
                 '                <div class="block-message" '+style+' >\n' +
                 '                    <div class="content-message">'+data.message+'</div>\n' +
@@ -34,6 +34,12 @@ $(document).ready(function (){
         }
 
         $('.body-chat-box').append(blockMessage);
+        $('.body-chat-box').scrollTop($('.body-chat-box')[0].scrollHeight);
+
+        if($('.chat-box').hasClass('chat-box-mini-animation') )
+        {
+            $('.header-chat-box').addClass('animatio-message-notification');
+        }
     }
 
     //send mess

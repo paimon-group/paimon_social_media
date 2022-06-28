@@ -125,5 +125,19 @@ $(document).ready(function ()
             }
         })
     })
+
+    //go to friend profile when click friend inlist
+    $('.friend-in-list').click(function (){
+        var friendId = $(this).data('friend-id');
+
+        location.href = '/profile/'+friendId;
+    })
+
+    //go to user profile when click on user reation list
+    $('.item-post-notification-table').click(function (){
+        var userId = $(this).data('user-reaction-id');
+
+        location.href = '/profile/'+userId;
+    })
 });
 

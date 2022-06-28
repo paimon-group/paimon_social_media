@@ -65,7 +65,7 @@ class NotificationRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT n.id, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id ORDER BY n.id DESC';
+        $query ='SELECT n.id, u.id as userIdReaction, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id ORDER BY n.id DESC';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);

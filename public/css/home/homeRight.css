@@ -106,6 +106,7 @@
     z-index: 100;
     bottom: 0;
     right: 0.2rem;
+    display: none;
 }
 
 .chat-box{
@@ -115,7 +116,7 @@
     border-radius: 1rem;
     margin-left: 1rem;
     display: inline-block;
-    transform: translateY(-41.8rem)
+    transform: translateY(-41.8rem);
 }
 
 .header-chat-box{
@@ -124,6 +125,20 @@
     border-radius: 1rem 1rem 0 0;
     border-bottom: 3px solid rgb(0, 66, 67);
 }
+
+.animatio-message-notification{
+    animation-name: message-notification;
+    animation-iteration-count: infinite;;
+    animation-duration: 1s;
+    animation-direction: alternate-reverse;
+    background-color: rgb(102, 167, 175);
+}
+
+@keyframes message-notification {
+    0% { background-color: rgb(102, 167, 175) }
+    100% { background-color: lawngreen;}
+}
+
 
 .header-chat-box div{
     display: inline-block;
@@ -248,6 +263,7 @@
     border-radius: 1rem;
     right: 0;
     font-family: inherit;
+    margin-bottom: 0.3rem;
 }
 
 .block-message img{

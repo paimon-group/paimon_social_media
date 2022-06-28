@@ -26,11 +26,6 @@ class HomeController extends AbstractController
      */
     public function processWebSocket(UserRepository $userRepository, ManagerRegistry $managerRegistry)
     {
-//        if(session_id() === '')
-//        {
-//            session_start();
-//        }
-//        $_SESSION['userId'] = $this->getUser()->getId();
         $user = $userRepository->find($this->getUser()->getId());
         $user->setLoginStatus('online');
 
@@ -82,6 +77,14 @@ class HomeController extends AbstractController
             'comments' => $comments,
             'friendList' => $friendList
         ]);
+    }
+
+    /**
+     * @Route ("/aboutUs", name="app_about_us")
+     */
+    public function aboutUs()
+    {
+        return $this->render('home/aboutUs.html.twig');
     }
 
 

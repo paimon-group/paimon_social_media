@@ -1,0 +1,26 @@
+
+div.fpic img
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 150px;
+}
+p
+{
+    text-align: center;
+}
+
+div.pic div
+{
+    display: inline;
+
+}
+.demo
+{
+    width: 200px;
+    height: 150px;
+    position: relative;
+    margin-left: 8rem;
+}

@@ -29,7 +29,7 @@
         {
             $this->userConnects->attach($conn);
 
-            echo "New connection! (id {$conn->resourceId} session: {})\n";
+            echo "New connection! (id {$conn->resourceId})\n";
         }
 
         public function onMessage(ConnectionInterface $from, $msg)

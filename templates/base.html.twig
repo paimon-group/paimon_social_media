@@ -35,6 +35,9 @@
                             <li class="nav-item nav-item-header-custom">
                                 <a class="nav-link-header" href="/home"><i class="bi-house icon-nav-header"></i></a>
                             </li>
+                            <li class="nav-item nav-item-header-custom" id="btn_open_chat_box">
+                                <a class="nav-link-header"><i class="bi-chat-dots icon-nav-header"></i></a>
+                            </li>
                             <li class="nav-item nav-item-header-custom" id="post_notification">
                                 <a class="nav-link-header">
                                     <i class="bi-bell icon-nav-header">
@@ -45,9 +48,9 @@
                                 </a>
                                 <div class="overflow-auto post-notification-table">
                                     {% for likeAndComment in likeAndCommentDetail %}
-                                        <div class="item-post-notification-table">
-                                            <p>{{ likeAndComment['fullname'] }}
-                                                {% if likeAndComment['type'] == 'like' %}
+                                        <div class="item-post-notification-table" data-user-reaction-id="{{ likeAndComment.userIdReaction }}">
+                                            <p>{{ likeAndComment.fullname }}
+                                                {% if likeAndComment.type == 'like' %}
                                                     has liked your post
                                                 {% else %}
                                                     has comment your post
@@ -67,8 +70,8 @@
                                 </a>
                                 <div class="overflow-auto friend-notification-table">
                                     {% for inviteFriend in inviteFriendDetail %}
-                                        <div class="item-friend-notification-table" data-sender-id="{{ inviteFriend['sender_id'] }}">
-                                            <p>{{ inviteFriend['fullname'] }}
+                                        <div class="item-friend-notification-table" data-sender-id="{{ inviteFriend.sender_id }}">
+                                            <p>{{ inviteFriend.fullname }}
                                                 has send request friend
                                             </p>
                                         </div>
