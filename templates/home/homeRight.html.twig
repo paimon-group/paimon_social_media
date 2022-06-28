@@ -7,17 +7,20 @@
         </div>
     </div>
     <div class="overflow-auto body-right-block">
-        {% for i in 1..100 %}
-            <div class="friend-in-list" data-friend-id="{{ i }}">
-                <div class="avatar-friend-in-list" data-id=""><img src="{{ asset('image/post/test-post.jpg') }}" alt="avatar"></div>
-                <div class="name-friend-in-list">nguyen nhat khang</div>
-                <span class="bi-circle-fill status-friend-in-list"></span>
+        {% for friend in friendList %}
+            <div class="friend-in-list" data-friend-id="{{ friend.id }}">
+                <div class="avatar-friend-in-list" data-id=""><img src="{{ asset(image_dir ~ friend.avatar) }}" alt="avatar"></div>
+                <div class="name-friend-in-list">{{ friend.fullname }}</div>
+                {% if friend.login_status == 'online' %}
+                    <span class="bi-circle-fill status-friend-in-list" style="color: forestgreen"></span>
+                {% else %}
+                    <span class="bi-circle-fill status-friend-in-list" style="color: red"></span>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
 </div>
 <div class="block-chat">
-    {% for i in 1..3 %}
         <div class="chat-box">
             <div class="header-chat-box">
                 <div class="avatar-friend-in-chat-box"><img src="{{ asset('image/avatar/avatar.jpg') }}" alt="avatar"></div>
@@ -33,5 +36,4 @@
                 <div class="btn-send-mess"><i class="bi-send-fill"></i></div>
             </div>
         </div>
-    {% endfor %}
 </div>

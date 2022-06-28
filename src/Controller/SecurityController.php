@@ -146,6 +146,21 @@ class SecurityController extends AbstractController
             ]);
     }
 
+
+    /**
+     * @Route("/processLogout", name="app_process_logout")
+     */
+    public function processLogout(UserRepository $userRepository, ManagerRegistry $managerRegistry)
+    {
+        $user = $userRepository->find($this->getUser()->getId());
+        $user->setLoginStatus('offline');
+
+        $database = $managerRegistry->getManager();
+        $database->persist($user);
+        $database->flush();
+
+        return $this->redirectToRoute('app_logout');
+    }
     /**
      * @Route("/logout", name="app_logout")
      */

@@ -8,24 +8,26 @@ $(document).ready(function (){
         {
             if(data['status_code'] == 200)
             {
-                conn = new WebSocket('ws://localhost:4444?token='+data['token']);
+                conn = new WebSocket('ws://localhost:4444');
+
+                conn.onopen = function (e){
+                    console.log("Connection success!");
+                }
+
+                conn.onmessage = function (e){
+                    console.log( JSON.parse(e.data));
+                }
+
+                conn.onclose = function (e){
+                }
+
+                conn.onerror = function (e){
+                }
             }
         }
     });
 
-    conn.onopen = function (e){
-        console.log("Connection success!");
-    }
 
-    conn.onmessage = function (e){
-        console.log( JSON.parse(e.data));
-    }
-
-    conn.onclose = function (e){
-    }
-
-    conn.onerror = function (e){
-    }
 
     $(document).on('click', '.btn-send-mess', function (){
         console.log('click')

@@ -2,12 +2,16 @@
     namespace App\Controller;
 
     use App\Entity\User;
+    use App\Repository\ReactionRepository;
     use App\Repository\UserRepository;
-
+    use Doctrine\Persistence\ManagerRegistry;
+    use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\Routing\Annotation\Route;
     use Ratchet\MessageComponentInterface;
     use Ratchet\ConnectionInterface;
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-    class ReatimeController implements MessageComponentInterface
+    class RealtimeController extends AbstractController implements MessageComponentInterface
     {
         protected $userConnects;
 
@@ -16,11 +20,12 @@
             $this->userConnects = new \SplObjectStorage();
         }
 
+
         public function onOpen(ConnectionInterface $conn)
         {
-            $querystring = $conn->httpRequest->getUri()->getquery();
             $this->userConnects->attach($conn);
-            echo "New connection! (id {$conn->resourceId} session: })\n";
+
+            echo "New connection! (id {$conn->resourceId} session: {})\n";
         }
 
         public function onMessage(ConnectionInterface $from, $msg)

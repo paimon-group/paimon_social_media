@@ -94,10 +94,9 @@
 }
 
 .status-friend-in-list{
+    transform: translate(-1rem,1.3rem);
+    float: right;
     display: inline-block;
-    color: forestgreen;
-    transform: translateY(0.7rem);
-    margin-left: 1rem;
 }
 
 .block-chat{

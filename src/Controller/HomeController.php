@@ -24,13 +24,20 @@ class HomeController extends AbstractController
     /**
      * @Route ("/processWebSocket", name="process_web_socket")
      */
-    public function processWebSocket(UserRepository $userRepository)
+    public function processWebSocket(UserRepository $userRepository, ManagerRegistry $managerRegistry)
     {
-        if(session_id() === '')
-        {
-            session_start();
-        }
-        $_SESSION['userId'] = $this->getUser()->getId();
+//        if(session_id() === '')
+//        {
+//            session_start();
+//        }
+//        $_SESSION['userId'] = $this->getUser()->getId();
+        $user = $userRepository->find($this->getUser()->getId());
+        $user->setLoginStatus('online');
+
+        $database = $managerRegistry->getManager();
+        $database->persist($user);
+        $database->flush();
+
         return $this->redirectToRoute('app_home');
     }
     
