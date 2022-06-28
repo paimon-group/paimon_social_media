@@ -28,6 +28,30 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route ("/setUserToken", name="set_token", methods="PUT")
+     */
+    public function setUserToken(UserRepository $userRepository, ManagerRegistry $managerRegistry)
+    {
+        $userId = $this->getUser()->getId();
+        $user = $userRepository->find($userId);
+        if($user)
+        {
+            $token = md5(uniqid());
+            $user->setToken($token);
+
+            $database = $managerRegistry->getManager();
+            $database->persist($user);
+            $database->flush();
+
+            return new JsonResponse(['status_code' => 200, 'token' => $token]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Message' => 'something wrong']);
+        }
+    }
+
+    /**
      * @Route ("/registration", name="app_registration", methods="POST")
      */
     public function RegistrationProcessAction(Request $request, UserRepository $userRepository,ManagerRegistry $managerRegistry,ValidatorInterface  $validator)

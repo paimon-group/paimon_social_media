@@ -22,6 +22,19 @@ use Symfony\Component\Security\Core\Security;
 class HomeController extends AbstractController
 {
     /**
+     * @Route ("/processWebSocket", name="process_web_socket")
+     */
+    public function processWebSocket(UserRepository $userRepository)
+    {
+        if(session_id() === '')
+        {
+            session_start();
+        }
+        $_SESSION['userId'] = $this->getUser()->getId();
+        return $this->redirectToRoute('app_home');
+    }
+    
+    /**
      * @Route("/home", name="app_home")
      */
     public function index(ReactionRepository $reactionRepository, CommentRepository $commentRepository, UserRepository $userRepository, PostRepository $postRepository, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
