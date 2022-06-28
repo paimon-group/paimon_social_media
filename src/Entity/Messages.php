@@ -18,47 +18,24 @@ class Messages
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $chat_message;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $time;
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @ORM\Column(type="text")
      */
-    private $seen;
+    private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user_messages")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user_message")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $from_user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="to_user_message")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $to_user;
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getChatMessage(): ?string
-    {
-        return $this->chat_message;
-    }
-
-    public function setChatMessage(string $chat_message): self
-    {
-        $this->chat_message = $chat_message;
-
-        return $this;
     }
 
     public function getTime(): ?\DateTimeInterface
@@ -73,38 +50,26 @@ class Messages
         return $this;
     }
 
-    public function getSeen(): ?string
+    public function getMessage(): ?string
     {
-        return $this->seen;
+        return $this->message;
     }
 
-    public function setSeen(string $seen): self
+    public function setMessage(string $message): self
     {
-        $this->seen = $seen;
+        $this->message = $message;
 
         return $this;
     }
 
-    public function getFromUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->from_user;
+        return $this->user;
     }
 
-    public function setFromUser(?User $from_user): self
+    public function setUser(?User $user): self
     {
-        $this->from_user = $from_user;
-
-        return $this;
-    }
-
-    public function getToUser(): ?User
-    {
-        return $this->to_user;
-    }
-
-    public function setToUser(?User $to_user): self
-    {
-        $this->to_user = $to_user;
+        $this->user = $user;
 
         return $this;
     }

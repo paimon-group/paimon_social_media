@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Messages;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use DateTimeZone;
 
 /**
  * @extends ServiceEntityRepository<Messages>
@@ -15,7 +14,6 @@ use DateTimeZone;
  * @method Messages[]    findAll()
  * @method Messages[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-date_default_timezone_set('Asia/Ho_Chi_Minh');
 class MessagesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

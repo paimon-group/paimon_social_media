@@ -144,16 +144,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $user_receiver;
 
     /**
-     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="from_user")
-     */
-    private $user_messages;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="to_user")
-     */
-    private $to_user_message;
-
-    /**
      * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user_send_report")
      */
     private $user_send_report;
@@ -162,6 +152,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user_reported")
      */
     private $user_reported;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="user")
+     */
+    private $user_message;
 
     public function __construct()
     {
@@ -172,10 +167,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->friend_relationship = new ArrayCollection();
         $this->user_sender = new ArrayCollection();
         $this->user_receiver = new ArrayCollection();
-        $this->user_messages = new ArrayCollection();
-        $this->to_user_message = new ArrayCollection();
         $this->user_send_report = new ArrayCollection();
         $this->user_reported = new ArrayCollection();
+        $this->user_message = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -600,59 +594,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->user_messages;
     }
-
-    public function addUserMessage(Messages $userMessage): self
-    {
-        if (!$this->user_messages->contains($userMessage)) {
-            $this->user_messages[] = $userMessage;
-            $userMessage->setFromUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserMessage(Messages $userMessage): self
-    {
-        if ($this->user_messages->removeElement($userMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($userMessage->getFromUser() === $this) {
-                $userMessage->setFromUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Messages>
-     */
-    public function getToUserMessage(): Collection
-    {
-        return $this->to_user_message;
-    }
-
-    public function addToUserMessage(Messages $toUserMessage): self
-    {
-        if (!$this->to_user_message->contains($toUserMessage)) {
-            $this->to_user_message[] = $toUserMessage;
-            $toUserMessage->setToUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeToUserMessage(Messages $toUserMessage): self
-    {
-        if ($this->to_user_message->removeElement($toUserMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($toUserMessage->getToUser() === $this) {
-                $toUserMessage->setToUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Report>
      */
@@ -707,6 +648,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($userReported->getUserReported() === $this) {
                 $userReported->setUserReported(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getUserMessage(): Collection
+    {
+        return $this->user_message;
+    }
+
+    public function addUserMessage(Messages $userMessage): self
+    {
+        if (!$this->user_message->contains($userMessage)) {
+            $this->user_message[] = $userMessage;
+            $userMessage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserMessage(Messages $userMessage): self
+    {
+        if ($this->user_message->removeElement($userMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($userMessage->getUser() === $this) {
+                $userMessage->setUser(null);
             }
         }
 
