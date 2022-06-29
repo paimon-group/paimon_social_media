@@ -95,3 +95,68 @@
 .btn-get-report-detail{
     float: right;
 }
+
+
+/*report-table******************************************/
+
+.modal-dialog-custom{
+    max-width: 50rem;
+}
+
+.img-post-in-table,
+.caption-post-in-table{
+    display: inline-block;
+}
+
+.img-post-in-table{
+    width: 30rem;
+    height: 20rem;
+    vertical-align: top;
+}
+
+.img-post-in-table img{
+    border-radius: 1rem 1rem 0 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sender-report-detail{
+    width: 48rem;
+    height: 6rem;
+    background-color: rgba(214, 215, 217, .3);
+    padding: 1rem;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.sender-report-detail div{
+    display: inline-block;
+}
+
+.content-report{
+    transform: translate(3rem, -3rem);
+    padding: 0.5rem;
+    width: 44rem;
+    height: 5.5rem;
+    word-break: break-word;
+}
+
+.block-reaction-post-report{
+    font-size: 1.5rem;
+    float: right;
+    display: inline-block;
+    transform: translate(-2rem, -2.6rem);
+}
+
+.block-reaction-post-report div{
+    display: inline-block;
+}
+
+.tym-post,
+.comment-post{
+    margin-left: 3rem;
+}
+
+.count-tym-post,
+.count-comment-post{
+    font-size: 1rem;
+}

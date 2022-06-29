@@ -18,9 +18,14 @@ $(document).ready(function (){
    {
       $('#statifical_item').addClass('active');
    }
-   if(getLocation() == '/report')
+   if(getLocation() == '/reportManager')
    {
       $('#report_item').addClass('active');
    }
+
+   //check report
+   $('.btn-get-report-detail').click(function (){
+
+   })
 
 });

@@ -1,12 +1,13 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
+    {{ include('admin/report/reportDetailTable.html.twig') }}
     <div class="admin-report">
         <div class="admin-report-header">
             <div class=""><p>Report from user: {{ totalReport[0].total_report }}</p></div>
             <div class="tilte-index-header">
                 <ul>
-                    <li>No.</li>
+                    <li>id.</li>
                     <li style="transform: translate(-13rem, 0.26rem);">Accuser</li>
                     <li>Accusered</li>
                     <li style="transform: translate(-6rem, 0.26rem);">Time</li>
@@ -30,7 +31,7 @@
                         <div class="fullname-user-reported">{{ report.user_reported_name }}</div>
                     </div>
                     <div class="time-reported">{{ report.report_time }}</div>
-                    <button class="btn btn-success btn-get-report-detail" data-post-id="{{ report.post_id }}">Check</button>
+                    <button class="btn btn-success btn-get-report-detail" data-post-id="{{ report.post_id }}" data-bs-toggle="modal" data-bs-target="#reprot_detail_table">Check</button>
                 </div>
             {% endfor %}
         </div>
