@@ -3,11 +3,35 @@
 {% block body %}
     <div class="admin-report">
         <div class="admin-report-header">
-            <div class=""><p>Report from user:123</p></div>
+            <div class=""><p>Report from user: {{ totalReport[0].total_report }}</p></div>
+            <div class="tilte-index-header">
+                <ul>
+                    <li>No.</li>
+                    <li style="transform: translate(-13rem, 0.26rem);">Accuser</li>
+                    <li>Accusered</li>
+                    <li style="transform: translate(-6rem, 0.26rem);">Time</li>
+                </ul>
+            </div>
         </div>
         <div class="overflow-auto admin-report-body">
-            {% for i in 1..20 %}
-            <div class="item-report-from-user"><p></p></div>
+            {% for report in reportInfor %}
+                <div class="item-report-from-user">
+                    <div class="report-id">{{ report.id }}</div>
+                    <div class="block-user-send-report">
+                        <div class="avatar-user-send-report">
+                            <img src="{{ asset(image_dir ~ report.user_send_report_avatar) }}" alt="avatar">
+                        </div>
+                        <div class="fullname-user-send-report">{{ report.user_send_report_name }}</div>
+                    </div>
+                    <div class="block-user-reported">
+                        <div class="avatar-user-reported">
+                            <img src="{{ asset(image_dir ~ report.user_reported_avatar) }}" alt="avatar">
+                        </div>
+                        <div class="fullname-user-reported">{{ report.user_reported_name }}</div>
+                    </div>
+                    <div class="time-reported">{{ report.report_time }}</div>
+                    <button class="btn btn-success btn-get-report-detail" data-post-id="{{ report.post_id }}">Check</button>
+                </div>
             {% endfor %}
         </div>
     </div>

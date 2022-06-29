@@ -26,7 +26,10 @@ class AdminController extends AbstractController
     {
         $totalReport=$reportRepository->getTotalReport();
         $reportInfor=$reportRepository->getReport();
-        return new JsonResponse(['totalReport'=>$totalReport,'reportInfor'=>$reportInfor]);
+        return $this->render('admin/report/adminReport.html.twig',[
+            'totalReport'=>$totalReport,
+            'reportInfor'=>$reportInfor
+        ]);
 
     }
 

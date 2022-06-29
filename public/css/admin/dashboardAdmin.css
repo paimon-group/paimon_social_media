@@ -7,9 +7,10 @@
     width: 20rem;
     height: 100%;
     background-color: white;
-    box-shadow: 1px 0rem 7px grey;
+    box-shadow: 1px 0 7px grey;
     display: inline-block;
     vertical-align: top;
+    border-radius: 0 0 1rem 0;
 }
 
 .header-dashboard{

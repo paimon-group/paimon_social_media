@@ -42,43 +42,4 @@ body{
     margin: 0 2rem 0 2rem;
 }
 
-.admin-report{
-    width: 73rem;
-    height: 46rem;
-    display: inline-block;
-}
-
-.admin-report-header{
-    width: 70rem;
-    height: 4rem;
-    border-radius: 1rem;
-    background-color: rgba(197, 224, 231);
-    margin: 2rem;
-    box-shadow: 0 0 .5rem grey;
-}
-
-.admin-report-body{
-    background-color: white;
-    height: 37rem;
-    width: 70rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 .5rem grey;
-    margin: 0 2rem 0 2rem;
-}
-
-.admin-report-header p{
-    transform: translate(2rem, 1rem);
-}
-
-.item-report-from-user{
-    width: 64rem;
-    height: 4rem;
-    border-radius: 1rem;
-    background-color: rgba(246, 38, 0, .8);
-    margin-top: 1rem;
-    margin-left: 2.5rem;
-    box-shadow: 0 0 0.5rem grey;
-    padding: 1rem;
-}
-
 
