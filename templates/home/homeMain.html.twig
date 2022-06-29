@@ -1,4 +1,13 @@
 <div class="home-main" id="root-post">
+    <div class="welcome-banner">
+        <div class="title-welcome-banner">Add more friends to see their posts</div>
+        {% for i in 1..7 %}
+            <div class="item-user-list-found" data-user-id="7">
+                <div class="avatar-user-found"><img src="/image/post/62bb085db5a4eFB_IMG_1614323966647.jpg" alt="avatar"></div>
+                <div class="fullname-user-found">khang</div>
+            </div>
+        {% endfor %}
+    </div>
     {% for post in posts %}
         <div class="post-home post-home-custom" id="post_id_{{ post['id'] }}">
             <div class="post-header-home">

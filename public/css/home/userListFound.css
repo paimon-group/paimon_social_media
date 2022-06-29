@@ -7,8 +7,9 @@
 }
 
 .body-user-list-found{
+    padding-bottom: 2rem;
     width: 100%;
-    height: 10rem;
+    height: fit-content;
     background-color: white;
     margin-left: 3.8rem;
     border-radius: 1rem;

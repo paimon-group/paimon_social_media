@@ -8,11 +8,6 @@ $(document).ready(function ()
         $("#logo").attr('src', '/image/decorate/logo.png');
     });
 
-    // $(document).on('click',  '.comment-post-home', function(){
-    //     console.log($(this).data('comment_id'));
-    //     id = $(this).data('comment_id');
-    //    $('#user_comments_'+id).show();
-    // });
 
     $('#post_notification').click(function (){
 
@@ -62,12 +57,12 @@ $(document).ready(function ()
             success:function (data){
                 if(data['status_code'] == 200)
                 {
-                    console.log(data['userList'].length);
+                    $('#txt_search_user_home_left').css('outline-color', 'green')
                     showUserList(data['userList']);
                 }
                 else
                 {
-                    console.log(data['Message']);
+                    $('#txt_search_user_home_left').css('outline-color', 'red')
                 }
             }
         })
@@ -95,7 +90,9 @@ $(document).ready(function ()
 
             userList += user;
         }
+        var titleSearchFriend = '<div class="title-welcome-banner">Found matching data</div>';
 
+        $('.body-user-list-found').append(titleSearchFriend);
         $('.body-user-list-found').append(userList);
     }
 

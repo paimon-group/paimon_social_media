@@ -2,6 +2,25 @@ body{
     background-color: rgb(240, 242, 245);
 }
 
+.welcome-banner{
+    background-color: white;
+    width: 100%;
+    margin-left: 3.8rem;
+    height: fit-content;
+    border-radius: 1rem;
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px grey;
+    -webkit-box-shadow: 0 2px 6px grey;
+    -moz-box-shadow: 0 2px 6px grey;
+}
+
+.title-welcome-banner{
+    padding: 1.5rem;
+    height: 2.7rem;
+    width: 50%;
+}
+
 .overplay-max-size-avatar{
     background-color: red;
     width: 100%;
