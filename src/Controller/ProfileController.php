@@ -74,7 +74,6 @@ class ProfileController extends AbstractController
                 'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
-//            return new JsonResponse($relationshipStatus);
         }
         else
         {
@@ -92,6 +91,7 @@ class ProfileController extends AbstractController
                 'comments' => $comments,
                 'friendStatus' => $relationshipStatus,
             ]);
+//            return new JsonResponse(['inforUser' => $userInfor]);
         }
 
     }
@@ -130,7 +130,6 @@ class ProfileController extends AbstractController
                 $user = $userRepository->find($this->getUser()->getId());
                 $dataInforUpdate = $formUpdateInfor->getData();
 
-                $user->setUsername($this->getUser()->getUsername());
                 $user->setPassword($this->getUser()->getPassword());
                 $user->setFullname($dataInforUpdate->getFullname());
                 $user->setEmail($dataInforUpdate->getEmail());

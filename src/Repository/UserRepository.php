@@ -61,7 +61,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ="select u.id, u.fullname,
+        $query ="select u.id, u.roles, u.fullname,
         u.avatar,u.phone,u.gender,
         u.address,u.email,
         (SELECT COUNT(p.id)FROM post as p WHERE p.user_id=:user_id AND p.deleted='false') as total_post,

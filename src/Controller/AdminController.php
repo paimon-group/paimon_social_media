@@ -30,7 +30,6 @@ class AdminController extends AbstractController
             'totalReport'=>$totalReport,
             'reportInfor'=>$reportInfor
         ]);
-
     }
 
      /**
@@ -39,7 +38,7 @@ class AdminController extends AbstractController
     public function reportDetaildAction(ReportRepository $reportRepository,$id)        
     {
         $reportDetail=$reportRepository->getReportDetail($id);
-        return new JsonResponse(['reportDetail'=>$reportDetail,]);
+        return new JsonResponse(['reportDetail'=>$reportDetail]);
 
     }
 

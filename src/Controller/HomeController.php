@@ -77,6 +77,7 @@ class HomeController extends AbstractController
             'comments' => $comments,
             'friendList' => $friendList
         ]);
+//        return new JsonResponse(['posts'=> $post]);
     }
 
     /**

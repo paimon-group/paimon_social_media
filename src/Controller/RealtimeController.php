@@ -24,7 +24,6 @@
             $this->userConnects = new \SplObjectStorage();
         }
 
-
         public function onOpen(ConnectionInterface $conn)
         {
             $this->userConnects->attach($conn);
