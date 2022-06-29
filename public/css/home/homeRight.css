@@ -52,7 +52,7 @@
 }
 
 .body-right-block{
-    background-color: rgba(197, 224, 231, .3);
+    background-color: white;
     height: 35rem;
     width: 100%;
     position: absolute;
@@ -213,7 +213,7 @@
 
 .body-chat-box{
     height: 35rem;
-    background-color: rgb(227, 237, 241);
+    background-color: white;
 }
 
 .footer-chat-box{
@@ -254,7 +254,7 @@
 
 .block-message{
     margin-top: 1rem;
-    background-color: white;
+    background-color: rgba(194, 202, 205, .3);
     min-width: 11rem;
     max-width: 21rem;
     height: fit-content;

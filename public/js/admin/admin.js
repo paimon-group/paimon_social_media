@@ -74,7 +74,8 @@ $(document).ready(function (){
           '                    <div class="content-report">'+data.reason+'</div>\n' +
           '                </div>\n' +
           '                <div class="modal-footer">\n' +
-          '                    <button class="btn btn-warning" id="btn_delete_post" data-post-id="">Delete Post</button>\n' +
+          '                    <button type="button" class="btn btn-warning" id="btn_delete_post" data-post-id="'+data.post_id+'" data-report-id="'+data.id+'">Delete Post</button>\n' +
+          '                    <button type="button" class="btn  btn-success" id="btn_harmless_post" data-report-id="'+data.id+'">harmless</button>\n' +
           '                </div>\n' +
           '            </div>\n' +
           '        </div>\n' +
@@ -85,9 +86,55 @@ $(document).ready(function (){
          $('#open_report_table').click();
 
    }
+   //delete post rule violation
+   $(document).on('click', '#btn_delete_post', function (){
+      var postId = $(this).data('post-id');
+      var reportId = $(this).data('report-id');
 
-   $("#reprot_detail_table").clickOutsideThisElement(function() {
-         console.log('click');
+      $.ajax({
+         url:'/deletePostIsRuleViolation',
+         type:'DELETE',
+         data:{postId:postId, reportId:reportId},
+         success:function (data){
+            if(data.status_code == 200)
+            {
+               $('#reported_post_id_'+reportId).remove();
+               $('#btn_close_report_table').click();
+            }
+         }
+      })
+
    });
 
+   //post is harmless
+   $(document).on('click', '#btn_harmless_post', function (){
+      var reportId = $(this).data('report-id');
+
+      $.ajax({
+         url:'/postIsHarmless',
+         type:'DELETE',
+         data:{reportId:reportId},
+         success:function (data){
+            console.log(data)
+            if(data.status_code == 200)
+            {
+               $('#reported_post_id_'+reportId).remove();
+               $('#btn_close_report_table').click();
+            }
+         }
+      })
+
+   })
+   // remove old report table when close
+   $(document).on('click', function (e) {
+      if ($(e.target).closest('.modal-content').length === 0) {
+         if($('body').hasClass('modal-open'))
+         {
+            $("#reprot_detail_table").remove();
+         }
+      }
+   });
+   $(document).on('click', '.btn-close', function (){
+      $("#reprot_detail_table").remove();
+   })
 });

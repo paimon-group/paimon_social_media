@@ -16,7 +16,7 @@
         </div>
         <div class="overflow-auto admin-report-body">
             {% for report in reportInfor %}
-                <div class="item-report-from-user">
+                <div class="item-report-from-user" id="reported_post_id_{{ report.id }}">
                     <div class="report-id">{{ report.id }}</div>
                     <div class="block-user-send-report">
                         <div class="avatar-user-send-report">
