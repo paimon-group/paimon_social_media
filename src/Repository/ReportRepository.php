@@ -81,8 +81,8 @@ class ReportRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
         $query ="SELECT rep.id ,p.caption,
-        us.avatar as user_reported_avatar, us.fullname as user_reported_name,
-        p.image ,p.total_like ,p.total_comment ,p.upload_time,
+        us.avatar as user_reported_avatar, us.id as user_reported_id, us.fullname as user_reported_name,
+        p.id as post_id, p.image ,p.total_like ,p.total_comment ,p.upload_time,
         u.avatar as user_send_report_avatar, u.fullname as user_send_report_name,
         rep.reason, rep.report_time from 
         user as u , report as rep, user as us, post as p 

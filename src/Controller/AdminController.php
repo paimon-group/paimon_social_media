@@ -33,13 +33,12 @@ class AdminController extends AbstractController
     }
 
      /**
-     * @Route ("/reportDetail/{id}", name="app_reportDetail")
+     * @Route ("/reportDetail/{id}", name="api_reportDetail", methods="GET")
      */
-    public function reportDetaildAction(ReportRepository $reportRepository,$id)        
+    public function reportDetaildAPI(ReportRepository $reportRepository, $id)
     {
         $reportDetail=$reportRepository->getReportDetail($id);
         return new JsonResponse(['reportDetail'=>$reportDetail]);
-
     }
 
 }
