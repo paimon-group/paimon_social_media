@@ -42,67 +42,71 @@ class ProfileController extends AbstractController
         $error = false;
         $caption = '';
         $relationshipStatus = '';
-
-        //get infor navbar
-        $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
-
-        //get total notification of like and comment
-        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
-        $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
-        $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
-
-        //get notification of invite friend
-        $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
-
-        //get detail notification
-        $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
-        $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
-
-        //get data user
-        $userInfor = $userRepository->getProfile($userId);
-        $posts = $postRepository->getPostProfile($userId);
-        $postLiked = $reactionRepository->checklike($this->getUser()->getId());
-
-        //get comment
-        $comments = $commentRepository->getFullComment();
-
-        if($userId != $this->getUser()->getId())
+        $user = $userRepository->find($userId);
+        if($user)
         {
-            $relationshipStatus = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $userId);
-            return $this->render( 'profile/profileIndex.html.twig',[
-                'error' => $error,
-                'caption' => $caption,
-                'inforNavBar' => $inforNavBar,
-                'countlikeAndComment' => $totalLikeAndCommentNotification,
-                'countInviteFriend' => $inviteFriend,
-                'likeAndCommentDetail' => $likeAndCommentDetail,
-                'inviteFriendDetail' => $inviteFriendDetail,
-                'inforUser' => $userInfor,
-                'posts' => $posts,
-                'postLiked' => $postLiked,
-                'comments' => $comments,
-                'friendStatus' => $relationshipStatus,
-            ]);
+            //get infor navbar
+            $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
+
+            //get total notification of like and comment
+            $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+            $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
+            $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+
+            //get notification of invite friend
+            $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
+
+            //get detail notification
+            $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
+            $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
+
+            //get data user
+            $userInfor = $userRepository->getProfile($userId);
+            $posts = $postRepository->getPostProfile($userId);
+            $postLiked = $reactionRepository->checklike($this->getUser()->getId());
+
+            //get comment
+            $comments = $commentRepository->getFullComment();
+
+            if($userId != $this->getUser()->getId())
+            {
+                $relationshipStatus = $relationshipRepository->checkRelatonshipStatus($this->getUser()->getId(), $userId);
+                return $this->render( 'profile/profileIndex.html.twig',[
+                    'error' => $error,
+                    'caption' => $caption,
+                    'inforNavBar' => $inforNavBar,
+                    'countlikeAndComment' => $totalLikeAndCommentNotification,
+                    'countInviteFriend' => $inviteFriend,
+                    'likeAndCommentDetail' => $likeAndCommentDetail,
+                    'inviteFriendDetail' => $inviteFriendDetail,
+                    'inforUser' => $userInfor,
+                    'posts' => $posts,
+                    'postLiked' => $postLiked,
+                    'comments' => $comments,
+                    'friendStatus' => $relationshipStatus,
+                ]);
+            }
+            else {
+                return $this->render('profile/profileIndex.html.twig', [
+                    'error' => $error,
+                    'caption' => $caption,
+                    'inforNavBar' => $inforNavBar,
+                    'countlikeAndComment' => $totalLikeAndCommentNotification,
+                    'countInviteFriend' => $inviteFriend,
+                    'likeAndCommentDetail' => $likeAndCommentDetail,
+                    'inviteFriendDetail' => $inviteFriendDetail,
+                    'inforUser' => $userInfor,
+                    'posts' => $posts,
+                    'postLiked' => $postLiked,
+                    'comments' => $comments,
+                    'friendStatus' => $relationshipStatus,
+                ]);
+            }
         }
         else
         {
-            return $this->render('profile/profileIndex.html.twig', [
-                'error' => $error,
-                'caption' => $caption,
-                'inforNavBar' => $inforNavBar,
-                'countlikeAndComment' => $totalLikeAndCommentNotification,
-                'countInviteFriend' => $inviteFriend,
-                'likeAndCommentDetail' => $likeAndCommentDetail,
-                'inviteFriendDetail' => $inviteFriendDetail,
-                'inforUser' => $userInfor,
-                'posts' => $posts,
-                'postLiked' => $postLiked,
-                'comments' => $comments,
-                'friendStatus' => $relationshipStatus,
-            ]);
-//            return new JsonResponse(['inforUser' => $userInfor]);
+            return new JsonResponse(['status_code' => 400]);
         }
-
     }
 
     /**

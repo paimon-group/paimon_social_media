@@ -1,11 +1,6 @@
 <div class="home-right">
     <div class="header-right-block">
-        <div class="title-right-block"><i class="bi-chat-heart"></i></div>
-        <div class="search-friend-list">
-            <input type="text" name="search-box-in-friend-list" id="txt_search_box_in_friend_list" placeholder="search friend">
-            <button id="btn-search-in-friend-list"><span class="bi-search"></span></button>
-        </div>
-    </div>
+        <div class="title-right-block"><i class="bi-chat-heart"></i><div style="font-style: initial;font-size: 1.5rem;display: inline-block;margin-left: 5rem;">List Friend</div></div></div>
     <div class="overflow-auto body-right-block">
         {% for friend in friendList %}
             <div class="friend-in-list" data-friend-id="{{ friend.id }}">
