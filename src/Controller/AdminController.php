@@ -37,11 +37,13 @@ class AdminController extends AbstractController
     }
 
      /**
-     * @Route ("/reportDetail/{id}", name="api_reportDetail", methods="GET")
+     * @Route ("/reportDetail", name="api_reportDetail", methods="GET")
      */
-    public function reportDetaildAPI(ReportRepository $reportRepository, $id)
+    public function reportDetaildAPI(Request $request,ReportRepository $reportRepository)
     {
-        $reportDetail=$reportRepository->getReportDetail($id);
+        $request = $this->tranform($request);
+        $reportId = $request->get('reportId');
+        $reportDetail=$reportRepository->getReportDetail($reportId);
         return new JsonResponse(['reportDetail'=>$reportDetail]);
     }
 

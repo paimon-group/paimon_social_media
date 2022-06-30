@@ -28,8 +28,9 @@ $(document).ready(function (){
        var reportId = $(this).data('report-id');
 
        $.ajax({
-          url:'/reportDetail/'+reportId,
+          url:'/reportDetail',
           type: 'GET',
+          data:{reportId:reportId},
           success:function (data){
              console.log(data.reportDetail[0])
              openReportTable(data.reportDetail[0])

@@ -33,6 +33,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/reportDetail, roles: ROLE_ADMIN }
+         - { path: ^/deletePostIsRuleViolation, roles: ROLE_ADMIN }
+
          - { path: ^/profile, roles: [ROLE_USER, ROLE_ADMIN] }
          - { path: ^/updateInformation, roles: [ROLE_USER, ROLE_ADMIN] }
          - { path: ^/friendList, roles: [ROLE_USER, ROLE_ADMIN] }
