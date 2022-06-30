@@ -99,8 +99,9 @@ $(document).ready(function (){
          success:function (data){
             if(data.status_code == 200)
             {
-               $('#reported_post_id_'+reportId).remove();
-               $('#btn_close_report_table').click();
+               // $('#btn_close_report_table').click();
+               // $('#reported_post_id_'+reportId).remove();
+               location.href = '/reportManager';
             }
          }
       })
@@ -119,8 +120,9 @@ $(document).ready(function (){
             console.log(data)
             if(data.status_code == 200)
             {
-               $('#reported_post_id_'+reportId).remove();
-               $('#btn_close_report_table').click();
+               // $('#btn_close_report_table').click();
+               // $('#reported_post_id_'+reportId).remove();
+               location.href = '/reportManager';
             }
          }
       })
