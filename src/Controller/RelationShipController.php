@@ -162,14 +162,15 @@
         /**
          * @Route ("/unFriend", name="api_unFriend", methods={"DELETE"})
          */
-        public function unFriendAPI(Request $request, RelationshipRepository $relationshipRepository)
+        public function unFriendAPI(Request $request, RelationshipRepository $relationshipRepository, NotificationRepository $notificationRepository)
         {
             $request = $this->tranform($request);
             $idWantToUnfriend = $request->get('friendId');
 
             $unFriendResult = $relationshipRepository->unfriend($this->getUser()->getId(), $idWantToUnfriend);
+            $deleteNotificationInviteFriend = $notificationRepository->deleteNotificationWhenUnfriend($this->getUser()->getId(), $idWantToUnfriend);
 
-            if($unFriendResult)
+            if($unFriendResult && $deleteNotificationInviteFriend)
             {
                 return new JsonResponse(['status_code' => 200, 'Message' => 'Success unfriend with user id: '.$idWantToUnfriend]);
             }
