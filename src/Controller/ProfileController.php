@@ -143,15 +143,7 @@ class ProfileController extends AbstractController
                 $user = $userRepository->find($this->getUser()->getId());
                 $dataInforUpdate = $formUpdateInfor->getData();
 
-                $user->setPassword($this->getUser()->getPassword());
-                $user->setFullname($dataInforUpdate->getFullname());
-                $user->setEmail($dataInforUpdate->getEmail());
-                $user->setPhone($dataInforUpdate->getPhone());
-                $user->setAddress($dataInforUpdate->getAddress());
-
-                $database = $managerRegistry->getManager();
-                $database->persist($user);
-                $database->flush();
+                $this->saveInforUser($dataInforUpdate, $user, $managerRegistry);
 
                 $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
             }
@@ -163,7 +155,6 @@ class ProfileController extends AbstractController
         }
         else
         {
-
             $inforUpdate = $userRepository->getProfile($this->getUser()->getId());
 
             $user->setFullname($inforUpdate[0]['fullname']);
@@ -186,13 +177,27 @@ class ProfileController extends AbstractController
             'updateInforForm' => $formUpdateInfor->createView()
         ]);
 
-//        return new JsonResponse(['inforUpdate' => $inforUpdate]);
     }
+
+    public function saveInforUser ($dataInforUpdate, $user, $managerRegistry)
+    {
+        $user->setPassword($this->getUser()->getPassword());
+        $user->setFullname($dataInforUpdate->getFullname());
+        $user->setGender($dataInforUpdate->getGender());
+        $user->setEmail($dataInforUpdate->getEmail());
+        $user->setPhone($dataInforUpdate->getPhone());
+        $user->setAddress($dataInforUpdate->getAddress());
+
+        $database = $managerRegistry->getManager();
+        $database->persist($user);
+        $database->flush();
+    }
+
 
     //=====================================Routing for API request by AJAX=================================
 
     /**
-     * @Route ("/profile/changeAvatar", name="app_change_avatar", methods="POST")
+     * @Route ("/profile/changeAvatar", name="api_change_avatar", methods="POST")
      */
     public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
@@ -266,39 +271,55 @@ class ProfileController extends AbstractController
         return $request;
     }
     /**
-     * @Route("/testChangesPassword", name="changes_Password")
+     * @Route("/changePassword", name="change_password")
      */
     public function changePassword(Request $request,UserPasswordHasherInterface $hasher,UserRepository $userRepository,ManagerRegistry $managerRegistry): Response
     {
         $user=new user();        
         $changePassword=$this->createForm(changesPasswordFormType::class,$user);
         $changePassword->handleRequest($request);
+        $error = false;
+        $message = "";
+
         if($changePassword->isSubmitted())
+        {
             if($changePassword->isValid())
-            {   $res="";
-                $password=$this->getUser();
-                $oldPassword=$request->request->get('password');
-                $newPassword=$request->request->get('newPassword');
-                $confirmPassword=$request->request->get('confirmPassword');
-                if ($hasher->isPasswordValid($password,$oldPassword))
+            {
+                $password = $this->getUser();
+                $oldPassword = $request->request->get('password');
+                $newPassword = $request->request->get('newPassword');
+                $confirmPassword = $request->request->get('confirmPassword');
+
+                if ($hasher->isPasswordValid($password, $oldPassword))
                 {
-                    if($newPassword==$confirmPassword)
+                    if ($newPassword == $confirmPassword)
                     {
-                        $User=$userRepository->find($this->getUser()->getId());
-                        $User->setPassword($this->passwordHasher->HashPassword($user,$newPassword));
-                        $database=$managerRegistry->getManager();
-                        $database->persist($User); 
+                        $User = $userRepository->find($this->getUser()->getId());
+                        $User->setPassword($this->passwordHasher->HashPassword($user, $newPassword));
+                        $database = $managerRegistry->getManager();
+                        $database->persist($User);
                         $database->flush();
-                        $res='yes';                  
+                        $message = 'Change Password is success';
                     }
                 }
                 else
-                {   
-                   
+                {
+                    $error = true;
+                    $message = 'Incorrect Current Password ';
                 }
-                return new JsonResponse(['res'=>$res]);
 
             }
-        return $this->render('profile/changePassword.html.twig', ['changes_password' => $changePassword->createView()]);
+            else
+            {
+                $error = true;
+                $message = 'invalid Password';
+            }
+        }
+
+        return $this->render('profile/changePassword.html.twig', [
+            'error' => $error,
+            'message' => $message,
+            'changes_password' => $changePassword->createView()
+        ]);
     }
 }

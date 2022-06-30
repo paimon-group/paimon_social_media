@@ -46,6 +46,11 @@
                 <p>Update Information</p><i class="bi-gear"></i>
             </div>
         </a>
+        <a href="/changePassword">
+            <div class="btn-setting-profile">
+                <p>Change Password</p><i class="bi-key"></i>
+            </div>
+        </a>
         {% endif %}
         {% if inforUser[0].roles == '["ROLE_ADMIN"]' and app.user.roles[0] == 'ROLE_ADMIN' %}
             <a href="/statificalManager">
