@@ -73,7 +73,7 @@ $(document).ready(function (){
                     }
                     else
                     {
-                        $('#error_up_post').html(data['Message'])
+                        $('#error_up_post').html(data['Message']);
                     }
 
                 }

@@ -12,11 +12,4 @@
         {{ include('profile/profileLeft.html.twig') }}
         {{ include('profile/profileMain.html.twig') }}
     </div>
-    {%  block subjavascript %}
-        {% if error == true %}
-            <script>
-                $('.btn-new-post').click();
-            </script>
-        {% endif %}
-    {% endblock %}
 {% endblock %}

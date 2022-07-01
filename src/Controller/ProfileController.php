@@ -34,6 +34,7 @@ class ProfileController extends AbstractController
     {
         $this->passwordHasher = $passwordHasher;
     }
+
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
@@ -86,7 +87,8 @@ class ProfileController extends AbstractController
                     'friendStatus' => $relationshipStatus,
                 ]);
             }
-            else {
+            else
+            {
                 return $this->render('profile/profileIndex.html.twig', [
                     'error' => $error,
                     'caption' => $caption,
@@ -270,6 +272,7 @@ class ProfileController extends AbstractController
         $request->request->replace($data);
         return $request;
     }
+
     /**
      * @Route("/changePassword", name="change_password")
      */

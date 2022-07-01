@@ -36,6 +36,7 @@
             //get detail notification
             $likeAndCommentDetail = $notificationRepository->getCommentAndLikeDetailFromOtherUser($this->getUser()->getId());
             $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
+
             $friendList = $relationshipRepository->getFriendList($userId);
 
             return $this->render('profile/profileFriendList.html.twig',[

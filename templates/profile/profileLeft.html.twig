@@ -52,7 +52,7 @@
             </div>
         </a>
         {% endif %}
-        {% if inforUser[0].roles == '["ROLE_ADMIN"]' and app.user.roles[0] == 'ROLE_ADMIN' %}
+        {% if app.user.roles[0] == 'ROLE_ADMIN' %}
             <a href="/statificalManager">
                 <div class="btn-setting-profile">
                     <p>Dashboard</p><i class="bi-speedometer2"></i>

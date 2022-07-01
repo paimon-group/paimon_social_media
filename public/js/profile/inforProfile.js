@@ -1,5 +1,6 @@
 $(document).ready(function (){
-    
+
+    // go to friend list
     $('#count-friend').click(function (){
         var userId =  $(this).data('user-id');
         location.assign('/friendList/' + userId)

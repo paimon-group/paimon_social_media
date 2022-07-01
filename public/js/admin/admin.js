@@ -40,6 +40,14 @@ $(document).ready(function (){
    //open report table
    function openReportTable(data)
    {
+      if(data.total_like === 'null')
+      {
+         data.total_like = 0;
+      }
+      if(data.total_comment === 'null')
+      {
+         data.total_comment = 0;
+      }
       var reportTable =
           '<div class="modal fade" id="reprot_detail_table" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">\n' +
           '    <div class="modal-dialog modal-dialog-custom">\n' +
