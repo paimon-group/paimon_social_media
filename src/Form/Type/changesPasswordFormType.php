@@ -21,15 +21,15 @@ class changesPasswordFormType extends AbstractType
     {
         $builder
         ->add('password',PasswordType::class,
-        ['attr'=>['class'=>'put your class name here','placeholder'=>'enter your crrent password']
+        ['attr'=>['class'=>'infor-item','placeholder'=>'enter your crrent password'],'required'=>false
         ])
         ->add('new_password',RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'The password fields must match.',
-            'options' => ['attr' => ['class' => 'put your class name here']],
-            'required' => true,
-            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password']],
-            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password']],
+            'options' => ['attr' => ['class' => 'infor-item']],
+            'required' => false,
+            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password', 'class' => 'infor-item']],
+            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password', 'class' => 'infor-item']],
             'attr' => ['autocomplete' => 'off']])
         ->add('Save',SubmitType::class,['attr'=>['class'=>'put your class name here']]);
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\Type\changesPasswordFormType;
 use App\Form\Type\updateProfileFormType;
 use App\Repository\CommentRepository;
 use App\Repository\NotificationRepository;
@@ -18,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -25,6 +27,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProfileController extends AbstractController
 {
+
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     /**
      * @Route("/profile/{userId}", name="app_profile", methods={"GET"})
      */
@@ -251,5 +260,41 @@ class ProfileController extends AbstractController
         }
         $request->request->replace($data);
         return $request;
+    }
+    /**
+     * @Route("/testChangesPassword", name="changes_Password")
+     */
+    public function changePassword(Request $request,UserPasswordHasherInterface $hasher,UserRepository $userRepository,ManagerRegistry $managerRegistry): Response
+    {
+        $user=new user();        
+        $changePassword=$this->createForm(changesPasswordFormType::class,$user);
+        $changePassword->handleRequest($request);
+        if($changePassword->isSubmitted())
+            if($changePassword->isValid())
+            {   $res="";
+                $password=$this->getUser();
+                $oldPassword=$request->request->get('password');
+                $newPassword=$request->request->get('newPassword');
+                $confirmPassword=$request->request->get('confirmPassword');
+                if ($hasher->isPasswordValid($password,$oldPassword))
+                {
+                    if($newPassword==$confirmPassword)
+                    {
+                        $User=$userRepository->find($this->getUser()->getId());
+                        $User->setPassword($this->passwordHasher->HashPassword($user,$newPassword));
+                        $database=$managerRegistry->getManager();
+                        $database->persist($User); 
+                        $database->flush();
+                        $res='yes';                  
+                    }
+                }
+                else
+                {   
+                   
+                }
+                return new JsonResponse(['res'=>$res]);
+
+            }
+        return $this->render('profile/changePassword.html.twig', ['changes_password' => $changePassword->createView()]);
     }
 }

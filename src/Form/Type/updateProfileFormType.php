@@ -38,17 +38,7 @@ class updateProfileFormType extends AbstractType
         ->add('email',EmailType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('phone',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
         ->add('address',TextType::class,['attr'=>['class'=>'infor-item'],'required'=>false])
-        ->add('password',PasswordType::class,
-        ['attr'=>['class'=>'infor-item','placeholder'=>'enter your crrent password'],'required'=>false
-        ])
-        ->add('new_password',RepeatedType::class, [
-            'type' => PasswordType::class,
-            'invalid_message' => 'The password fields must match.',
-            'options' => ['attr' => ['class' => 'infor-item']],
-            'required' => false,
-            'first_options' =>['label' => 'New Password','attr'=>['placeholder'=>'enter your new password', 'class' => 'infor-item']],
-            'second_options' =>['label' => 'Repeat Password','attr'=>['placeholder'=>'please confirm your new password', 'class' => 'infor-item']],
-            'attr' => ['autocomplete' => 'off']])
+        
         ->add('save',SubmitType::class,['attr'=>['class'=>'infor-item']]);
     }
 }
