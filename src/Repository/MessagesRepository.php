@@ -39,6 +39,18 @@ class MessagesRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllMessage()
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='select * from  messages';
+
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Messages[] Returns an array of Messages objects
 //     */

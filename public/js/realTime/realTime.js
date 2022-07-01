@@ -9,6 +9,7 @@ $(document).ready(function (){
     conn.onmessage = function (e){
         var data = JSON.parse(e.data);
         addNewMessage(data);
+        saveMess(data)
     }
     function addNewMessage(data)
     {
@@ -41,6 +42,14 @@ $(document).ready(function (){
             $('.header-chat-box').addClass('animatio-message-notification');
         }
     }
+    function saveMess(data)
+    {
+        $.ajax({
+            url:'/saveMessage',
+            type:'PUT',
+            data:{userId:data.userId, content:data.message, time:data.time},
+        })
+    }
 
     //send mess
     $(document).on('click', '.btn-send-mess', function (){
@@ -72,6 +81,23 @@ $(document).ready(function (){
 
         }
     }
+
+    //get message
+    $('#btn_open_chat_box').click(function (){
+        if(!$('#btn_open_chat_box').hasClass('has-data'))
+        {
+            $.ajax({
+                url:'/getMessage',
+                type: 'GET',
+                success:function (data){
+                    console.log(data);
+                }
+            })
+            $('#btn_open_chat_box').addClass('has-data');
+        }
+    })
+
+
 
     $(document).on('click', '.fullname-user-message', function (){
         var friendId = $(this).data('user-id');

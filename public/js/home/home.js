@@ -136,5 +136,11 @@ $(document).ready(function ()
 
         location.href = '/profile/'+userId;
     })
+
+    //play game
+    $('#btn_play_game').click(function (){
+        location.href = '/playGame';
+    });
+
 });
 

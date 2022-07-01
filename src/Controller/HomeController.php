@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Messages;
 use App\Entity\Relationship;
 use App\Entity\User;
 use App\Repository\CommentRepository;
+use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+
 
 class HomeController extends AbstractController
 {
@@ -82,7 +85,7 @@ class HomeController extends AbstractController
     /**
      * @Route ("/aboutUs", name="app_about_us")
      */
-    public function aboutUs()
+    public function aboutUsAction()
     {
         return $this->render('home/aboutUs.html.twig');
     }
@@ -108,6 +111,50 @@ class HomeController extends AbstractController
         {
             return new JsonResponse(['status_code' => 400, 'Message' => 'Not found user with name: '.$userFullname]);
         }
+    }
+
+    /**
+     * @Route ("/saveMessage", name="api_save_message", methods="PUT")
+     */
+    public function saveMessageAPI(Request $request, ManagerRegistry $managerRegistry, UserRepository $userRepository)
+    {
+        $request = $this->tranform($request);
+        $userId = $request->get('userId');
+        $user = $userRepository->find($userId);
+        $contentMessage = $request->get('content');
+        $time = $request->get('time');
+
+        if($user)
+        {
+            if($userId == $this->getUser()->getId())
+            {
+                $message = new Messages();
+                $message->setUser($user);
+                $message->setMessage($contentMessage);
+                $time = \DateTime::createFromFormat('Y-m-d h:i:s', $time);
+                $message->setTime($time);
+
+                $database =  $managerRegistry->getManager();
+                $database->persist($message);
+                $database->flush();
+            }
+
+            return new JsonResponse(['status_code' => 200, 'Message' => 'save success message with user id: '.$userId]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Message' => 'Not found user id: '.$userId]);
+        }
+
+    }
+
+    /**
+     * @Route ("/getMessage", name="getMessage", methods="GET")
+     */
+    public function getMessage(MessagesRepository $messagesRepository)
+    {
+        $dataMessage = $messagesRepository->findAll();
+        return new JsonResponse(['data' => $dataMessage]);
     }
 
 
