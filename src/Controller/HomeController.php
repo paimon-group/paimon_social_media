@@ -153,8 +153,8 @@ class HomeController extends AbstractController
      */
     public function getMessage(MessagesRepository $messagesRepository)
     {
-        $dataMessage = $messagesRepository->findAll();
-        return new JsonResponse(['data' => $dataMessage]);
+        $dataMessage = $messagesRepository->getAllMessage();
+        return new JsonResponse([$dataMessage]);
     }
 
 

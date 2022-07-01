@@ -90,13 +90,50 @@ $(document).ready(function (){
                 url:'/getMessage',
                 type: 'GET',
                 success:function (data){
-                    console.log(data);
+                    console.log(data)
+                    getMess(data[0]);
                 }
             })
             $('#btn_open_chat_box').addClass('has-data');
         }
     })
+    function getMess(data)
+    {
+        var userId = $('#btn_go_to_profile_header').data('user-id');
+        var dataMess = '';
+        for (i=0; i < data.length; i++)
+        {
+            var style = 'style="float: left; margin-left: 1rem"';
 
+            if (data[i].user_id == userId)
+            {
+                style = 'style="float: right; margin-right: 1rem; background-color: rgb(212, 237, 228)"';
+                var blockMessage =
+                    '                <div class="block-message" ' + style + ' >\n' +
+                    '                    <div class="content-message">' + data[i].message + '</div>\n' +
+                    '                    <div class="time-message">' + data[i].time + '</div>\n' +
+                    '                </div>';
+
+                dataMess += blockMessage;
+            }
+            else
+            {
+                var blockMessage =
+                    '                <div class="block-message" ' + style + ' >\n' +
+                    '                    <img src="../image/post/' + data[i].avatar + '" alt="avatar">\n' +
+                    '                    <div class="fullname-user-message" data-user-id="' + data[i].userId + '">' + data[i].fullname + '</div>\n' +
+                    '                    <div class="content-message">' + data[i].message + '</div>\n' +
+                    '                    <div class="time-message">' + data[i].time + '</div>\n' +
+                    '                </div>';
+
+                dataMess += blockMessage;
+            }
+
+        }
+
+        $('.body-chat-box').append(dataMess);
+        $('.body-chat-box').scrollTop($('.body-chat-box')[0].scrollHeight);
+    }
 
 
     $(document).on('click', '.fullname-user-message', function (){
