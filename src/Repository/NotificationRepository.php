@@ -65,7 +65,7 @@ class NotificationRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT n.id, u.id as userIdReaction, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id ORDER BY n.id DESC';
+        $query ='SELECT n.id, u.id as userIdReaction, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id and (n.type="comment" or n.type="like") ORDER BY n.id DESC';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
@@ -93,7 +93,7 @@ class NotificationRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ="SELECT n.id,u.fullname,n.sender_id from notification as n, user as u where u.id=n.sender_id AND n.receiver_id=:user_id AND n.type='invite' order by n.id DESC";
+           $query ="SELECT n.id,u.fullname,n.sender_id from notification as n, user as u where u.id=n.sender_id AND n.receiver_id=:user_id AND n.type='invite' order by n.id DESC";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
 
@@ -123,7 +123,7 @@ class NotificationRepository extends ServiceEntityRepository
         $conn=$this->getEntityManager()->getConnection();
         $query="DELETE FROM notification WHERE sender_id=:sender_id AND receiver_id=:receiver_id AND type='like'";
         $stmt=$conn->prepare($query);
-        $resultSet=$stmt->executeQuery(['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+           $resultSet=$stmt->executeQuery(['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
         return $resultSet;
     }
     public function removeNotificationComment($sender_id,$receiver_id)
