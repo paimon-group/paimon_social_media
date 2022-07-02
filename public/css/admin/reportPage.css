@@ -6,6 +6,7 @@
 }
 
 .admin-report-header{
+    transform: translateY(-1rem);
     width: 70rem;
     height: 5rem;
     border-radius: 1rem;
@@ -14,16 +15,20 @@
     box-shadow: 0 0 .5rem grey;
 }
 
-.tilte-index-header ul{
-    list-style-type: none;
+.tilte-index-header{
+    margin-top: 4.4rem;
+    margin-left: 3.5rem;
 }
 
-.tilte-index-header ul li{
+.item-tilte-index-header{
     display: inline-block;
-    padding-left: 10rem;
-    transform: translate(-9rem, 0.26rem);
-
+    margin-right: 5rem;
+    border-radius: 1rem 1rem 0 0;
+    padding: .3rem;
+    padding-left: .7rem;
+    padding-right: .7rem;
 }
+
 
 
 .admin-report-body{

@@ -40,11 +40,11 @@ $(document).ready(function (){
    //open report table
    function openReportTable(data)
    {
-      if(data.total_like === 'null')
+      if(data.total_like === null)
       {
          data.total_like = 0;
       }
-      if(data.total_comment === 'null')
+      if(data.total_comment === null)
       {
          data.total_comment = 0;
       }
@@ -65,7 +65,7 @@ $(document).ready(function (){
           '                        <textarea readonly name="captionPost" id="caption_post_in_table" cols="35" rows="11" class="text-area-caption-in-table">'+data.caption+'</textarea>\n' +
           '                    </div>\n' +
           '                    <div class="block-reaction-post-report">\n' +
-          '                        <div class="avatar-user-send-report" style="vertical-align: top; transform: translate(2rem, -0.4rem);">\n' +
+          '                        <div class="avatar-user-send-report" style="vertical-align: top; transform: translate(-2rem, -0.4rem);">\n' +
           '                            <img src="../image/post/'+data.user_reported_avatar+'" alt="">\n' +
           '                        </div>\n' +
           '                        <div class="tym-post">\n' +
