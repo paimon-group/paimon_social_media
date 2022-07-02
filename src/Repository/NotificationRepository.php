@@ -135,6 +135,18 @@ class NotificationRepository extends ServiceEntityRepository
         return $resultSet;
     }
 
+    public function deleteNotificationWhenUnfriend($user_id,$friend_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ="DELETE FROM notification WHERE 
+        ((sender_id=:user_id AND receiver_id=:friend_id)
+        OR (receiver_id=user_id and sender_id=:friend_id))
+        AND type='invite'";
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
+        return $resultSet;
+    }
+
 //    /**
 //     * @return Notification[] Returns an array of Notification objects
 //     */
