@@ -32,13 +32,13 @@
                     <div class="brand-text"></div>
                     <div class="navbar-nav-custom">
                         <ul class="ul-home-header">
-                            <li class="nav-item nav-item-header-custom">
+                            <li class="nav-item nav-item-header-custom" title="home">
                                 <a class="nav-link-header" href="/home"><i class="bi-house icon-nav-header"></i></a>
                             </li>
-                            <li class="nav-item nav-item-header-custom" id="btn_open_chat_box">
+                            <li class="nav-item nav-item-header-custom" id="btn_open_chat_box" title="chat box">
                                 <a class="nav-link-header"><i class="bi-chat-dots icon-nav-header"></i></a>
                             </li>
-                            <li class="nav-item nav-item-header-custom" id="post_notification">
+                            <li class="nav-item nav-item-header-custom" id="post_notification" title="post notification">
                                 <a class="nav-link-header">
                                     <i class="bi-bell icon-nav-header">
                                         {% if countlikeAndComment > 0 %}
@@ -60,7 +60,7 @@
                                     {% endfor %}
                                 </div>
                             </li>
-                            <li class="nav-item nav-item-header-custom" id="friend_notification">
+                            <li class="nav-item nav-item-header-custom" id="friend_notification" title="invite friend notification">
                                 <a class="nav-link-header">
                                     <i class="bi-person-plus icon-nav-header">
                                         {% if countInviteFriend[0].invite_friend_request > 0 %}
@@ -78,10 +78,10 @@
                                     {% endfor %}
                                 </div>
                             </li>
-                            <li class="nav-item nav-item-header-custom">
-                                <a class="nav-link-header" href="{{ path('app_process_logout') }}"><i class="bi-box-arrow-right icon-nav-header"></i></a>
+                            <li class="nav-item nav-item-header-custom" title="logout">
+                                <a class="nav-link-header" href="{{ path('app_process_logout') }}"><i class="bi-power icon-nav-header"></i></a>
                             </li>
-                            <li class="nav-item nav-item-header-custom">
+                            <li class="nav-item nav-item-header-custom" title="profile">
                                 <a class="" href="/profile/{{ inforNavBar[0].id }}" id="btn_go_to_profile_header" data-user-id="{{ inforNavBar[0].id }}">
                                     <img src="{{ asset( image_dir ~ inforNavBar[0].avatar ) }}" alt="" class="icon-nav-header img-avatar-header">
                                 </a>

@@ -36,11 +36,30 @@
 }
 
 .infor-item{
-    border: 1px solid;
-    outline: none;
-    border-radius: 0.3rem;
     width: 34rem;
     padding-left: 1rem;
+    color: black!important;
+    border: none;
+    display: block;
+    height: 2rem;
+    margin-left: 1rem;
+    border-radius: 20px;
+    background: rgba(227, 234, 239, 1);
+    overflow: hidden;
+    margin-top: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.infor-item:focus{
+    outline: 0;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    background: rgba(0, 56, 68, 1);
+    color: white!important;
+}
+
+#update_profile_form_save:hover{
+    color: white!important;
 }
 
 #update_profile_form_birthdate{
@@ -100,5 +119,13 @@
 }
 
 .block-change-pass form input{
+    margin-bottom: 1rem;
+}
+
+
+.title-change-password{
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: initial;
     margin-bottom: 1rem;
 }
