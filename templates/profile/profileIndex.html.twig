@@ -4,6 +4,7 @@
 
 {% block body %}
     <div class="root-body-profile">
+        {{ include('profile/viewAvatar.html.twig') }}
         {{ include('profile/changeAvatarProfile.html.twig') }}
         {{ include('profile/newPostTable.html.twig') }}
         {{ include('profile/confirmDeletePostProfile.html.twig') }}

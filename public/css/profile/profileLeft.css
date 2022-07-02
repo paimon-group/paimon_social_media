@@ -60,6 +60,29 @@
     border: 5px solid rgb(197, 224, 231);
 }
 
+#btn_view_avatar_profile{
+    width: 8rem;
+    border: none;
+    transform: translate(-8.8rem, 6rem);
+    position: absolute;
+    background-color: rgb(240, 242, 245);
+    border-radius: 1rem;
+    padding: 0.3rem;
+    display: none;
+}
+
+#btn_view_avatar_profile:hover{
+    cursor: pointer;
+    border: 5px solid rgb(197, 224, 231);
+}
+
+.avatar-profile:hover #btn_view_avatar_profile{
+    display: inherit;
+    cursor: pointer;
+    border: 5px solid rgb(197, 224, 231);
+    text-align: center;
+}
+
 .short-information-profile{
     display: inline-block;
     width: fit-content;

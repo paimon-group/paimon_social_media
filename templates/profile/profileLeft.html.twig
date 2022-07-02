@@ -5,6 +5,8 @@
             <img src="/image/post/{{ inforUser[0].avatar }}" alt="avatar">
             {% if inforUser[0].id == app.user.id %}
                 <div id="btn_change_avatar_profile" data-bs-toggle="modal" data-bs-target="#change_avatar_model">Change avatar</div>
+            {% else %}
+                <button id="btn_view_avatar_profile" data-bs-toggle="modal" data-bs-target="#view_avatar_model">View Avatar</button>
             {% endif %}
         </div>
         <div class="short-information-profile">

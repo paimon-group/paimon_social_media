@@ -1,0 +1,19 @@
+<div class="modal fade" id="view_avatar_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-custom-view-avatar">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Avatar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body new-post-table-body">
+                <div class="new-post-table">
+                    <div class="img-view-avatar-table">
+                        <img src="{{ asset(image_dir ~ inforUser[0].avatar) }}" alt="" id="img_preview">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

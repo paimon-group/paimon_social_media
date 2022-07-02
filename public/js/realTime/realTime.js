@@ -155,5 +155,7 @@ $(document).ready(function (){
     else
     {
         document.title = "Profile";
+        //hide message feature
+        $('#btn_open_chat_box').remove();
     }
 })
