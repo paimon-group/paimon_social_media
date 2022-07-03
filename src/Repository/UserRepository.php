@@ -88,8 +88,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     public function searchUserWithFullName($fullname)
     {
+        $fullname='%'.$fullname.'%';
         $conn=$this->getEntityManager()->getConnection();
-
         $query ="SELECT u.id,u.avatar,u.fullname,
         (SELECT COUNT(p.id) from post as p, user as u where 
         u.fullname like :fullname and u.id=p.user_id AND p.deleted='false') as count_post, 
