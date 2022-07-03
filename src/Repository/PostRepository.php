@@ -49,7 +49,7 @@ class PostRepository extends ServiceEntityRepository
         (r.user_id=:user_id AND p.user_id=r.friend_id AND u.id=r.friend_id 
         AND r.status=1 AND p.deleted='false') or 
         (r.friend_id=:user_id AND r.friend_id=p.user_id AND u.id=p.user_id AND p.deleted='false')
-        GROUP BY p.id ORDER BY RAND()";
+        GROUP BY p.id ORDER BY p.upload_time DESC";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
