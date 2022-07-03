@@ -85,7 +85,7 @@ class RelationshipRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
         $query ='SELECT u.id,u.fullname,u.avatar FROM user as u where not EXISTS
-        (SELECT *FROM relationship as r WHERE r.user_id=:user_id AND u.id=r.friend_id ) AND u.id!=:user_id'.' limit 5';
+        (SELECT *FROM relationship as r WHERE r.user_id=:user_id AND u.id=r.friend_id ) AND u.id!=:user_id ORDER BY RAND() limit 5';
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet->fetchAllAssociative();
