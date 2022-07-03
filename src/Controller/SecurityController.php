@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
                 if($formRegister->isValid())
                 {
                     //get data from register form and set user data
-                    $this->setUserDateRegister($user, $formRegister);
+                    $this->setUserDataRegister($user, $formRegister);
                     $user->setRoles(['ROLE_USER']);
 
                     // push data to database
@@ -96,7 +96,7 @@ class SecurityController extends AbstractController
                 if($formRegister->isValid())
                 {
                     //get data from register form and set user data
-                    $this->setUserDateRegister($user, $formRegister);
+                    $this->setUserDataRegister($user, $formRegister);
                     $user->setRoles(['ROLE_ADMIN']);
 
                     // push data to database
@@ -144,7 +144,7 @@ class SecurityController extends AbstractController
         }
     }
 
-    public function setUserDateRegister($user, $formRegister)
+    public function setUserDataRegister($user, $formRegister)
     {
         $user->setUsername($formRegister->get('username')->getData());
         $user->setFullname($formRegister->get('fullname')->getData());
@@ -183,15 +183,18 @@ class SecurityController extends AbstractController
 
     public function getErrorRegister($errorRegister)
     {
-        if(!($errorRegister == 'Username available') && $errorRegister != '')
+        if(!($errorRegister == 'Username exist') && $errorRegister != '')
         {
             $userCutLength = 56;
             $fullnameCutLength = 56;
 
             $indexUsername = strpos($errorRegister, 'username');
-            if ($indexUsername > 0) {
+            if ($indexUsername > 0)
+            {
                 $errorRegister = substr($errorRegister, $indexUsername + 10, $userCutLength);
-            } else {
+            }
+            else
+            {
                 $indexFullname = strpos($errorRegister, 'fullname');
                 $errorRegister = substr($errorRegister, $indexFullname + 10, $fullnameCutLength);
             }

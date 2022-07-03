@@ -48,9 +48,9 @@ class HomeController extends AbstractController
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         //get total notification of like and comment
-        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+        $likeNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
         $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
-        $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+        $totalLikeAndCommentNotification = $likeNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
 
         //get notification of invite friend
         $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
@@ -65,6 +65,7 @@ class HomeController extends AbstractController
         $post = $postRepository->getPost($this->getUser()->getId());
         $postLiked = $reactionRepository->checklike($this->getUser()->getId());
         $userInfor = $userRepository->getProfile($this->getUser()->getId());
+
         //get comment
         $comments = $commentRepository->getFullComment();
 

@@ -34,7 +34,7 @@ $(document).ready(function ()
         }
     })
 
-    //search user by fullname
+    //search user by full name
     $('#txt_search_user_home_left').keyup(function (e)
     {
         if(e.keyCode == 13)
