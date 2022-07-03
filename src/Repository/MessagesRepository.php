@@ -43,7 +43,9 @@ class MessagesRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='select * from  messages';
+        $query ='SELECT m.user_id,u.avatar,u.fullname,m.message,m.time 
+        FROM messages as m, user as u WHERE u.id=m.user_id 
+        ORDER BY m.time DESC';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery();
