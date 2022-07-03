@@ -81,6 +81,16 @@ class RelationshipRepository extends ServiceEntityRepository
         return $stmt;
     }
 
+    public function getFriendSuggest($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+        $query ='SELECT u.id,u.fullname,u.avatar FROM user as u where not EXISTS (SELECT *FROM relationship as r WHERE r.user_id=:user_id AND u.id=r.friend_id ) AND u.id!=:user_id';
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+        return $resultSet->fetchAllAssociative();
+    }
+   
+
 
 
     
