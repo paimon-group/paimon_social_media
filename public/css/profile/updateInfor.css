@@ -129,3 +129,23 @@
     font-family: initial;
     margin-bottom: 1rem;
 }
+
+#changes_password_form_Save:hover{
+    color: white!important;
+}
+
+.btn-return-profile{
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    float: right;
+    border-radius: 3rem;
+}
+
+.btn-return-profile:hover{
+    background-color: darkgray;
+    cursor: pointer;
+}
+
+.form-update-infor form div ul{
+    display: none;
+}

@@ -28,30 +28,6 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route ("/setUserToken", name="set_token", methods="PUT")
-     */
-    public function setUserToken(UserRepository $userRepository, ManagerRegistry $managerRegistry)
-    {
-        $userId = $this->getUser()->getId();
-        $user = $userRepository->find($userId);
-        if($user)
-        {
-            $token = md5(uniqid());
-            $user->setToken($token);
-
-            $database = $managerRegistry->getManager();
-            $database->persist($user);
-            $database->flush();
-
-            return new JsonResponse(['status_code' => 200, 'token' => $token]);
-        }
-        else
-        {
-            return new JsonResponse(['status_code' => 400, 'Message' => 'something wrong']);
-        }
-    }
-
-    /**
      * @Route ("/registration", name="app_registration", methods="POST")
      */
     public function RegistrationProcessAction(Request $request, UserRepository $userRepository,ManagerRegistry $managerRegistry,ValidatorInterface  $validator)
@@ -59,7 +35,6 @@ class SecurityController extends AbstractController
         $user = new User();
         $formRegister = $this->createForm(registerFormType::class, $user);
         $formRegister->handleRequest($request);
-
 
         if($formRegister->isSubmitted())
         {
@@ -70,17 +45,9 @@ class SecurityController extends AbstractController
             {
                 if($formRegister->isValid())
                 {
-                    //get data from register form
-                    $user->setUsername($formRegister->get('username')->getData());
-                    $user->setFullname($formRegister->get('fullname')->getData());
-                    $user->setPassword($formRegister->get('password')->getData());
-                    $user->setGender($formRegister->get('gender')->getData());
-                    $user->setAvatar('avatar.png');
-                    $user->setPassword($this->passwordHasher->hashPassword(
-                        $user, $formRegister->get('password')->getData())
-                    );
+                    //get data from register form and set user data
+                    $this->setUserDateRegister($user, $formRegister);
                     $user->setRoles(['ROLE_USER']);
-                    $user->setLoginStatus('offline');
 
                     // push data to database
                     $database = $managerRegistry->getManager();
@@ -99,7 +66,7 @@ class SecurityController extends AbstractController
             }
             else
             {
-                    $errorRegister = 'Username available';
+                    $errorRegister = 'Username exist';
                      return $this->redirectToRoute('app_login', [
                          'errorRegister' => $errorRegister
                      ]);
@@ -107,6 +74,87 @@ class SecurityController extends AbstractController
 
         }
         return new JsonResponse(['status_code' => 404]);
+    }
+
+    /**
+     * @Route ("/registrationAdmin", name="app_registration_admin", methods={"POST", "GET"})
+     */
+    public function RegistrationAdminProcessAction(Request $request, UserRepository $userRepository,ManagerRegistry $managerRegistry,ValidatorInterface  $validator)
+    {
+        $user = new User();
+        $formRegister = $this->createForm(registerFormType::class, $user);
+        $formRegister->handleRequest($request);
+        $error = false;
+
+        if($formRegister->isSubmitted())
+        {
+            $username = $formRegister->get('username')->getData();
+            $checkUsername = $userRepository->checkUserName($username);
+
+            if($checkUsername[0]['count_user'] == 0)
+            {
+                if($formRegister->isValid())
+                {
+                    //get data from register form and set user data
+                    $this->setUserDateRegister($user, $formRegister);
+                    $user->setRoles(['ROLE_ADMIN']);
+
+                    // push data to database
+                    $database = $managerRegistry->getManager();
+                    $database->persist($user);
+                    $database->flush();
+
+                    $errorRegisterAdmin = 'Success register';
+                    return $this->render('admin/collaborators/collaborators.html.twig', [
+                        'error' => $error,
+                        'errorRegisterAdmin' => $errorRegisterAdmin,
+                        'RegisterAdmin' => $formRegister->createView()
+                    ]);
+                }
+                else
+                {
+                    $error = true;
+                    $errorRegisterAdmin = $this->getErrorRegister($validator->validate($user));
+                    return $this->render('admin/collaborators/collaborators.html.twig', [
+                        'error' => $error,
+                        'errorRegisterAdmin' => $errorRegisterAdmin,
+                        'RegisterAdmin' => $formRegister->createView()
+                    ]);
+                }
+            }
+            else
+            {
+                $errorRegisterAdmin = 'Username exist';
+                return $this->render('admin/collaborators/collaborators.html.twig', [
+                    'error' => $error,
+                    'errorRegisterAdmin' => $errorRegisterAdmin,
+                    'RegisterAdmin' => $formRegister->createView()
+                ]);
+            }
+
+        }
+        else
+        {
+            $errorRegisterAdmin = '';
+            return $this->render('admin/collaborators/collaborators.html.twig', [
+                'error' => $error,
+                'errorRegisterAdmin' => $errorRegisterAdmin,
+                'RegisterAdmin' => $formRegister->createView()
+            ]);
+        }
+    }
+
+    public function setUserDateRegister($user, $formRegister)
+    {
+        $user->setUsername($formRegister->get('username')->getData());
+        $user->setFullname($formRegister->get('fullname')->getData());
+        $user->setPassword($formRegister->get('password')->getData());
+        $user->setGender($formRegister->get('gender')->getData());
+        $user->setAvatar('avatar.png');
+        $user->setPassword($this->passwordHasher->hashPassword(
+            $user, $formRegister->get('password')->getData())
+        );
+        $user->setLoginStatus('offline');
     }
 
     /**
@@ -118,7 +166,23 @@ class SecurityController extends AbstractController
         // get the login error if there is one
         $errorLogin = $authenticationUtils->getLastAuthenticationError();
         $errorRegister = $request->query->get('errorRegister');
+        $errorRegister = $this->getErrorRegister($errorRegister);
 
+        // create form
+        $user = new User();
+        $loginForm = $this->createForm(loginFormType::class, $user);
+        $registerForm = $this->createForm(registerFormType::class, $user);
+
+        return $this->render('security/login.html.twig', [
+                'errorLogin' => $errorLogin,
+                'errorRegister' => $errorRegister,
+                'Login' => $loginForm->createView(),
+                'Register' => $registerForm->createView()
+            ]);
+    }
+
+    public function getErrorRegister($errorRegister)
+    {
         if(!($errorRegister == 'Username available') && $errorRegister != '')
         {
             $userCutLength = 56;
@@ -133,17 +197,7 @@ class SecurityController extends AbstractController
             }
         }
 
-        // create form
-        $user = new User();
-        $loginForm = $this->createForm(loginFormType::class, $user);
-        $registerForm = $this->createForm(registerFormType::class, $user);
-
-        return $this->render('security/login.html.twig', [
-                'errorLogin' => $errorLogin,
-                'errorRegister' => $errorRegister,
-                'Login' => $loginForm->createView(),
-                'Register' => $registerForm->createView()
-            ]);
+        return $errorRegister;
     }
 
 

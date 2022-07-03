@@ -1,0 +1,21 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <div class="register-collaborators-body">
+        <div class="register-admin-form">
+            {{ form_start(RegisterAdmin, {'action': path('app_registration_admin'), 'method':'POST', 'attr': {'id':'register_form'}}) }}
+            {{ form_end(RegisterAdmin) }}
+            {% if error %}
+                <div class="alert alert-danger" id="error_register_form" style="color: red;transform: translate(-3rem, 1rem); width: fit-content; margin-left: auto; margin-right: auto;">
+                    {{ errorRegisterAdmin }}
+                </div>
+            {% else %}
+                {% if errorRegisterAdmin != '' %}
+                    <div class="alert alert-success" id="error_register_form" style="color: green;transform: translate(-3rem, 1rem); width: fit-content; margin-right: auto; margin-left: auto">
+                        {{ errorRegisterAdmin }}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

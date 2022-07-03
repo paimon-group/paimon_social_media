@@ -22,6 +22,10 @@ $(document).ready(function (){
    {
       $('#report_item').addClass('active');
    }
+   if(getLocation() == '/registrationAdmin')
+   {
+      $('#collaborators_item').addClass('active');
+   }
 
    //check report
    $('.btn-get-report-detail').click(function (){

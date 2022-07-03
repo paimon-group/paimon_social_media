@@ -304,6 +304,11 @@ class ProfileController extends AbstractController
                         $database->flush();
                         $message = 'Change Password is success';
                     }
+                    else
+                    {
+                        $error = true;
+                        $message = 'Confirm password not match!';
+                    }
                 }
                 else
                 {

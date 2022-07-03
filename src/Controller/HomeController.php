@@ -68,6 +68,7 @@ class HomeController extends AbstractController
         //get comment
         $comments = $commentRepository->getFullComment();
 
+        $friendSuggest = $relationshipRepository->getFriendSuggest($this->getUser()->getId());
         return $this->render('home/homeIndex.html.twig',[
             'inforNavBar' => $inforNavBar,
             'countlikeAndComment' => $totalLikeAndCommentNotification,
@@ -78,7 +79,8 @@ class HomeController extends AbstractController
             'posts'=> $post,
             'postLiked' => $postLiked,
             'comments' => $comments,
-            'friendList' => $friendList
+            'friendList' => $friendList,
+            'friendSuggest' => $friendSuggest
         ]);
     }
 

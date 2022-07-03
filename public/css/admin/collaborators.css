@@ -1,0 +1,25 @@
+.register-collaborators-body{
+    width: 74rem;
+    display: inline-block;
+}
+
+.register-admin-form{
+    margin-right: auto;
+    margin-left: auto;
+    width: 38rem;
+}
+
+#register_form_Register{
+    width: 24rem;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateX(-3rem);
+}
+
+.text{
+    height: 2rem;
+}
+
+ul{
+    display: none;
+}
