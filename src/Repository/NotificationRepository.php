@@ -140,7 +140,7 @@ class NotificationRepository extends ServiceEntityRepository
         $conn=$this->getEntityManager()->getConnection();
         $query ="DELETE FROM notification WHERE 
         ((sender_id=:user_id AND receiver_id=:friend_id)
-        OR (receiver_id=user_id and sender_id=:friend_id))
+        OR (receiver_id=:user_id and sender_id=:friend_id))
         AND type='invite'";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
