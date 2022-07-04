@@ -65,7 +65,9 @@ class NotificationRepository extends ServiceEntityRepository
     {
         $conn=$this->getEntityManager()->getConnection();
 
-        $query ='SELECT n.id, u.id as userIdReaction, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND u.id=n.sender_id and (n.type="comment" or n.type="like") ORDER BY n.id DESC';
+        $query ='SELECT n.id, u.id as userIdReaction, u.fullname,n.type FROM notification as n ,user as u WHERE n.receiver_id=:user_id AND 
+        u.id=n.sender_id and (n.type="comment" or n.type="like" or n.type="report") 
+        ORDER BY n.id DESC';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
@@ -103,7 +105,7 @@ class NotificationRepository extends ServiceEntityRepository
     public function updateSeenStatusNotification($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-        $query ="UPDATE notification as n SET n.seen='yes' WHERE n.receiver_id=:user_id AND (n.type='comment' OR n.type='like')";
+        $query ="UPDATE notification as n SET n.seen='yes' WHERE n.receiver_id=:user_id AND (n.type='comment' OR n.type='like' or n.type='report')";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
         return $resultSet;
@@ -145,6 +147,18 @@ class NotificationRepository extends ServiceEntityRepository
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id,'friend_id'=>$friend_id]);
         return $resultSet;
+    }
+
+    public function getReportFromOtherUser($user_id)
+    {
+        $conn=$this->getEntityManager()->getConnection();
+
+        $query ='SELECT COUNT(n.id) as total_report FROM notification as n where n.type="report" AND n.seen="no" AND n.receiver_id=:user_id';
+
+        $stmt=$conn->prepare($query);
+        $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);
+
+        return $resultSet->fetchAllAssociative();
     }
 
 //    /**

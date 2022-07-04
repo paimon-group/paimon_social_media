@@ -16,7 +16,7 @@
                 </div>
                 <div class="user-name-and-time-post-home">
                     <a href="/profile/{{ post.ownerPost }}"><div><h5>{{ post.fullname }}</h5></div></a>
-                    <div>{{ post['upload_time'] }}</div>
+                    <div>{{ post.upload_time }}</div>
                 </div>
                 <div class="option-post-home dropstart">
                         <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,7 +46,7 @@
             <div class="post-body-home">
                 <div class="img-post-home">
                     {% if post.image != '' %}
-                        <img src="{{ asset('image/post/' ~  post.image ) }}" alt="img-post">
+                        <img src="{{ asset(image_dir ~  post.image ) }}" alt="img-post">
                     {% endif %}
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <div class="tym-post-home">
                         <i class="bi-heart-fill{% for liked in postLiked %}{% if post.id == liked.liked %} has-tym{% endif %}{% endfor %} icon-tym-post-home" data-post-id="{{ post.id }}"></i>
                     </div>
-                    <div class="count-tym-post-home" id="count_tym_post_id_{{ post.id }}">{{ post['total_like'] }}</div>
+                    <div class="count-tym-post-home" id="count_tym_post_id_{{ post.id }}">{{ post.total_like }}</div>
                 </div>
                 <div class="comment-block-post-home">
                     <div class="comment-post-home" data-post-id="{{ post.id }}"><i class="bi-chat-right-dots"></i></div>
