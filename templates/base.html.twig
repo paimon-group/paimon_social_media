@@ -52,8 +52,10 @@
                                             <p>{{ likeAndComment.fullname }}
                                                 {% if likeAndComment.type == 'like' %}
                                                     has liked your post
-                                                {% else %}
+                                                {% elseif likeAndComment.type == 'comment' %}
                                                     has comment your post
+                                                {% else %}
+                                                    deleted one of your posts due to policy violation
                                                 {% endif %}
                                             </p>
                                         </div>
