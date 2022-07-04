@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Notification;
 
 class AdminController extends AbstractController
 {
@@ -66,8 +67,17 @@ class AdminController extends AbstractController
 
             $database->persist($post);
             $database->flush();
-
             $database->remove($report);
+            $database->flush();
+
+            $recevier = $post->getUser();
+            $deletePostNotification = new Notification();
+            $deletePostNotification->setSender($this->getUser());
+            $deletePostNotification->setReceiver($recevier);
+            $deletePostNotification->setType('report');
+            $deletePostNotification->setSeen('no');
+
+            $database->persist($deletePostNotification);
             $database->flush();
 
             return new JsonResponse(['status_code' => 200, 'Message' => 'delete success post id:'.$postId.' and report id: '.$reportId]);
