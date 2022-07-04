@@ -89,7 +89,7 @@ $(document).ready(function ()
 
             userList += user;
         }
-        var titleSearchFriend = '<div class="title-welcome-banner">Found matching data</div>';
+        var titleSearchFriend = '<div class="title-found-user-banner">Found matching data</div>';
 
         $('.body-user-list-found').append(titleSearchFriend);
         $('.body-user-list-found').append(userList);
