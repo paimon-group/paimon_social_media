@@ -36,6 +36,7 @@ security:
          - { path: ^/reportDetail, roles: ROLE_ADMIN }
          - { path: ^/deletePostIsRuleViolation, roles: ROLE_ADMIN }
          - { path: ^/reportManager, roles: ROLE_ADMIN }
+         - { path: ^/registrationAdmin, roles: ROLE_ADMIN }
 
          - { path: ^/profile, roles: [ROLE_USER, ROLE_ADMIN] }
          - { path: ^/updateInformation, roles: [ROLE_USER, ROLE_ADMIN] }
