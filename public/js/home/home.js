@@ -49,22 +49,30 @@ $(document).ready(function ()
     {
         var fullname = $('#txt_search_user_home_left').val();
 
-        $.ajax({
-            url:'/searchUser',
-            type:'GET',
-            data:{'fullname':fullname},
-            success:function (data){
-                if(data['status_code'] == 200)
-                {
-                    $('#txt_search_user_home_left').css('outline-color', 'green');
-                    showUserList(data['userList']);
+        if(fullname != '')
+        {
+            $.ajax({
+                url:'/searchUser',
+                type:'GET',
+                data:{'fullname':fullname},
+                success:function (data){
+                    if(data['status_code'] == 200)
+                    {
+                        $('#txt_search_user_home_left').css('outline-color', 'green');
+                        showUserList(data['userList']);
+                    }
+                    else
+                    {
+                        $('#txt_search_user_home_left').css('outline-color', 'red');
+                    }
                 }
-                else
-                {
-                    $('#txt_search_user_home_left').css('outline-color', 'red');
-                }
-            }
-        })
+            })
+        }
+        else
+        {
+            $('#txt_search_user_home_left').css('outline-color', 'red');
+        }
+
     }
     function showUserList(data)
     {
