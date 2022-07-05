@@ -59,11 +59,13 @@ $(document).ready(function ()
                     if(data['status_code'] == 200)
                     {
                         $('#txt_search_user_home_left').css('outline-color', 'green');
+                        $('#txt_search_user_home_left').css('border', 'none');
                         showUserList(data['userList']);
                     }
                     else
                     {
                         $('#txt_search_user_home_left').css('outline-color', 'red');
+                        $('#txt_search_user_home_left').css('border', '3px solid red');
                     }
                 }
             })
@@ -71,6 +73,7 @@ $(document).ready(function ()
         else
         {
             $('#txt_search_user_home_left').css('outline-color', 'red');
+            $('#txt_search_user_home_left').css('border', '3px solid red');
         }
 
     }
