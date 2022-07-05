@@ -94,16 +94,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
-     */
-    private $token;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $connection_id;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $new_password;
@@ -337,30 +327,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(?string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getConnectionId(): ?int
-    {
-        return $this->connection_id;
-    }
-
-    public function setConnectionId(?int $connection_id): self
-    {
-        $this->connection_id = $connection_id;
 
         return $this;
     }

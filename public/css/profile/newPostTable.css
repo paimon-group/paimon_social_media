@@ -7,8 +7,10 @@
 }
 
 .new-post-table{
+    margin-left: auto;
     width: fit-content;
     height: fit-content;
+    margin-right: auto;
 }
 
 .img-post-in-table{

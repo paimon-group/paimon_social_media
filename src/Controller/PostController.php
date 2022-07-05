@@ -63,9 +63,9 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route ("/post/updatePost", name="app_update_post", methods={"POST"})
+     * @Route ("/post/updatePost", name="api_update_post", methods={"POST"})
      */
-    public function updatePostAction(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function updatePostAPI(Request $request, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         $postId = $_POST['postId'];
         $image = $_FILES['imgPost'];
@@ -106,7 +106,7 @@ class PostController extends AbstractController
     /**
      * @Route ("/profile/deletePost", name="api_delete_post", methods="DELETE")
      */
-    public function deletePostAction(Request $request, UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function deletePostAPI(Request $request, UserRepository $userRepository, PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         //get data from request
         $request = $this->tranform($request);
@@ -147,7 +147,7 @@ class PostController extends AbstractController
     /**
      * @Route ("/post/getInforPost", name="api_edit_post", methods="GET")
      */
-    public function getInforPostAction(PostRepository $postRepository)
+    public function getInforPostAPI(PostRepository $postRepository)
     {
         $idPost = $_GET['idPost'];
 
@@ -175,7 +175,7 @@ class PostController extends AbstractController
     /**
      * @Route ("/reportPost", name="api_report_post", methods={"PUT"})
      */
-    public function reportPost(Request $request, UserRepository $userRepository,PostRepository $postRepository, ManagerRegistry $managerRegistry)
+    public function reportPostAPI(Request $request, UserRepository $userRepository,PostRepository $postRepository, ManagerRegistry $managerRegistry)
     {
         //tranform and get data
         $request = $this->tranform($request);

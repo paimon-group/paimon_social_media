@@ -202,7 +202,7 @@ class ProfileController extends AbstractController
     /**
      * @Route ("/profile/changeAvatar", name="api_change_avatar", methods="POST")
      */
-    public function changeAvatarProfileAction(ManagerRegistry $managerRegistry, UserRepository $userRepository)
+    public function changeAvatarProfileAPI(ManagerRegistry $managerRegistry, UserRepository $userRepository)
     {
 
         $caption = $_POST['captionChangeAvatar'];
@@ -257,7 +257,7 @@ class ProfileController extends AbstractController
                   $error = 'Only accept image';
             }
         }
-        else if($imgFile['name'] != '' && $caption == '')
+        else if($imgFile['name'] == '' && $caption == '')
         {
             $error = 'content is empty';
         }
