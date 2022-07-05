@@ -26,10 +26,10 @@
             $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
             //get total notification of like and comment
-            $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+            $likeNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
             $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
-            $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
-
+            $deletePostNotification = $notificationRepository->getReportFromOtherUser($this->getUser()->getId());
+            $totalLikeAndCommentNotification = $likeNotification[0]['total_like'] + $commentNotification[0]['total_comment'] + $deletePostNotification[0]['total_report'];
             //get notification of invite friend
             $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
 
