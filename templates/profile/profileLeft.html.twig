@@ -54,7 +54,7 @@
             </div>
         </a>
         {% endif %}
-        {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+        {% if app.user.roles[0] == 'ROLE_ADMIN' and inforUser[0].id == app.user.id %}
             <a href="/reportManager">
                 <div class="btn-setting-profile">
                     <p>Dashboard</p><i class="bi-speedometer2"></i>
