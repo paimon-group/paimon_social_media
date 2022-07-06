@@ -37,9 +37,7 @@ $(document).ready(function (){
     //edit post
     $(document).on('click', '.edit-option-post-profile', function (){
         idPost = $(this).data('post-id');
-        console.log(idPost);
         getInforPost(idPost);
-
     })
     function getInforPost(idPost)
     {
@@ -57,7 +55,6 @@ $(document).ready(function (){
                     $('#btn_add_img_post_in_table').html('Change image');
                     $('#img_preview_edit').show();
                     $('#edit_option_post_profile').click();
-                    console.log(data);
                 }
                 else
                 {
@@ -67,6 +64,7 @@ $(document).ready(function (){
         })
 
     }
+
     var editTable =
         ' <div class="modal fade" id="edit_post_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">\n' +
         '        <div class="modal-dialog modal-dialog-custom-new-post">\n' +
@@ -100,6 +98,7 @@ $(document).ready(function (){
         '        </div>\n' +
         '    </div>'
     $('.root-body-profile').append(editTable);
+
     //change image up post
     $('.img-post-in-table').mouseenter(function (){
         if($('#img_preview_edit').attr('src') != '')
@@ -114,13 +113,13 @@ $(document).ready(function (){
             $('#img_preview_edit').show();
         }
     });
+
     //add image edit
     $('#btn_add_img_edit_post_in_table').on('click', function() {
         $('#input_up_img_edit').click();
     });
     //image preview before up post
     $('#input_up_img_edit').change(function (){
-
         PreviewImageEdit()
         $('#img_preview_edit').show();
 

@@ -151,8 +151,8 @@ class PostController extends AbstractController
     {
         $idPost = $_GET['idPost'];
 
-        $post = new Post();
         $post = $postRepository->find($idPost);
+
         if($post)
         {
             return new JsonResponse([

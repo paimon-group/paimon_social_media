@@ -121,9 +121,10 @@ class ProfileController extends AbstractController
         $inforNavBar = $userRepository->getUserInforNavBar($this->getUser()->getId());
 
         //get total notification of like and comment
-        $liekNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
+        $likeNotification = $notificationRepository->getLikeFromOtherUser($this->getUser()->getId());
         $commentNotification = $notificationRepository->getCommentFromOtherUser($this->getUser()->getId());
-        $totalLikeAndCommentNotification = $liekNotification[0]['total_like'] + $commentNotification[0]['total_comment'];
+        $deletePostNotification = $notificationRepository->getReportFromOtherUser($this->getUser()->getId());
+        $totalLikeAndCommentNotification = $likeNotification[0]['total_like'] + $commentNotification[0]['total_comment'] + $deletePostNotification[0]['total_report'];
 
         //get notification of invite friend
         $inviteFriend = $notificationRepository->getInvitefriend($this->getUser()->getId());
@@ -133,8 +134,9 @@ class ProfileController extends AbstractController
         $inviteFriendDetail = $notificationRepository->getInviteFriendDetail($this->getUser()->getId());
 
         $inforUser = $userRepository->getUserInforNavBar($this->getUser()->getId());
-        $errorUpdateInfor = null;
 
+        // update infor
+        $errorUpdateInfor = null;
         $user = new User();
         $formUpdateInfor = $this->createForm(updateProfileFormType::class, $user);
         $formUpdateInfor->handleRequest($request);
@@ -143,7 +145,7 @@ class ProfileController extends AbstractController
         {
             if($formUpdateInfor->isValid())
             {
-                $user = $userRepository->find($this->getUser()->getId());
+                $user = $this->getUser();
                 $dataInforUpdate = $formUpdateInfor->getData();
 
                 $this->saveInforUser($dataInforUpdate, $user, $managerRegistry);
@@ -184,7 +186,6 @@ class ProfileController extends AbstractController
 
     public function saveInforUser ($dataInforUpdate, $user, $managerRegistry)
     {
-        $user->setPassword($this->getUser()->getPassword());
         $user->setFullname($dataInforUpdate->getFullname());
         $user->setGender($dataInforUpdate->getGender());
         $user->setEmail($dataInforUpdate->getEmail());
@@ -275,12 +276,13 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/changePassword", name="change_password")
+     * @Route("/changePassword", name="change_password", methods={"POST", "GET"})
      */
     public function changePassword(Request $request,UserPasswordHasherInterface $hasher,UserRepository $userRepository,ManagerRegistry $managerRegistry): Response
     {
-        $user=new user();        
-        $changePassword=$this->createForm(changesPasswordFormType::class,$user);
+        $user = new user();
+        $changePassword = $this->createForm(changesPasswordFormType::class,$user);
+
         $changePassword->handleRequest($request);
         $error = false;
         $message = "";
@@ -298,8 +300,9 @@ class ProfileController extends AbstractController
                 {
                     if ($newPassword == $confirmPassword)
                     {
-                        $User = $userRepository->find($this->getUser()->getId());
+                        $User = $this->getUser();
                         $User->setPassword($this->passwordHasher->HashPassword($user, $newPassword));
+
                         $database = $managerRegistry->getManager();
                         $database->persist($User);
                         $database->flush();

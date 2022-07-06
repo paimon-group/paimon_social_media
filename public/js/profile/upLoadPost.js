@@ -7,10 +7,8 @@ $(document).ready(function (){
 
     //image preview before up post
     $('#input_up_img').change(function (){
-
-        PreviewImage()
+        PreviewImage();
         $('#img_preview').show();
-
     })
 
     //delete preview img post
