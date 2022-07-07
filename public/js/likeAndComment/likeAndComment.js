@@ -126,7 +126,7 @@ $(document).ready(function (){
     //go to profile of user comment
     $('.full-name-user-comment').click(function (){
         var userId = $(this).data('user-id');
-
+        console.log('click');
         location.href = '/profile/'+userId;
     });
 });
