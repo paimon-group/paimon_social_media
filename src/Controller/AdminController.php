@@ -17,20 +17,13 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route ("/statificalManager", name="app_dashboard")
-     */
-    public function dashboardAction()
-    {
-        return $this->render('admin/statifical/adminHome.html.twig');
-    }
-
-    /**
      * @Route ("/reportManager", name="app_report")
      */
     public function reportManagerdAction(ReportRepository $reportRepository)        
     {
-        $totalReport=$reportRepository->getTotalReport();
-        $reportInfor=$reportRepository->getReport();
+        $totalReport = $reportRepository->getTotalReport();
+        $reportInfor = $reportRepository->getReport();
+
         return $this->render('admin/report/adminReport.html.twig',[
             'totalReport'=>$totalReport,
             'reportInfor'=>$reportInfor
@@ -44,8 +37,18 @@ class AdminController extends AbstractController
     {
         $request = $this->tranform($request);
         $reportId = $request->get('reportId');
-        $reportDetail=$reportRepository->getReportDetail($reportId);
-        return new JsonResponse(['reportDetail'=>$reportDetail]);
+
+        $reportDetail = $reportRepository->getReportDetail($reportId);
+
+        if($reportDetail)
+        {
+            return new JsonResponse(['status_code' => 200, 'reportDetail' => $reportDetail]);
+        }
+        else
+        {
+            return new JsonResponse(['status_code' => 400, 'Not found report detail with id: '.$reportId]);
+        }
+
     }
 
     /**
@@ -59,6 +62,7 @@ class AdminController extends AbstractController
 
         $post = $postRepository->find($postId);
         $report = $reportRepository->find($reportId);
+
         if ($post && $report)
         {
             $database = $managerRegistry->getManager();
@@ -95,7 +99,6 @@ class AdminController extends AbstractController
     public function postIsHarmlessAPI(Request $request, ReportRepository $reportRepository, ManagerRegistry $managerRegistry)
     {
         $request = $this->tranform($request);
-
         $reportId = $request->get('reportId');
 
         $report = $reportRepository->find($reportId);

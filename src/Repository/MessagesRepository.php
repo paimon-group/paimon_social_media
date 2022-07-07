@@ -45,7 +45,7 @@ class MessagesRepository extends ServiceEntityRepository
 
         $query ='SELECT m.user_id,u.avatar,u.fullname,m.message,m.time 
         FROM messages as m, user as u WHERE u.id=m.user_id 
-        ORDER BY m.time ASC';
+        ORDER BY m.id ASC';
 
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery();

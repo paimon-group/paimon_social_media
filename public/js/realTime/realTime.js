@@ -67,7 +67,8 @@ $(document).ready(function (){
         var userId = $('#btn_go_to_profile_header').data('user-id');
         var message = $('.txt-chat-box').val();
         var fullname = $('#fullname_user').val();
-        var avatar = $('#avatar_user').val()
+        var avatar = $('#avatar_user').val();
+
         if(message !== '')
         {
             var data = {

@@ -37,8 +37,6 @@
             $msg = json_decode($msg, true);
             $msg['time'] = date('Y-m-d h:i:s');
 
-
-
             foreach ($this->userConnects as $user)
             {
                 if($user == $from)

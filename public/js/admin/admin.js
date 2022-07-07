@@ -14,10 +14,6 @@ $(document).ready(function (){
       return location;
    }
 
-   if(getLocation() == '/statificalManager')
-   {
-      $('#statifical_item').addClass('active');
-   }
    if(getLocation() == '/reportManager')
    {
       $('#report_item').addClass('active');
@@ -36,8 +32,10 @@ $(document).ready(function (){
           type: 'GET',
           data:{reportId:reportId},
           success:function (data){
-             console.log(data.reportDetail[0])
-             openReportTable(data.reportDetail[0])
+             if(data['status_code'] == 200)
+             {
+                openReportTable(data.reportDetail[0])
+             }
           }
        });
    });
@@ -127,7 +125,6 @@ $(document).ready(function (){
          type:'DELETE',
          data:{reportId:reportId},
          success:function (data){
-            console.log(data)
             if(data.status_code == 200)
             {
                location.href = '/reportManager';

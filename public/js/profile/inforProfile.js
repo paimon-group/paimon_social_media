@@ -1,9 +1,9 @@
 $(document).ready(function (){
 
     // go to friend list
-    $('#count-friend').click(function (){
+    $('#count_friend').click(function (){
         var userId =  $(this).data('user-id');
-        location.assign('/friendList/' + userId)
+        location.assign('/friendList/' + userId);
     });
 
     $('#count_posts').click(function (){
