@@ -6,6 +6,7 @@ $(document).ready(function (){
         console.log("Connection success!");
     }
 
+    //auto active when socket server response
     conn.onmessage = function (e){
         var data = JSON.parse(e.data);
         addNewMessage(data);
@@ -91,7 +92,6 @@ $(document).ready(function (){
                 url:'/getMessage',
                 type: 'GET',
                 success:function (data){
-                    console.log(data)
                     getMess(data[0]);
                 }
             })
