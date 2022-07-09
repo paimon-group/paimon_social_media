@@ -298,7 +298,7 @@ class ProfileController extends AbstractController
 
                 if ($hasher->isPasswordValid($password, $oldPassword))
                 {
-                    if ($newPassword == $confirmPassword)
+                    if ($newPassword == $confirmPassword && $newPassword!='')
                     {
                         $User = $this->getUser();
                         $User->setPassword($this->passwordHasher->HashPassword($user, $newPassword));

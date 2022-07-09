@@ -94,7 +94,6 @@ class NotificationRepository extends ServiceEntityRepository
     public function getInviteFriendDetail($user_id)
     {
         $conn=$this->getEntityManager()->getConnection();
-
            $query ="SELECT n.id,u.fullname,n.sender_id from notification as n, user as u where u.id=n.sender_id AND n.receiver_id=:user_id AND n.type='invite' order by n.id DESC";
         $stmt=$conn->prepare($query);
         $resultSet=$stmt->executeQuery(['user_id'=>$user_id]);

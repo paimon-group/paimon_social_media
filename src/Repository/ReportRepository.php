@@ -49,20 +49,6 @@ class ReportRepository extends ServiceEntityRepository
         $resultSet=$stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
     }
-    // count all user in this website
-    // all in this website
-    // total of online or offline users
-    public function countAll()
-    {
-        $conn=$this->getEntityManager()->getConnection();
-        $query ="select(SELECT COUNT(u.id) from user as u) as total_user, 
-        (SELECT COUNT(p.id) from post as p where p.deleted='false') as total_post,
-        (SELECT COUNT(u.id)from user as u WHERE u.login_status='login') as total_online_user, 
-        (SELECT COUNT(u.id)from user as u WHERE u.login_status='logout') as total_offline_user";
-        $stmt=$conn->prepare($query);
-        $resultSet=$stmt->executeQuery();
-        return $resultSet->fetchAllAssociative();
-    }
     // get information about report 
     public function getReport()
     {
