@@ -67,7 +67,7 @@ class ReactionController extends AbstractController
 
         //save total like
         $post->setTotalLike($post->getTotalLike() + 1);
-        $database->persist($reaction);
+        $database->persist($post);
         $database->flush();
 
         //save notificacation

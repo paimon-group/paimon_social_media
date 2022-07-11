@@ -26,10 +26,7 @@ $(document).ready(function (){
                     $('#btn_close_comfirm_table').click();
                     $('#post_id_'+data['postId']).remove();
                 }
-                else
-                {
-                    console.log(data['Message']);
-                }
+
             }
         })
     });

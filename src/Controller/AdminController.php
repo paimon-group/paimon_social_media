@@ -15,7 +15,6 @@ use App\Entity\Notification;
 
 class AdminController extends AbstractController
 {
-
     /**
      * @Route ("/reportManager", name="app_report")
      */

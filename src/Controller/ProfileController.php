@@ -246,8 +246,6 @@ class ProfileController extends AbstractController
             'userId' => $this->getUser()->getId()
         ]);
     }
-
-
     public function checkPost($imgFile, $caption)
     {
         $error = '';

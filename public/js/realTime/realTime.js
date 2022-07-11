@@ -122,7 +122,7 @@ $(document).ready(function (){
                 var blockMessage =
                     '                <div class="block-message" ' + style + ' >\n' +
                     '                    <img src="../image/post/' + data[i].avatar + '" alt="avatar">\n' +
-                    '                    <div class="fullname-user-message" data-user-id="' + data[i].userId + '">' + data[i].fullname + '</div>\n' +
+                    '                    <div class="fullname-user-message" data-user-id="' + data[i].user_id + '">' + data[i].fullname + '</div>\n' +
                     '                    <div class="content-message">' + data[i].message + '</div>\n' +
                     '                    <div class="time-message">' + data[i].time + '</div>\n' +
                     '                </div>';
