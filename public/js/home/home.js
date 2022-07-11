@@ -140,7 +140,7 @@ $(document).ready(function ()
         location.href = '/profile/'+friendId;
     })
 
-    //go to user profile when click on user reation list
+    //go to user profile when click on user reaction list
     $('.item-post-notification-table').click(function (){
         var userId = $(this).data('user-reaction-id');
 

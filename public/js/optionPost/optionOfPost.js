@@ -47,8 +47,7 @@ $(document).ready(function (){
             dataType:'json',
             data:{'idPost': idPost},
             success: function (data){
-                if(data['status_code'] == 200)
-                {
+                if(data['status_code'] == 200) {
                     $('#post_id_edit').val(idPost);
                     $('#caption_edit_post_in_table').html(data['caption']);
                     $('#img_preview_edit').attr('src', '../image/post/' + data['image']);
@@ -56,13 +55,8 @@ $(document).ready(function (){
                     $('#img_preview_edit').show();
                     $('#edit_option_post_profile').click();
                 }
-                else
-                {
-                    console.log(data['Message']);
-                }
             }
         })
-
     }
 
     var editTable =
